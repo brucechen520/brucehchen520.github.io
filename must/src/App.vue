@@ -7,22 +7,22 @@
         <button class="dropbtn">§網站列表</button>
         <div class="dropdown-content">
         <a>
-          <router-link to="/website-list/business-card/OpenBusinessCard">
+          <router-link to="/website-list/business-card/OpenBcard">
             公開名片區
           </router-link>
-        </a>
+        </a>  
         <a>
-          <router-link to="/website-list/business-card/CloseBusinessCard">
+          <router-link to="/website-list/business-card/CloseBcard">
             不公開名片區
           </router-link>
         </a>
         <a>
-          <router-link to="/website-list/business-card/OBUpload">
+          <router-link to="/website-list/business-card/OpenbcardUpload">
             公開名片區上傳
           </router-link>
         </a>
         <a>
-          <router-link to="/website-list/business-card/CBUpload">
+          <router-link to="/website-list/business-card/ClosebcardUpload">
             不公開名片區上傳
           </router-link>
         </a>
@@ -78,14 +78,13 @@
 
 <script>
 import Vue from 'vue';
-import VueBlu from 'vue-blu'
-Vue.use(VueBlu)
 export default {
   components: {
   }
 }
 </script>
 <style scoped>
+    
     .dropbtn {
       background-color: #CDEE82;
       padding: 16px;

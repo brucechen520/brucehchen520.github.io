@@ -1,6 +1,7 @@
 <template>
   <div>
-    {{ msg }}
+      {{ msg }}
+     
   </div>
 </template>
 
@@ -8,12 +9,8 @@
     export default {
         data () {
           return {
-            msg: '公開名片區上傳'
+            msg: '不公開名片區' // https://goo.gl/HHXPvG
           }
         }
     }
 </script>
-
-<style>
-
-</style>

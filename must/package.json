@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.11",
     "g": "^2.0.1",
     "hot-loader": "0.0.0",
+    "services": "0.0.3",
+    "vee-validate": "^2.1.4",
     "vue": "^2.5.21",
-    "vue-blu": "^0.1.9",
     "vue-cli": "^2.9.6",
     "vue-hot-reload-api": "^2.3.1",
     "vue-router": "^3.0.2",

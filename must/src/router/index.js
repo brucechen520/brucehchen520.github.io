@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/others/Home'
 import Logout from '../components/others/Logout'
-import OBUpload from '../components/business-card/OBUpload'
-import OpenBusinessCard from '../components/business-card/OpenBusinessCard'
-import CBUpload from '../components/business-card/CBUpload'
-import CloseBusinessCard from '../components/business-card/CloseBusinessCard'
+import OpenbcardUpload from '../components/business-card/OpenbcardUpload'
+import OpenBcard from '../components/business-card/OpenBcard'
+import CloseBcard from '../components/business-card/CloseBcard'
+import ClosebcardUpload from '../components/business-card/ClosebcardUpload'
 import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
@@ -26,24 +26,24 @@ const router = new Router({
             component: Home
         },
         {
-            path: '/website-list/business-card/OBUpload',
-            name: 'OBUpload',
-            component: OBUpload
+            path: '/website-list/business-card/OpenBcard',
+            name: 'OpenBcard',
+            component: OpenBcard
         },
         {
-            path: '/website-list/business-card/OpenBusinessCard',
-            name: 'OpenBusinessCard',
-            component: OpenBusinessCard
+            path: '/website-list/business-card/OpenbcardUpload',
+            name: 'OpenbcardUpload',
+            component: OpenbcardUpload
         },
         {
-            path: '/website-list/business-card/CBUpload',
-            name: 'CBUpload',
-            component: CBUpload
+            path: '/website-list/business-card/CloseBcard',
+            name: 'CloseBcard',
+            component: CloseBcard
         },
         {
-            path: '/website-list/business-card/CloseBusinessCard',
-            name: 'CloseBusinessCard',
-            component: CloseBusinessCard
+            path: '/website-list/business-card/ClosebcardUpload',
+            name: 'ClosebcardUpload',
+            component: ClosebcardUpload
         },
         {
             path: '/website-list/website/WebsiteFilling',
