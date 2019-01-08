@@ -7,25 +7,10 @@
         <button class="dropbtn">§網站列表</button>
         <div class="dropdown-content">
         <a>
-          <router-link to="/website-list/business-card/OpenBcard">
-            公開名片區
+          <router-link to="/website-list/business-card/BusinessCard">
+            名片區
           </router-link>
         </a>  
-        <a>
-          <router-link to="/website-list/business-card/CloseBcard">
-            不公開名片區
-          </router-link>
-        </a>
-        <a>
-          <router-link to="/website-list/business-card/OpenbcardUpload">
-            公開名片區上傳
-          </router-link>
-        </a>
-        <a>
-          <router-link to="/website-list/business-card/ClosebcardUpload">
-            不公開名片區上傳
-          </router-link>
-        </a>
         <a>
           <router-link to="/website-list/website/WebsiteQuery">
             網站查詢
@@ -77,11 +62,11 @@
 </template>
 
 <script>
-import Vue from 'vue';
-export default {
-  components: {
-  }
-}
+    import Vue from 'vue';
+    export default {
+      components: {
+      }
+    }
 </script>
 <style scoped>
     

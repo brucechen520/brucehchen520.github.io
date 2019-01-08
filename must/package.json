@@ -13,7 +13,7 @@
     "vue-cli": "^2.9.6",
     "vue-hot-reload-api": "^2.3.1",
     "vue-router": "^3.0.2",
-    "vue-sidebar-menu": "^2.4.1",
+    "vue-sidebar-menu": "^2.4.2",
     "vue-tree-navigation": "^4.0.1",
     "vuex": "^3.0.1"
   },
@@ -25,7 +25,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --public-url ./"
   },
   "keywords": [],
   "author": "",
