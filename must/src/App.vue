@@ -7,17 +7,17 @@
         <button class="dropbtn">§網站列表</button>
         <div class="dropdown-content">
         <a>
-          <router-link to="/website-list/business-card/BusinessCard">
+          <router-link to="/BusinessCard">
             名片區
           </router-link>
         </a>  
         <a>
-          <router-link to="/website-list/website/WebsiteQuery">
+          <router-link to="/WebsiteQuery">
             網站查詢
           </router-link>
         </a>
         <a>
-          <router-link to="/website-list/website/WebsiteFilling">
+          <router-link to="/WebsiteFilling">
             網站填寫
           </router-link>
         </a>
@@ -27,27 +27,27 @@
         <button class="dropbtn">§工作媒合</button>
         <div class="dropdown-content">
           <a>
-            <router-link to="/job-matching/JobVacancies">
+            <router-link to="/JobVacancies">
               職缺填寫
             </router-link>
           </a>
           <a>
-            <router-link to="/job-matching/ProjectFilling">
+            <router-link to="/ProjectFilling">
               專案填寫
             </router-link>
           </a>
           <a>
-            <router-link to="/personal-skill/SkillFilling">
+            <router-link to="/SkillFilling">
               專長填寫
             </router-link>
           </a>
           <a>
-            <router-link to="/job-query/JobQuery">
+            <router-link to="/JobQuery">
               工作查詢
             </router-link>
           </a>
           <a>
-            <router-link to="/job-query/FindMan">
+            <router-link to="/FindMan">
               人才查詢
             </router-link>
           </a>

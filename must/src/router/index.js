@@ -23,42 +23,42 @@ const router = new Router({
             component: Home
         },
         {
-            path: '/website-list/business-card/BusinessCard',
+            path: '/BusinessCard',
             name: 'BusinessCard',
             component: BusinessCard
         },
         {
-            path: '/website-list/website/WebsiteFilling',
+            path: '/WebsiteFilling',
             name: 'WebsiteFilling',
             component: WebsiteFilling
         },
         {
-            path: '/website-list/website/WebsiteQuery',
+            path: '/WebsiteQuery',
             name: 'WebsiteQuery',
             component: WebsiteQuery
         },
         {
-            path: '/job-matching/JobVacancies',
+            path: '/JobVacancies',
             name: 'JobVacancies',
             component: JobVacancies
         },
         {
-            path: '/job-matching/ProjectFilling',
+            path: '/ProjectFilling',
             name: 'ProjectFilling',
             component: ProjectFilling
         },
         {
-            path: '/personal-skill/SkillFilling',
+            path: '/SkillFilling',
             name: 'SkillFilling',
             component: SkillFilling
         },
         {
-            path: '/job-query/JobQuery',
+            path: '/JobQuery',
             name: 'JobQuery',
             component: JobQuery
         },
         {
-            path: '/job-query/FindMan',
+            path: '/FindMan',
             name: 'FindMan',
             component: FindMan
         },
