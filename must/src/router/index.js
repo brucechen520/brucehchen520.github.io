@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/others/Home'
-import Logout from '../components/others/Logout'
 import BusinessCard from '../components/business-card/BusinessCard'
 import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
@@ -14,14 +12,8 @@ Vue.use(Router)
 const router = new Router({
     // use html5
     mode: 'history',
-    base: __dirname,
     // route table
     routes: [
-        {
-            path: '/Home',
-            name: 'Home',
-            component: Home
-        },
         {
             path: '/BusinessCard',
             name: 'BusinessCard',
@@ -40,7 +32,8 @@ const router = new Router({
         {
             path: '/JobVacancies',
             name: 'JobVacancies',
-            component: JobVacancies
+            alias: 'JobVacancies',
+            component: JobVacancies      
         },
         {
             path: '/ProjectFilling',
@@ -61,11 +54,6 @@ const router = new Router({
             path: '/FindMan',
             name: 'FindMan',
             component: FindMan
-        },
-        {
-            path: '/Logout',
-            name: 'Logout',
-            component: Logout
         }
       ]
 })

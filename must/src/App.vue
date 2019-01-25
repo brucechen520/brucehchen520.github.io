@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <div class="dropdown">
-        <button class="dropbtn"><router-link to="/Home">§回會員系統</router-link></button>
+        <button class="dropbtn"><a href="https://etouch.ee.fcu.edu.tw/ee/main.php" title="回會員系統">§ 回會員系統</a></button>
       </div>
       <div class="dropdown">
         <button class="dropbtn">§網站列表</button>
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="dropdown">
-        <button class="dropbtn"><router-link to="/Logout">§登出</router-link></button>
+        <button class="dropbtn"><a href="https://etouch.ee.fcu.edu.tw/ee/logout.php" title="登出">§ 登出</a></button>
       </div>
       
       <router-view></router-view>
@@ -64,7 +64,11 @@
 <script>
     import Vue from 'vue';
     export default {
+      created () {
+          this.$store.dispatch('acceptUser');
+      },
       components: {
+
       }
     }
 </script>

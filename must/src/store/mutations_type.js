@@ -1,1 +1,1 @@
-export const EDIT_TODO = 'EDIT_TODO';
+export const ACCEPT_USER = 'ACCEPT_USER';

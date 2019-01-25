@@ -1,6 +1,7 @@
 <template>
   <div>
-      {{ msg }}
+      {{ customers }}
+      <div @click="postData">click</div>
   </div>
 </template>
 
@@ -8,8 +9,22 @@
     export default {
         data () {
           return {
-            msg: '專長填寫'
+            customers:{"name":"rr"}
           }
+        },
+        methods: {
+          postData () {
+            let _this = this;
+            _this.axios.post('/nan_test/123.php', { typ: "test" })
+              .then(function (response) {
+                console.log(response);
+                _this.customers = response.data;
+              })
+              .catch(function (error) {
+                  //error
+                  console.log(error.message);
+              });
+            }
         }
     }
 </script>

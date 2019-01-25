@@ -1,1 +1,3 @@
-export const getTodo = state => { return state.todos }
+export const getUser = state => { 
+    return state.userInfo ;
+}
