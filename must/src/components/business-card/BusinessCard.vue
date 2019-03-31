@@ -2,7 +2,7 @@
   <div>
       <ul>
             <li v-for="card in cards">
-                <a :href="card.href">{{ card.title  }}</a>
+                <a :href="card.href" target="_blank">{{ card.title  }}</a>
             </li>
       </ul>
   </div>

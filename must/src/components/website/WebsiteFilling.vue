@@ -1,44 +1,49 @@
 <template>
   <div>
       <div>
-          users: {{ users }}
-          <ul>
+          <!--  users: {{ users }}  -->
+          <ul class="list-group">
             <div>
-              <li>姓名:<input type="text" v-model="name"></li>
-            </div>
-            <div>
-                <li v-for="(website_set, index) in webData.website_sets">
-                  網站名稱:<input type="text" 
-                                  v-model="website_set.wName"
-                                 :class="{'isNull': website_set.wstatus}"
-                                 @change="ifchange(index)">
+                <li class="list-group-item list-group-item-info"
+                    v-for="(website_set, index) in webData.website_sets">
+                    <label>是否公開:</label>
+                    <select v-model="webData.website_sets[index].permit"
+                            :class="{'isNullSelect': website_set.pstatus}">
+                          <option v-for="item in permitList" 
+                                  :value="item.Permit_Id">{{ item.Permit_Value }}</option>
+                    </select>
+                    <label>網站名稱:</label>
+                    <input type="text" 
+                          v-model="website_set.wName"
+                          :class="{'isNull': website_set.wstatus}"
+                          @change="ifchange(index)">
 
                   <label v-if="website_set.wstatus">【請填寫網站名稱】</label>
-                  
-                  類別:<select v-model="webData.selected_category[index].value" 
+                  <label>類別:</label>
+                  <select v-model="webData.selected_category[index].value" 
                               :class="{'isNullSelect': webData.selected_category[index].status}">
 
                           <option disabled value="">請選擇</option>
                           <option v-for="webList in website_lists" 
                                   :value="webList">{{ webList }}</option>
                         </select>
-
-                  網址:<input type="text" 
+                  <label>網址:</label>
+                  <input type="text" 
                               v-model="website_set.address"
                               :class="{'isNull': website_set.astatus}"
                               @change="ifchange(index)">
-
-                  敘述:<input type="text" 
+                  <label>敘述:</label>
+                  <input type="text" 
                               v-model="website_set.description"
                               :class="{'isNull': website_set.dstatus}"
                               @change="ifchange(index)">
-                  <button @click="deleteRow(website_set.id)" :disabled="index===0">Delete</button>
+                  <label :class="[website_set.rowStatus ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleInput(website_set.id)"></label>
                 </li>
-                <button @click="addRow">Add row</button>
+                
               </div>
             </div>
             <div>
-              <li><button @click="transmitt" >送出</button></li>
+              <li class="list-group-item list-group-item-info"><button @click="transmitt" >送出</button></li>
             </div>
           </ul>
       </div>
@@ -52,12 +57,12 @@
         data () {
           return {
             output:{ // 傳給後端API的資料
-              name:[],
-              address:[],
-              descript:[],
-              type:[]
+              name:[], // 網站名稱
+              address:[], // 網站位址
+              descript:[], // 網站描述
+              type:[], // 網站類別
+              permit: [] // 權限
             },
-            name: '',
             flag: false,
             select_flag: false,
             webData: {
@@ -71,11 +76,14 @@
               {
                 id: Number(1),
                 wName: '',
-                wstatus: false,
+                wstatus: false,  // 名稱狀態
                 address: '',
-                astatus: false,
+                astatus: false,  // 網址狀態
                 description: '',
-                dstatus: false
+                dstatus: false,  // 描述狀態
+                permit: '',
+                pstatus: false, // 權限狀態
+                rowStatus: true // 加減號狀態
               }],
             },
             website_lists: [
@@ -83,8 +91,9 @@
               'company',
               'github',
               'others'
-            ]
-          } 
+            ],
+            permitList: []
+          }
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
@@ -93,30 +102,62 @@
                 users: 'getUser'
             }),
         },
+        created () {
+          this.getPermit()
+        },
         methods: {
-          addRow() {
-            this.webData.website_sets = [...this.webData.website_sets,{
-              id: this.webData.website_sets[this.webData.website_sets.length-1].id + 1,
-              wName: '',
-              wstatus: false,
-              address: '',
-              astatus: false,
-              description: '',
-              dstatus: false
-            }],
-            this.webData.selected_category = [...this.webData.selected_category,{
-              id: this.webData.selected_category[this.webData.selected_category.length-1].id + 1,
-              status: false,
-              value: ''
-            }]
+          getPermit () {
+              let _this = this
+              api.getData('/ee/api/api_permit.php', {
+                  params: {
+                    methods: 'select'
+                  }
+                })
+                  .then(function (data) {
+                      console.log(data);
+                      if(!data.error)
+                        _this.permitList = [...data]
+                      else
+                        alert(data.error);
+                  })
+                  .catch(function (error) {
+                      alert(error);
+                  })
           },
-          deleteRow(id) {
-            // 把等於這個ID的欄位過濾出來，不等於得欄位都存在一個陣列中返回原本陣列
-            this.webData.website_sets = this.webData.website_sets.filter(item => item.id !== id); 
-            this.webData.selected_category = this.webData.selected_category.filter(item => item.id !== id);
+          toggleInput (id) {
+              var index = this.webData.website_sets.findIndex(arr => arr.id === id ); // 取出目前欄位的index 
+              if(this.webData.website_sets[index].rowStatus){
+                  this.webData.website_sets[index].rowStatus = false;  // 加號變減號
+                  this.webData.website_sets = [...this.webData.website_sets,{
+                    id: this.webData.website_sets[this.webData.website_sets.length-1].id + 1,
+                    wName: '',
+                    wstatus: false,
+                    address: '',
+                    astatus: false,
+                    description: '',
+                    dstatus: false,
+                    permit: '', // 存取權限
+                    rowStatus: true
+                  }],
+                  this.webData.selected_category = [...this.webData.selected_category,{
+                    id: this.webData.selected_category[this.webData.selected_category.length-1].id + 1,
+                    status: false,
+                    value: ''
+                  }]
+              }
+              else {
+                this.webData.website_sets = this.webData.website_sets.filter(item => item.id !== id); 
+                this.webData.selected_category = this.webData.selected_category.filter(item => item.id !== id); // 移除目前id的輸入視窗
+              }
           },
           transmitt: function () {
               this.webData.website_sets.map((arr, index) => {
+                  if(!arr.permit){  // 網站權限
+                      this.webData.website_sets[index].pstatus = true;
+                      this.flag = true;
+                  }
+                  else
+                      this.flag = false ; 
                   if(!arr.wName){
                       this.webData.website_sets[index].wstatus = true;
                       this.flag = true;
@@ -134,7 +175,7 @@
                       this.flag = true ;
                   }
                   else
-                      this.flag = false ;                
+                      this.flag = false ;
               });
               this.webData.selected_category.map((arr, index) => {
                   if(!arr.value){
@@ -144,8 +185,10 @@
                   else
                       this.select_flag = false ;             
               });
-              if(this.flag )
-                return false;
+              if(this.flag || this.select_flag){
+                  alert("尚有欄位未填寫");
+                  return false;
+              }                
               else {
                 this.outData();
                 // 送出資料至後端資料庫
@@ -193,6 +236,9 @@
                   if(arr.description) {
                     this.webData.website_sets[index].dstatus = false;
                   }
+                  if(arr.permit) {
+                    this.webData.website_sets[index].pstatus = false;
+                  }
                 });
                 this.webData.selected_category.map((arr, index) => {
                   if(arr.value) {
@@ -206,11 +252,11 @@
                   _this.output.name[index] = arr.wName;
                   _this.output.address[index] = arr.address;
                   _this.output.descript[index] = arr.description;
+                  _this.output.permit[index] = arr.permit;
                 });
                 _this.webData.selected_category.map((arr, index) =>{
                   _this.output.type[index] = arr.value;
                 });
-                //console.log(this.output);
             }
           }
     }

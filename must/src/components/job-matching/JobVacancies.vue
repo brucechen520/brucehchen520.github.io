@@ -2,7 +2,7 @@
   <div class="container">
     <h1>職缺填寫網站</h1>
     <div class="row">
-        {{ graduate }}級:{{ name }}
+        {{ users.level }}級:{{ users.name }}
     </div>
     <div class="row">
         <label class="col-1">公司名稱</label>
@@ -178,12 +178,11 @@
 </template>
 
 <script>
-     
+    import { mapGetters, mapActions } from 'vuex'
+    import * as api from '../lib/api';
     export default {
         data () {
           return {
-            name: '陳十二',
-            graduate: '104',
             allsubSelected: [false,false,false,false,false], // 全選了嗎 0: 軟體/工程類人員, 1: MIS/網管類人員 2:工程研發類人員  
                                                              // 3:化工材料研發類人員  4: 生技/醫療研發類人員
             vacancy_data: {
@@ -279,6 +278,13 @@
         },
         components: {
             
+        },
+        computed: {
+            // ...mapGetters 為 ES7 寫法
+            ...mapGetters({
+                // getTodo return value 將會存在別名為 todos 的 webData 上
+                users: 'getUser'
+            }),
         },
         methods: {
             liclick (e) { // stay dropdown open

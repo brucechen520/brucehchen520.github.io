@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import BusinessCard from '../components/business-card/BusinessCard'
 import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
@@ -8,17 +7,13 @@ import ProjectFilling from '../components/job-matching/ProjectFilling'
 import SkillFilling from '../components/personal-skill/SkillFilling'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
+import ReviewPage from '../components/job-matching/ReviewPage'
 Vue.use(Router)
 const router = new Router({
     // use html5
     mode: 'history',
     // route table
     routes: [
-        {
-            path: '/BusinessCard',
-            name: 'BusinessCard',
-            component: BusinessCard
-        },
         {
             path: '/WebsiteFilling',
             name: 'WebsiteFilling',
@@ -54,6 +49,11 @@ const router = new Router({
             path: '/FindMan',
             name: 'FindMan',
             component: FindMan
+        },
+        {
+            path: '/ReviewPage',
+            name: 'ReviewPage',
+            component: ReviewPage
         }
       ]
 })

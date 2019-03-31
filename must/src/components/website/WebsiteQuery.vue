@@ -6,17 +6,18 @@
           <select v-model="query">
             <option v-for="webList in website_lists" :value=webList>{{ webList }}</option>
           </select>
-      </div>  
+      </div>
+      <!--  Pagination  -->
       <div>
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-              <li :class="[currentpage === 1 ? 'page-item disabled': 'page-item']" @click="setPage(currentpage - 1)">
+              <li :class="[pagination.currentPage === 1 ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage - 1)">
                 <a class="page-link" href="#" tabindex="-1">Previous</a>
               </li>   
-              <li class="page-item" v-for="n in totalPage" @click="setPage(n)">
-                <a class="page-link" href="#">{{ n }}</a>
-                </li>
-              <li :class="[currentpage === totalPage ? 'page-item disabled': 'page-item']" @click="setPage(currentpage + 1)">
+              <li class="page-item" v-for="n in pagination.items" @click="setPage(n)">
+                <a :class="[pagination.currentPage === n ? 'page-link is-info': 'page-link']" href="#">{{ n }}</a>
+              </li>
+              <li :class="[pagination.currentPage === totalPage ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage + 1)">
                 <a class="page-link" href="#">Next</a>
               </li>
             </ul>
@@ -24,12 +25,15 @@
       </div>
       <!-- 網站頁面 -->
       <div>
-        <div v-for = "item in webFilter.slice(pageStart, pageStart + countOfPage)" class="content">
-          <div> 姓名: {{ item.name}} </div>
-          <div> 序號: {{ item.id}} </div>
-          <div> 網站名稱: <a :href="item.address">{{ item.wName}} </a></div>
-          <div> 網站類型: {{ item.type}} </div>
-          <div> 網站描述: {{ item.description}} </div>
+        <div v-for = "item in webFilter.slice(pageStart, pageStart + this.pagination.itemPerPage)" >
+          <div class="list-group ">
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 姓名: {{ item.name}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 序號: {{ item.id}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: <a :href="item.address" target="_blank">{{ item.wName}} </a></div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
+          </div>
+          <hr>
         </div>
 
       </div>
@@ -43,8 +47,12 @@
     export default {
         data () {
           return {
-            currentpage: 1, // 指定目前的頁碼
-            countOfPage: 2, // 每頁呈現幾筆資料
+            pagination: {
+              itemPerPage: 10, // 每頁呈現幾筆資料
+              currentPage: 1, // 指定目前的頁碼
+              items: [],
+              range: 5 // 只呈現五個頁碼
+            },            
             query: 'all',
             website_lists: [
               'all',
@@ -72,17 +80,26 @@
               if(_this.query === 'all')
                 return  _this.website_sets;
               else
-                return  _this.website_sets.filter(arr=>arr.type===_this.query);
+                return  _this.website_sets.filter(arr=>arr.type===_this.query);        // 依據query查詢資料不同，filter相對應的資料
           },
-          pageStart: function(){
-            return (this.currentpage - 1) * this.countOfPage;
+
+          pageStart: function(){ // 依據目前的頁碼，決定要從哪一筆資料開始呈現
+            return (this.pagination.currentPage - 1) * this.pagination.itemPerPage;
           },
-          totalPage: function(){
-            return Math.ceil(this.webFilter.length / this.countOfPage);
+          
+          totalPage: function(){ // 總共的頁數
+            return Math.ceil(this.webFilter.length / this.pagination.itemPerPage);
+          },
+          rangePage: function() { // 依據目前有多少資料調整最大呈現的頁數
+              var _this = this;
+              if(_this.totalPage < _this.pagination.range) /*  如果小於range 頁碼重新賦值  */
+                return _this.totalPage
+              else
+                return _this.pagination.range
           },
           // ...mapGetters 為 ES7 寫法
           ...mapGetters({
-              // getTodo return value 將會存在別名為 todos 的 webData 上
+              // getUser return value 將會存在別名為 users 的 webData 上
               users: 'getUser'
           })
         },
@@ -94,11 +111,12 @@
                     methods: 'select',
                   }
                 })
-                  .then(function (user) {
-                      console.log(user);
+                  .then(function (data) {
+                      // console.log(data);
                       //console.log(user[1].address);
-                      if(!user.error){
-                          _this.website_sets = [...user];
+                      if(!data.error){
+                          _this.website_sets = [...data];
+                          _this.setPage();
                           /*
                           user.map(arr => {
                             _this.website_sets = [..._this.website_sets,{
@@ -112,17 +130,40 @@
                           })*/
                       }                        
                       else
-                        alert(user.error);
+                        alert(data.error);
                   })
                   .catch(function (error) {
                       alert(error);
                   })
           },
-          setPage: function(idx){
-            if( idx <= 0 || idx > this.totalPage ){
-              return;
+          setPage: function(clickedPage = 1){ // 設定頁碼
+            let itemMax = this.totalPage; // 最大的頁碼
+            let start  = 0;
+            let end = 0;
+            this.pagination.currentPage = clickedPage;
+            if(this.pagination.currentPage < 3){
+                start = 1;
+                end = start + this.rangePage - 1;
             }
-            this.currentpage = idx;
+            else if(this.pagination.currentPage <= itemMax && this.pagination.currentPage > itemMax - this.rangePage + 2){
+                start = itemMax - this.rangePage + 1;
+                end = itemMax ;
+            }
+            else {
+                start = this.pagination.currentPage - 2;
+                end = this.pagination.currentPage + 2;
+            }
+            if( this.pagination.currentPage < 1 ){
+              start = 1;
+              end = 5; 
+            }
+            if(this.pagination.currentPage > itemMax ){
+              start = itemMax - this.rangePage + 1;
+              end = itemMax;
+            }
+            this.pagination.items = [];
+            for(let i = start ; i <= end; i++)
+                this.pagination.items = [...this.pagination.items, i];
           }
         }
     }
@@ -135,5 +176,13 @@
       width: 300px;
       resize: both;
       overflow: auto;
+    }
+    .is-info {
+      background-color: #3273dc;
+      border-width: 0;
+      color: #fff;
+    }
+    .is-disabled {
+      pointer-events: none;
     }
 </style>
