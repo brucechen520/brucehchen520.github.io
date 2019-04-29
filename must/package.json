@@ -5,27 +5,27 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap-vue": "^2.0.0-rc.19",
     "g": "^2.0.1",
     "hot-loader": "0.0.0",
-    "jquery": "^3.3.1",
-    "qs": "^6.6.0",
+    "jquery": "^3.4.0",
+    "qs": "^6.7.0",
     "services": "0.0.3",
-    "vee-validate": "^2.1.7",
-    "vue": "^2.5.21",
+    "vee-validate": "^2.2.5",
+    "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-cli": "^2.9.6",
-    "vue-hot-reload-api": "^2.3.1",
-    "vue-router": "^3.0.2",
+    "vue-hot-reload-api": "^2.3.3",
+    "vue-router": "^3.0.6",
     "vue-sidebar-menu": "^2.4.2",
     "vue-tree-navigation": "^4.0.1",
-    "vue2-datepicker": "^2.9.0",
-    "vuex": "^3.0.1"
+    "vue2-datepicker": "^2.11.0",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
-    "@vue/component-compiler-utils": "^2.3.1",
-    "parcel-bundler": "^1.11.0",
-    "vue-template-compiler": "^2.5.21"
+    "@vue/component-compiler-utils": "^2.6.0",
+    "parcel-bundler": "^1.12.3",
+    "vue-template-compiler": "^2.6.10"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
