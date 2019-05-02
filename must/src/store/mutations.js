@@ -8,7 +8,12 @@ export const state = {
       'name':'',
       'level': '',
       'error':''
-    }
+    },
+  jobOpts: {
+    'selected': 0,
+    'projectCount': 0,
+    'jobCount': 0
+  }
 }
 
 // mutations
@@ -17,6 +22,15 @@ export const mutations = {
   [types.ACCEPT_USER] (state, user) {
     // 在 mutation 改變 state（只有 mutation 可以改變！）
     this.state.userInfo = {...user};
+  },
+  [types.CHANGE_SELECTED] (state, selected) {
+    // 在 mutation 改變 state（只有 mutation 可以改變！）
+    this.state.jobOpts.selected = selected;
+  },
+  [types.SET_COUNT] (state, jobCount, projectCount) {
+    // 在 mutation 改變 state（只有 mutation 可以改變！）
+    this.state.jobOpts.projectCount = projectCount;
+    this.state.jobOpts.jobCount = jobCount;
   },
   [types.ERROR] (state, error) {
     // 在 mutation 改變 state（只有 mutation 可以改變！）
