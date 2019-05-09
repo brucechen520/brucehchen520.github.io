@@ -1,6 +1,6 @@
 <template>
-  <div>
-      
+  <div>  
+      <show-list></show-list>
   </div>
 </template>
 

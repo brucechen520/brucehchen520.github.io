@@ -5,6 +5,7 @@
 </template>
 
 <script>
+	import { mapGetters, mapActions } from 'vuex';
     export default {
       created () {
           
@@ -20,7 +21,11 @@
         }),
       },
       methods: {
-      	
+      	...mapActions([
+	      'changeSelected',
+	      'setCount'
+	    ]),
+	    
       }
     }
 </script>

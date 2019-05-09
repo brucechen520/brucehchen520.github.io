@@ -28,13 +28,13 @@
                     網站查詢
                   </router-link>
                 </a>
-                <a class="dropdown-item">
-                  <div v-if="users.name ==='訪客'">
+                <a class="dropdown-item" v-if="users.name ==='訪客'">
+                  <div>
                     請註冊會員再登入來查詢
                   </div>
                 </a>
-                <a class="dropdown-item">
-                  <router-link to="/WebsiteFilling" v-if="users.name !=='訪客'">
+                <a class="dropdown-item" v-if="users.name !=='訪客'">
+                  <router-link to="/WebsiteFilling" >
                     網站填寫
                   </router-link>
                 </a>
@@ -48,23 +48,23 @@
                   §工作媒合
               </button>
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item">
-                <div v-if="users.name ==='訪客'">
-                  請註冊會員再登入來查詢
-                </div>
+                <a class="dropdown-item" v-if="users.name ==='訪客'">
+                  <div >
+                    請註冊會員再登入來查詢
+                  </div>
                 </a>
-                <a class="dropdown-item">
-                  <router-link to="/JobVacancies" v-if="users.name !=='訪客'">
+                <a class="dropdown-item" v-if="users.name !=='訪客'">
+                  <router-link to="/JobVacancies" >
                     職缺填寫
                   </router-link>
                 </a>
-                <a class="dropdown-item">
-                  <router-link to="/ProjectFilling" v-if="users.name !=='訪客'"> 
+                <a class="dropdown-item" v-if="users.name !=='訪客'">
+                  <router-link to="/ProjectFilling" > 
                     專案填寫
                   </router-link>
                 </a>
-                <a class="dropdown-item">
-                  <router-link to="/SkillFilling" v-if="users.name !=='訪客'">
+                <a class="dropdown-item" v-if="users.name !=='訪客'">
+                  <router-link to="/SkillFilling" >
                     專長填寫
                   </router-link>
                 </a>
@@ -122,9 +122,6 @@
     }
 </script>
 <style scoped>
-    
-    
-
     .marquee {
       height: 25px;
       width: 420px;
