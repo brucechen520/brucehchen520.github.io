@@ -7,6 +7,7 @@ import VueAxios from 'vue-axios'
 import api from './components/lib/api'
 import VeeValidate, { Validator } from 'vee-validate';
 import zh_TW from 'vee-validate/dist/locale/zh_TW';
+import jquery from 'jquery'
 Validator.localize('zh_TW', zh_TW);
 Vue.use(VeeValidate, {
   validity: true
@@ -17,5 +18,6 @@ new Vue({
   api,
   router,
   store,
+  jquery,
   render: h => h(App)
 })

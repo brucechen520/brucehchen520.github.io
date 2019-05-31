@@ -6,18 +6,18 @@
     </div>
     <div class="row">
         <label class="col-2">公司名稱</label>
-        <input class="col-2" v-model="vacancy_data.company_Name" v-validate="'required|min: 3'" name = "company_Name">
+        <input class="col-2" v-model="vacancy_data.company_Name" v-validate="'required'" name = "company_Name">
         <label class="col-2">公司網址</label>
         <input class="col-2" v-model="vacancy_data.company_Website" v-validate="'required|url'" name="url" type="text">
         <span v-show="errors.has('url')" class="help is-danger">{{ errors.first('url') }}</span>
     </div>
     <div class="row">
         <label class="col-2">職缺名稱</label>
-        <input v-model="vacancy_data.vacancy_Name" v-validate="'required|min: 3'" name = "vacancy_Name">
+        <input v-model="vacancy_data.vacancy_Name" v-validate="'required'" name = "vacancy_Name">
     </div>
     <div class="row"> 
         <label class="col-2">描述</label>
-        <textarea rows="5" cols="100" v-model="vacancy_data.description" v-validate="'required|min:100'" name="description"> </textarea>
+        <textarea rows="5" cols="100" v-model="vacancy_data.description" v-validate="'required'" name="description"> </textarea>
         <span>{{ errors.first('description') }}</span> 
     </div>
     <div class="row">
@@ -27,31 +27,39 @@
         <input v-model="vacancy_data.offer" v-validate="'required'" name = "offer">
     </div>
     <div class="row">
+        <label class="col-2">已勾選的內容</label>
+        <ul>
+            <li v-for="item in vacancy_data.checked">
+                {{ item.title }}: {{ item.content }}
+            </li>
+        </ul>
+    </div>
+    <div class="row">
         <label class="col-2">上班地點</label>
-        <input v-model="vacancy_data.location" v-validate="'required|min: 3'" name = "location">
+        <input v-model="vacancy_data.location" v-validate="'required'" name = "location">
         <label class="col-2">管理責任</label>
-        <input v-model="vacancy_data.duty" v-validate="'required|min: 3'" name = "duty">
+        <input v-model="vacancy_data.duty" v-validate="'required'" name = "duty">
     </div>
     <div class="row">
         <label class="col-2">出差外派</label>
-        <input v-model="vacancy_data.trip" v-validate="'required|min: 3'" name = "trip">
+        <input v-model="vacancy_data.trip" v-validate="'required'" name = "trip">
         <label class="col-2">上班時段</label>
-        <input v-model="vacancy_data.officeHour" v-validate="'required|min: 3'" name = "officeHour">
+        <input v-model="vacancy_data.officeHour" v-validate="'required'" name = "officeHour">
     </div>
     <div class="row">
         <label class="col-2">休假制度</label>
-        <input v-model="vacancy_data.vacation" v-validate="'required|min: 3'" name = "vacation">
+        <input v-model="vacancy_data.vacation" v-validate="'required'" name = "vacation">
         <label class="col-2">需求人數</label>
-        <input v-model="vacancy_data.demandMans" v-validate="'required|min: 1'" name = "demandMans">
+        <input v-model="vacancy_data.demandMans" v-validate="'required'" name = "demandMans">
     </div>
     <div class="row">
         <label class="col-2">工作經歷</label>
-        <input v-model="vacancy_data.exprience" v-validate="'required|min: 3'" name = "exprience">
+        <input v-model="vacancy_data.exprience" v-validate="'required'" name = "exprience">
         <label class="col-2">學歷要求</label>
-        <input v-model="vacancy_data.academicRequire" v-validate="'required|min: 3'" name = "academicRequire">
+        <input v-model="vacancy_data.academicRequire" v-validate="'required'" name = "academicRequire">
     </div>
     <div class="row">
-        <label class="col-2">語言條件</label>
+        <label class="col-2 " data-toggle="tooltip" data-placement="top" title="請輸入英文等語言">語言條件(Hover me)</label>
         <div v-for="(lang, index) in vacancy_data.language">
             <input v-model="lang.type" v-validate="'required'" :name = "'lang ' + index">
             <span v-show="errors.has('lang ' + index)">{{ errors.first('lang ' + index) }}</span>
@@ -82,7 +90,7 @@
         <label class="col-3">工作技能(擅長工具)</label>
         <div v-for="(item, index) in vacancy_data.skills">
             <label> 技能 </label>
-            <input v-model="item.value" v-validate="'required|min:3'" :name = "'skill_' +index" >
+            <input v-model="item.value" v-validate="'required'" :name = "'skill_' +index" >
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleSkill(item.id)"></label>
             <span v-show="errors.has('skill_' + index)">{{ errors.first('skill_' + index) }}</span>
         </div>
@@ -93,7 +101,7 @@
     </div>
     <div class="row"> 
         <label class="col-2">公司福利</label>
-        <textarea rows="5" cols="100" v-model="vacancy_data.welfare" v-validate="'required|min:100'" name="welfare"> </textarea>
+        <textarea rows="5" cols="100" v-model="vacancy_data.welfare" v-validate="'required'" name="welfare"> </textarea>
         <span>{{ errors.first('description') }}</span> 
     </div>
     <div class="row">
@@ -449,6 +457,9 @@
             }
         }
     }
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
 </script>
 
 <style>
@@ -468,4 +479,5 @@
     textarea:invalid {
         border-color: red;
     }
+
 </style>

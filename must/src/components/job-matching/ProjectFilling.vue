@@ -13,17 +13,17 @@
     </div>
     <div class="row">
         <label class="col-2">案件名稱</label>
-        <input v-model="project_data.project_Name" v-validate="'required|min: 3'" name = "project_Name">
+        <input v-model="project_data.project_Name" v-validate="'required'" name = "project_Name">
     </div>
     <div class="row">
         <label class="col-2">描述</label>
-        <textarea rows="5" cols="100" v-model="project_data.description" v-validate="'required|min:100'" name="description"> </textarea>
+        <textarea rows="5" cols="100" v-model="project_data.description" v-validate="'required'" name="description"> </textarea>
         <span>{{ errors.first('description') }}</span>
     </div>
     <div class="row">
         <label class="col-2">關鍵字</label>
         <div v-for="(item, index) in project_data.key">
-            <input v-model="item.value" v-validate="'required|min: 3'" :name = "'keyWord_' +index">
+            <input v-model="item.value" v-validate="'required'" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id)"></label>
             <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
         </div>
@@ -38,13 +38,21 @@
         <label class="col-2">專長技能</label>
         <div v-for="(item, index) in project_data.skills">
             <label> 專長 {{ index }} </label>
-            <input v-model="item.value" v-validate="'required|min:3'" :name = "'skill_' +index">
+            <input v-model="item.value" v-validate="'required'" :name = "'skill_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleSkill(item.id)"></label>
             <span v-show="errors.has('skill_' + index)">{{ errors.first('skill_' + index) }}</span>
         </div>
     </div>
     <div class="row">
-        <label class="col-2">語言能力</label>
+        <label class="col-2">已勾選的內容</label>
+        <ul>
+            <li v-for="item in project_data.checked">
+                {{ item.title }}: {{ item.content }}
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <label class="col-2" data-toggle="tooltip" data-placement="top" title="請輸入英文等語言">語言條件(Hover me)</label>
         <div v-for="(lang, index) in project_data.language">
             <input v-model="lang.type" v-validate="'required'" :name = "'lang ' + index">
             <span v-show="errors.has('lang ' + index)">{{ errors.first('lang ' + index) }}</span>
@@ -372,6 +380,9 @@
             }
         }
     }
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
 </script>
 
 <style>
