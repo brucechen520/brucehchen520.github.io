@@ -10,7 +10,7 @@ export const state = {
       'error':''
     },
   jobOpts: {
-    'selected': 0,
+    'selected': 1,
     'projectCount': 0,
     'jobCount': 0
   }

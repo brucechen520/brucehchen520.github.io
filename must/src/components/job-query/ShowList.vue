@@ -1,14 +1,20 @@
 <template>
   <div>
   		<div v-if = "list = getJob.selected === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
-  			<div v-for=" item in list">
-	          <div class="list-group ">
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 姓名: {{ item.name}} </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 序號: {{ item.id}} </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
-	          </div>
+  			<div v-for="(item, index) in list">
+	          <div class="list-group container">
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 內容描述: {{ abstractDescription[index] }}... </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作技能:
+	            	<label v-for="sk in item.skills">
+	            		{{ sk.value }}
+	            	</label>
+	            </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作地點: {{ item.location }} </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作薪資: {{ item.offer }} </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 詳情 </div>
+	          </div>	     
 	          <hr>
 	        </div>
 	    </div>    	
@@ -21,6 +27,7 @@
     export default {
     	created() {
     		this.selectPrjoect();
+    		this.selectVacancy();
     	},
     	data () {
     		return {
@@ -28,16 +35,17 @@
     							'id': '', // PJID
 				                'company_Name':'', // 公司名稱
 				                'company_Website':'', // 公司網址
-				                'project_Name':'', // 職缺名稱
+				                'Name':'', // 專案名稱
 				                'description':'', // 描述
 				                'type': [             // 職務類別是否已被選擇                          
 				                    {
+				                    	'id':'',
 				                        'title':'',
 				                        'content': ''                   
 				                    }
 				                ], 
-				                'key':[],       // 關鍵字
-				                'project_budget':'',    // 案件預算
+				                'key':[{}],       // 關鍵字
+				                'offer':'',    // 案件預算
 				                'language':[{
 				                				'id':'',
 				                                'type': '',
@@ -60,7 +68,7 @@
             					'id': '', // JBID
             	                'company_Name':'', // 公司名稱
             	                'company_Website':'', // 公司網址
-            	                'vacancy_Name':'', // 職缺名稱
+            	                'Name':'', // 職缺名稱
             	                'description':'', // 描述
             	                'type': [             // 職務類別是否已被選擇                          
             	                    {
@@ -100,7 +108,7 @@
 	            single_vacancy: {
 	            	'company_Name':'', // 公司名稱
 	                'company_Website':'', // 公司網址
-	                'vacancy_Name':'', // 職缺名稱
+	                'Name':'', // 職缺名稱
 	                'description':'', // 描述
 	                'checked': [             // 職務類別是否已被選擇                          
 	                    {
@@ -157,7 +165,7 @@
 	            single_project: {
 	            	'company_Name':'', // 公司名稱
 	                'company_Website':'', // 公司網址
-	                'project_Name':'', // 職缺名稱
+	                'Name':'', // 職缺名稱
 	                'description':'', // 描述
 	                'checked': [             // 職務類別是否已被選擇                          
 	                    {
@@ -174,7 +182,7 @@
 	                    'status': true,
 	                    'value':''
 	                }],       // 關鍵字
-	                'project_budget':'',    // 案件預算
+	                'offer':'',    // 案件預算
 	                'language':[{
 	                                'id': Number(1),
 	                                'status': true,
@@ -203,6 +211,14 @@
 	            // getTodo return value 將會存在別名為 todos 的 webData 上
 	            getJob: 'getJob'
 	        }),
+	        abstractDescription () {
+	        	var _this = this
+	        	var listD = _this.getJob.selected === 0? _this.project_data : _this.vacancy_data;
+	        	return listD.map(arr => {
+	        		if(arr.description !== null && arr.description !== '')
+	        			return arr.description.slice(0, 50)
+	        	})
+	        }
     	},
     	methods: {
     		selectPrjoect () {
@@ -214,7 +230,7 @@
                 })
                   .then(function (data) {
                       if(!data.error){
-                      		console.log(data);
+                      		//console.log(data);
                         	_this.project_data = [...data];
                       }                        
                       else
@@ -233,8 +249,8 @@
                 })
                   .then(function (data) {
                       if(!data.error){
-                      	   console.log(data);
-                          // _this.vacancy_data = [...data];
+                      	   //console.log(data);
+                           _this.vacancy_data = [...data];
                       }                        
                       else
                         alert(data.error);

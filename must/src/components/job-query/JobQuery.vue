@@ -1,6 +1,12 @@
 <template>
-  <div>  
-      <show-list></show-list>
+  <div>
+      <div class="container">
+        <div></div>
+        <div class="row">
+          <div class="col-4"><list-type></list-type></div>
+          <div class="col-8"><show-list></show-list></div>
+        </div>          
+      </div>
   </div>
 </template>
 
