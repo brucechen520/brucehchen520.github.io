@@ -14,6 +14,8 @@
       created () {
         this.selectPrjoect();
         this.selectVacancy();
+      },
+      mounted () {
         this.setItemCount();
       },
       data () {
@@ -92,8 +94,8 @@
                       'contact_Phone':'',  //  連絡電話
                       'contact_Time': ''   //  方便聯絡時間
               }],
-            projectCount: '',
-            vacancytCount: ''
+            projectCount: 0,
+            vacancytCount: 0
           }
       },
       computed: {
@@ -101,7 +103,7 @@
         ...mapGetters({
             // getTodo return value 將會存在別名為 todos 的 webData 上
             selected: 'getJob'
-        }),
+        })
       },
       methods: {
       	...mapActions([
@@ -109,8 +111,6 @@
   	    ]),
         setItemCount () {
             var _this = this;            
-            _this.vacancytCount = this.vacancy_data.length;
-            _this.projectCount = this.project_data.length;
             this.$store.dispatch('setCount', {
               projectCount: _this.projectCount,
               jobCount: _this.vacancytCount
@@ -126,6 +126,7 @@
                   .then(function (data) {
                       if(!data.error){
                           _this.project_data = [...data];
+                          _this.projectCount = _this.project_data.length;
                       }
                       else
                         alert(data.error);
@@ -144,6 +145,7 @@
               .then(function (data) {
                   if(!data.error){
                        _this.vacancy_data = [...data];
+                       _this.vacancytCount = _this.vacancy_data.length;
                   }                        
                   else
                     alert(data.error);

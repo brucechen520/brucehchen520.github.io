@@ -13,7 +13,7 @@
 	            </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作地點: {{ item.location }} </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作薪資: {{ item.offer }} </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 詳情 </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning" > 詳情 </div>
 	          </div>	     
 	          <hr>
 	        </div>
@@ -32,7 +32,7 @@
     	data () {
     		return {
     			project_data: [{	
-    							'id': '', // PJID
+    							'PJ_Id': '', // PJID
 				                'company_Name':'', // 公司名稱
 				                'company_Website':'', // 公司網址
 				                'Name':'', // 專案名稱
