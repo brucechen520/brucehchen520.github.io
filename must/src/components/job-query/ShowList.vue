@@ -13,24 +13,30 @@
 	            </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作地點: {{ item.location }} </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作薪資: {{ item.offer }} </div>
-	            <div class="list-group-item list-group-item-action list-group-item-warning" > 詳情 </div>
+	            <div class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </div>
 	          </div>	     
 	          <hr>
 	        </div>
-	    </div>    	
+	    </div>
+	    <case-page :pageData="itemPage"></case-page>
   </div>
 </template>
 
 <script>
 	import { mapGetters, mapActions } from 'vuex';
 	import * as api from '../lib/api';
+	import CasePage from './CasePage.vue';
     export default {
+    	components: {
+    		CasePage
+    	},
     	created() {
     		this.selectPrjoect();
     		this.selectVacancy();
     	},
     	data () {
     		return {
+    			itemPage: '',
     			project_data: [{	
     							'PJ_Id': '', // PJID
 				                'company_Name':'', // 公司名稱
@@ -259,6 +265,10 @@
                       alert(error);
                   })
           	},
+          	showPage (item) {
+          		let _this = this;
+          		_this.itemPage = item;
+          	}
     	}
     }
 </script>
