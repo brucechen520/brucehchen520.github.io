@@ -5,8 +5,7 @@
 	width: 100%;
 	/* background: url(../images/Others/bg_dialogHeader3.jpg) repeat-y center top; */
 	/* background: linear-gradient(to right, transparent, #4A7699); */
-	background: rgb(2,0,36);
-	background: linear-gradient(to left, rgba(2,0,36,1) 0%, rgba(218,144,144,1) 45%, rgba(0,255,205,1) 100%);
+	background: linear-gradient(to right, transparent, #da9090);
 	margin-bottom: 10px;
 	border-top-width: thin;
 	border-right-width: thin;

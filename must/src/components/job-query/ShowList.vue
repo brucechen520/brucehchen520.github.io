@@ -1,11 +1,11 @@
 <template>
   <div>
   		<div v-if="getJob.selected === 0">
-		    	<h3 class="mt-0 header"> 專案列表 </h3>
-		  	</div>
-		  	<div v-else>
-		    	<h3 class="mt-0 header"> 職缺列表 </h3>
-		  	</div>
+	    	<h3 class="mt-0 header"> 專案列表 </h3>
+	  	</div>
+	  	<div v-else>
+	    	<h3 class="mt-0 header"> 職缺列表 </h3>
+	  	</div>
   		<div v-if = "list = getJob.selected === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
   			<div v-for="(item, index) in list">
 	          <div class="list-group container">
