@@ -1,5 +1,11 @@
 <template>
   <div>
+  		<div v-if="getJob.selected === 0">
+		    	<h3 class="mt-0 header"> 專案列表 </h3>
+		  	</div>
+		  	<div v-else>
+		    	<h3 class="mt-0 header"> 職缺列表 </h3>
+		  	</div>
   		<div v-if = "list = getJob.selected === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
   			<div v-for="(item, index) in list">
 	          <div class="list-group container">
@@ -13,6 +19,7 @@
 	            </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作地點: {{ item.location }} </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作薪資: {{ item.offer }} </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 修改時間: {{ item.modify }} </div>
 	            <div class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </div>
 	          </div>	     
 	          <hr>
@@ -68,10 +75,11 @@
 				                'contact_Name':'',  //  聯絡人姓名
 				                'contact_Mail':'',  //  E-MAIL
 				                'contact_Phone':'',  //  連絡電話
-				                'contact_Time': ''   //  方便聯絡時間
-    				            }],
+				                'contact_Time': '',   //  方便聯絡時間
+				                'modify': '' // 修改時間
+	            }],
 	            vacancy_data: [{
-            					'id': '', // JBID
+            					'JB_Id': '', // JBID
             	                'company_Name':'', // 公司名稱
             	                'company_Website':'', // 公司網址
             	                'Name':'', // 職缺名稱
@@ -109,106 +117,9 @@
             	                'contact_Name':'',  //  聯絡人姓名
             	                'contact_Mail':'',  //  E-MAIL
             	                'contact_Phone':'',  //  連絡電話
-            	                'contact_Time': ''   //  方便聯絡時間
-	            	            }],
-	            single_vacancy: {
-	            	'company_Name':'', // 公司名稱
-	                'company_Website':'', // 公司網址
-	                'Name':'', // 職缺名稱
-	                'description':'', // 描述
-	                'checked': [             // 職務類別是否已被選擇                          
-	                    {
-	                        'title':'軟體/工程類人員',
-	                        'content': []                     
-	                    },
-	                    {
-	                        'title':'MIS/網管類人員',
-	                        'content': []
-	                    },
-	                    {
-	                        'title':'工程研發類人員',
-	                        'content': []
-	                    },
-	                    {
-	                        'title':'化工材料研發類人員',
-	                        'content': []
-	                    },
-	                    {
-	                        'title':'生技/醫療研發類人員',
-	                        'content': []
-	                    }
-	                ], 
-	                'location':'', // 上班地點
-	                'duty':'', // 管理責任
-	                'offer':'',    // 工作待遇
-	                'officeHour':'', // 上班時段
-	                'trip': '',  // 出差外派
-	                'vacation':'', // 休假制度
-	                'demandMans':'', // 需求人數
-	                'academicRequire': '', // 學歷要求
-	                'exprience': '', // 工作經歷
-	                'others':'', // 其他福利
-	                'welfare':'', // 公司福利
-	                'language':[{
-	                                'id': Number(1),
-	                                'status': true,
-	                                'type': '',
-	                                'read': '',
-	                                'write': '',
-	                                'listen': '',
-	                                'speak': ''
-	                            }],  //  語文條件
-	                'skills':[{
-	                    'id': Number(1),
-	                    'status': true,
-	                    'value':''
-	                }],  //  工作技能
-	                'contact_Name':'',  //  聯絡人姓名
-	                'contact_Mail':'',  //  E-MAIL
-	                'contact_Phone':'',  //  連絡電話
-	                'contact_Time': ''   //  方便聯絡時間
-	            },
-	            single_project: {
-	            	'company_Name':'', // 公司名稱
-	                'company_Website':'', // 公司網址
-	                'Name':'', // 職缺名稱
-	                'description':'', // 描述
-	                'checked': [             // 職務類別是否已被選擇                          
-	                    {
-	                        'title':'網路資訊相關',
-	                        'content': []                     
-	                    },
-	                    {
-	                        'title':'行銷企劃相關',
-	                        'content': []
-	                    }
-	                ], 
-	                'key':[{
-	                    'id': Number(1),
-	                    'status': true,
-	                    'value':''
-	                }],       // 關鍵字
-	                'offer':'',    // 案件預算
-	                'language':[{
-	                                'id': Number(1),
-	                                'status': true,
-	                                'type': '',
-	                                'read': '',
-	                                'write': '',
-	                                'listen': '',
-	                                'speak': ''
-	                            }],  //  語文條件
-	                'skills':[{
-	                    'id': Number(1),
-	                    'status': true,
-	                    'value':''
-	                }],  //  專長技能
-	                'deadline':'',  //  截止期限
-	                'contact_Name':'',  //  聯絡人姓名
-	                'contact_Mail':'',  //  E-MAIL
-	                'contact_Phone':'',  //  連絡電話
-	                'contact_Time': ''   //  方便聯絡時間
-	            }
+            	                'contact_Time': '',   //  方便聯絡時間
+            	                'modify': '' // 修改時間
+	            }],
     		}
     	},
     	computed: {
