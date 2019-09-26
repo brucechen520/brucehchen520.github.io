@@ -1,8 +1,8 @@
 <template>
   <div>
     	<div class="list-group container">
-          <div class="badge badge-pill badge-dark" @click="changeSelected(0)">外包專案: {{ projectCount  }}</div>
-          <div class="badge badge-pill badge-dark" @click="changeSelected(1)">工作職缺: {{ vacancytCount }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="changeSelected(0)">外包專案: {{ projectCount  }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="changeSelected(1)">工作職缺: {{ vacancytCount }}</div>
       </div>
   </div>
 </template>
@@ -11,9 +11,10 @@
 	import { mapGetters, mapActions } from 'vuex';  
   import * as api from '../lib/api';
     export default {
+      props: ['selectType'],
       created () {
-        this.selectPrjoect();
-        this.selectVacancy();
+        this.selectPrjoect(this.selectType);
+        this.selectVacancy(this.selectType);
       },
       mounted () {
         this.setItemCount();
@@ -116,11 +117,12 @@
               jobCount: _this.vacancytCount
             })
         },
-	      selectPrjoect () {
+	      selectPrjoect (selectType) {
               var _this = this ;
               api.getData('/ee/api/api_project.php', {
                   params: {
                     methods: 'select',
+                    examined: selectType,
                   }
                 })
                   .then(function (data) {
@@ -135,20 +137,22 @@
                       alert(error);
                   })
             },
-        selectVacancy () {
+        selectVacancy (selectType) {
           var _this = this ;
           api.getData('/ee/api/api_vacancy.php', {
               params: {
                 methods: 'select',
+                examined: selectType,
               }
             })
               .then(function (data) {
                   if(!data.error){
                        _this.vacancy_data = [...data];
                        _this.vacancytCount = _this.vacancy_data.length;
-                  }                        
-                  else
+                  }
+                  else {
                     alert(data.error);
+                  }
               })
               .catch(function (error) {
                   alert(error);

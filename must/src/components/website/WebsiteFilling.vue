@@ -26,7 +26,7 @@
                           <option disabled value="">請選擇</option>
                           <option v-for="webList in website_lists" 
                                   :value="webList">{{ webList }}</option>
-                        </select>
+                  </select>
                   <label>網址:</label>
                   <input type="text" 
                               v-model="website_set.address"

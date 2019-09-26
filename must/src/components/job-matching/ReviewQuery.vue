@@ -2,8 +2,8 @@
   <div>
       <div class="container">
         <div class="row">
-          <div class="col-2"><list-type :selectType = "1"></list-type></div>
-          <div class="col-10"><show-list></show-list></div>
+          <div class="col-2"><list-type :selectType = "0"></list-type></div>
+          <div class="col-10"><review-list></review-list></div>
         </div>          
       </div>
   </div>
@@ -13,14 +13,12 @@
     import { mapGetters, mapActions } from 'vuex';
     import * as api from '../lib/api';
     import DatePicker from 'vue2-datepicker' ;
-    import CasePage from './CasePage.vue';
-    import ListType from './ListType.vue';
-    import ShowList from './ShowList.vue';
+    import ListType from '../job-query/ListType.vue';
+    import ReviewList from './ReviewList.vue';
     export default {
         components: {
-          CasePage,
           ListType,
-          ShowList
+          ReviewList
         },
         data () {
           return {

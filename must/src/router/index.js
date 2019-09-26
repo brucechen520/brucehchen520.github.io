@@ -7,7 +7,7 @@ import ProjectFilling from '../components/job-matching/ProjectFilling'
 import SkillFilling from '../components/personal-skill/SkillFilling'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
-import ReviewPage from '../components/job-matching/ReviewPage'
+import ReviewQuery from '../components/job-matching/ReviewQuery'
 Vue.use(Router)
 const router = new Router({
     // use html5
@@ -51,9 +51,9 @@ const router = new Router({
             component: FindMan
         },
         {
-            path: '/ReviewPage',
-            name: 'ReviewPage',
-            component: ReviewPage
+            path: '/ReviewQuery',
+            name: 'ReviewQuery',
+            component: ReviewQuery
         }
       ]
 })

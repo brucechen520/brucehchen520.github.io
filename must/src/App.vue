@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <div class="container">
-        <div class="marquee row">
+    <div class="container" style="float:left; ">
+        <div class="marquee">
           <div>
             <span><a href="https://goo.gl/6npks4" target="_blank">各班失聯系友協尋名單</a></span>
           </div>  
@@ -79,7 +79,7 @@
                   </router-link>
                 </a>
                 <a class="dropdown-item">
-                  <router-link to="/ReviewPage">
+                  <router-link to="/ReviewQuery">
                     審核頁面
                   </router-link>
                 </a>
@@ -95,7 +95,7 @@
             </div>
           </li>
         </ul>
-        <div class="row">
+        <div style="margin-top:20px;">
           <router-view></router-view>
         </div>
     </div>
@@ -124,7 +124,7 @@
 <style scoped>
     .marquee {
       height: 25px;
-      width: 420px;
+      width: 1024px;
 
       overflow: hidden;
       position: relative;
@@ -138,12 +138,12 @@
       position: absolute;
       overflow: hidden;
 
-      animation: marquee 10s linear infinite;
+      animation: marquee 20s linear infinite;
     }
 
     .marquee span {
       float: left;
-      width: 50%;
+      width: 100%;
     }
 
     @keyframes marquee {
