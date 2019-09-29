@@ -25,22 +25,28 @@
               </div>
             </div>
             <hr>
-          </div>
+        </div>
       </div>
       <case-page :pageData="itemPage"></case-page>
   </div>
 </template>
 
 <script>
-    import * as sql from '../lib/sql';
+    import * as api from '../lib/api';
     import { mapGetters, mapActions } from 'vuex';
     import CasePage from '../job-query/CasePage.vue';
     export default {
       created() {
-        this.response = this.select(this.requestData['url_api_project'], this.requestData['type']);
-        this.project_data = this.response;
-        this.response = this.select(this.requestData['url_api_vacancy'], this.requestData['type']);
-        this.vacancy_data = this.response;
+        this.select({
+            'url': '/ee/api/api_project.php',
+            'type': '0',
+            'operator': 'project'
+        });
+        this.select({
+            'url': '/ee/api/api_project.php',
+            'type': '0',
+            'operator': 'vacancy'
+        });
       },
       data () {
         return {
@@ -136,8 +142,25 @@
         }),
       },
       methods: {
-        select (url, type) {
-          return sql.select(url, type);
+        select (object) {
+          var _this = this;
+          api.getData(object.url, {
+              params: {
+                methods: 'select',
+                examined: object.type,
+              }
+            })
+              .then(function (data) {
+                  if(!data.error){
+                      console.log(data);
+                      object.operator == "project"? _this.project_data = [...data]:  _this.vacancy_data = [...data];
+                  }                        
+                  else
+                    alert(data.error);
+              })
+              .catch(function (error) {
+                  alert(error);
+              });
         },
         showPage (item) {
           let _this = this;

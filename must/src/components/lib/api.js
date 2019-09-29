@@ -10,7 +10,7 @@ export function getUserData (url) {
   // console.log(data);
   return axios.get(url)
       .then(function (response) {
-        //console.log(response);
+        // console.log(response);
         return response.data;
       })
 }
@@ -18,7 +18,8 @@ export function getData (url, data) {
   // console.log(data);
   return axios.get(url, data)
       .then(function (response) {
-        //console.log(response);
+        // console.log("=============");
+        // console.log(response.data);
         return response.data;
       })
 }
