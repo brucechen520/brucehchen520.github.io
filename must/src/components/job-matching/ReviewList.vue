@@ -12,12 +12,19 @@
               <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 內容描述: {{ item.description }} </div>
-              <textarea class="list-group-item list-group-item-action list-group-item-secondary"
-                        v-click = ""> 管理員審查意見: {{ item.suggestion }} </textarea>
-              <div >
+              <div class="list-group-item list-group-item-action list-group-item-warning">
+                <span>管理員審查意見: </span>
+                <div :class="[isShow? 'show': 'hidden']">
+                             {{ item.suggestion }}</div>
+                <textarea class="list-group-item list-group-item-action list-group-item-secondary"
+                          :class="[isShow? 'hidden': 'show']"
+                          v-model = "item.suggestion" > 
+                             {{ item.suggestion }} </textarea>
+                <button @click="changeShow" class="btn btn-info">{{ isShow? "編輯": "完成" }}</button>
+              </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
                   <select v-model="item.examined">
-                    <option disabled value="">請選擇</option>
                     <option v-for="isPass in passOrNoPass" 
                             :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
@@ -36,6 +43,9 @@
     import { mapGetters, mapActions } from 'vuex';
     import CasePage from '../job-query/CasePage.vue';
     export default {
+      components: {
+        CasePage
+      },
       created() {
         this.select({
             'url': '/ee/api/api_project.php',
@@ -52,6 +62,7 @@
         return {
           response: [],
           itemPage: '',
+          isShow: true,
           passOrNoPass: [{"msg": "不通過", "value": 0}, {"msg": "通過", "value": 1}],
           requestData: {
                 'url_api_project': '/ee/api/api_project.php',
@@ -152,7 +163,7 @@
             })
               .then(function (data) {
                   if(!data.error){
-                      console.log(data);
+                      // console.log(data);
                       object.operator == "project"? _this.project_data = [...data]:  _this.vacancy_data = [...data];
                   }                        
                   else
@@ -165,11 +176,23 @@
         showPage (item) {
           let _this = this;
           _this.itemPage = item;
+        },
+        changeShow () {
+          var _this = this;
+          _this.isShow = !_this.isShow;
         }
       }
     }
 </script>
 
 <style>
-
+  .wordBreak {
+    word-wrap: break-word;
+  },
+  .show {
+    display:inline;
+  }
+  .hidden {
+    display:none;
+  }
 </style> 
