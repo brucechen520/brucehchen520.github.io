@@ -13,7 +13,7 @@
         <label class="col-12 col-md-auto">類別</label>
         <select class="col-12 col-md-auto" v-model="skill_data.permit" v-validate="'required'" >
           <option v-for="item in permitList" 
-                  :value="item">{{ item }}</option>
+                  :value="item.value">{{ item.mes }}</option>
         </select>
     </div>
     <div class="row">
@@ -78,10 +78,9 @@
                 }]
             },
             permitList: [
-              '對系友公開', // 0
-              '對訪客公開(不含姓名)', // 1
-              '對訪客全公開', // 2
-              '不公開'        // 3 只有管理員看的到
+              {'mes': '對系友公開', 'value': '0'},
+              {'mes': '對訪客公開', 'value': '1'},
+              {'mes': '不公開', 'value': '2'},        
             ]
           }
         },

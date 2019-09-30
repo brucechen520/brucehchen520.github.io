@@ -11,7 +11,7 @@
             <div class="list-group container">
               <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
-              <div class="list-group-item list-group-item-action list-group-item-warning"> 內容描述: {{ item.description }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                 <span>管理員審查意見: </span>
                 <div :class="[isShow? 'show': 'hidden']">
@@ -28,7 +28,7 @@
                     <option v-for="isPass in passOrNoPass" 
                             :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
-                  <button class="btn btn-info" @click="sendData(item)"> 送出 </button> 
+                  <button class="btn btn-info" @click="update({'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -53,7 +53,7 @@
             'operator': 'project'
         });
         this.select({
-            'url': '/ee/api/api_project.php',
+            'url': '/ee/api/api_vacancy.php',
             'type': '0',
             'operator': 'vacancy'
         });
@@ -70,7 +70,7 @@
                 'type': '0'                
           },
           project_data: [{  
-                'id': '', // PJID
+                'PJ_Id': '', // PJID
                 'company_Name':'', // 公司名稱
                 'company_Website':'', // 公司網址
                 'Name':'', // 專案名稱
@@ -105,7 +105,7 @@
                 'examined': '', // 審核
               }],
           vacancy_data: [{
-              'id': '', // JBID
+              'JB_Id': '', // JBID
               'company_Name':'', // 公司名稱
               'company_Website':'', // 公司網址
               'Name':'', // 職缺名稱
@@ -151,6 +151,9 @@
             // getTodo return value 將會存在別名為 todos 的 webData 上
             getJob: 'getJob'
         }),
+        urlForExamined (examined) {
+          return getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
+        }
       },
       methods: {
         select (object) {
@@ -165,6 +168,24 @@
                   if(!data.error){
                       // console.log(data);
                       object.operator == "project"? _this.project_data = [...data]:  _this.vacancy_data = [...data];
+                  }                        
+                  else
+                    alert(data.error);
+              })
+              .catch(function (error) {
+                  alert(error);
+              });
+        },
+        update (object) {
+          console.log(object);
+          var _this = this;
+          let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
+
+          api.postData(url, {data: object})
+              .then(function (data) {
+                  if(!data.error){
+                      console.log(data);
+                      alert(data);
                   }                        
                   else
                     alert(data.error);
