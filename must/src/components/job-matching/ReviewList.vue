@@ -26,9 +26,9 @@
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
                   <select v-model="item.examined">
                     <option v-for="isPass in passOrNoPass" 
-                            :value="isPass.value">{{ isPass.msg }}</option>
+                            :value="item.examined">{{ isPass.msg }}</option>
                   </select>
-                  <button class="btn btn-info" @click="update({'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -181,7 +181,7 @@
           var _this = this;
           let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
 
-          api.postData(url, {data: object})
+          api.postData(url, object)
               .then(function (data) {
                   if(!data.error){
                       console.log(data);
