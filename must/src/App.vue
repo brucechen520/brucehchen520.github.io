@@ -53,21 +53,6 @@
                     請註冊會員再登入來查詢
                   </div>
                 </a>
-                <a class="dropdown-item" v-if="users.name !=='訪客'">
-                  <router-link to="/JobVacancies" >
-                    職缺填寫
-                  </router-link>
-                </a>
-                <a class="dropdown-item" v-if="users.name !=='訪客'">
-                  <router-link to="/ProjectFilling" > 
-                    專案填寫
-                  </router-link>
-                </a>
-                <a class="dropdown-item" v-if="users.name !=='訪客'">
-                  <router-link to="/SkillFilling" >
-                    專長填寫
-                  </router-link>
-                </a>
                 <a class="dropdown-item">
                   <router-link to="/JobQuery">
                     工作查詢
@@ -78,15 +63,52 @@
                     人才查詢
                   </router-link>
                 </a>
-                <a class="dropdown-item">
-                  <router-link to="/ReviewQuery">
-                    審核頁面
-                  </router-link>
-                </a>
               </div>
             </div>
           </li>
           
+          <li class="nav-item col-3-auto">
+            <div class="dropdown">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                  §個人專區
+              </button>
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" v-if="users.name ==='訪客'">
+                  <div >
+                    請註冊會員再登入來查詢
+                  </div>
+                </a>
+                <div v-if="users.name !=='訪客'">
+                  <a class="dropdown-item">
+                    <router-link to="/JobVacancies" >
+                      職缺填寫
+                    </router-link>
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link to="/ProjectFilling" > 
+                      專案填寫
+                    </router-link>
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link to="/SkillFilling" >
+                      專長填寫
+                    </router-link>
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link to="/SkillFilling" >
+                      專長填寫
+                    </router-link>
+                  </a>
+                  <a class="dropdown-item" v-if = "users.isAdmin">
+                    <router-link to="/ReviewQuery">
+                      審核頁面
+                    </router-link>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+
           <li class="nav-item col-3-auto">
             <div class="btn-group">
               <button class="btn alert-info" type="button" aria-haspopup="true" aria-expanded="false" data-display="static">

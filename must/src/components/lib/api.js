@@ -8,10 +8,10 @@ const config = {
 }
 
 export function postData (url, data) { // data 需要包含要執行那些動作的參數
-    console.log(data);
+    // console.log(data);
     return axios.post(url, qs.stringify(data), config)
           .then(function (response) {
-            console.log(response);
+            // console.log(response);
             return response.data;
           })
 }

@@ -7,6 +7,7 @@ export const state = {
     {
       'name':'',
       'level': '',
+      'isAdmin': 0,
       'error':''
     },
   jobOpts: {

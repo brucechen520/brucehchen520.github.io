@@ -177,14 +177,14 @@
               });
         },
         update (object) {
-          console.log(object);
+          // console.log(object);
           var _this = this;
           let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
 
           api.postData(url, object)
               .then(function (data) {
                   if(!data.error){
-                      console.log(data);
+                      // console.log(data);
                       alert(data);
                   }                        
                   else
