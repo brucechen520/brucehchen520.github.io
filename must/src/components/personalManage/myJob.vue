@@ -1,51 +1,14 @@
 <template>
   <div class="container">
-    <h1>專長填寫</h1>
-    <div class="row">
-        <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
-        <label class="col-12 col-md-auto">信箱</label>
-        <input class="col-12 col-md-auto" v-model="skill_data.mail" v-validate="'required|email'" type="email" name="email">
-        <span>{{ errors.first('email') }}</span>
-    </div>
-    <div class="row">
-        <label class="col-12 col-md-auto">手機</label>
-        <input class="col-12 col-md-auto" v-model="skill_data.cellphone" v-validate="'numeric'">
-        <label class="col-12 col-md-auto">類別</label>
-        <select class="col-12 col-md-auto" v-model="skill_data.permit" v-validate="'required'" >
-          <option v-for="item in permitList" 
-                  :value="item.value">{{ item.mes }}</option>
-        </select>
-    </div>
-    <div class="row">
-        <label class="col-12 col-md-auto">技能專長</label>
-        <div  v-for="(item, index) in skill_data.expertise">
-            <input v-model="item.value" v-validate="'min: 3'" :name = "'keyWord_' +index">
-            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id,item ,'expertise')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
+    <div>
+        <div class="col-2">
+            <router-link to="/JobVacancies">
+              審核頁面
+            </router-link>
         </div>
-        <label class="col-12 col-md-auto">作品</label>
-        <div v-for="(item, index) in skill_data.works">
-            <input v-model="item.value" v-validate="'url'" :name = "'keyWord_' +index">
-            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'works')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
-        </div>
-        <label class="col-12 col-md-auto">證照</label>
-        <div v-for="(item, index) in skill_data.license">
-            <input v-model="item.value" v-validate="'url'" :name = "'keyWord_' +index">
-            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'license')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
-        </div>
+            
+        <router-view></router-view>
     </div>
-    <div class="row">
-        <label class="col-2">自傳</label>
-        <textarea rows="5" cols="100" v-model="skill_data.biography" v-validate="'required|min:100'" name="description"> </textarea>
-        <span>{{ errors.first('description') }}</span>
-    </div>
-    <div class="row">
-        <button class="col-12 col-md-auto" @click="validateForm">送出</button>
-    </div>
-
-
   </div>
   
 </template>
@@ -53,6 +16,8 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import * as api from '../lib/api';
+    import JobVacancies from '../job-matching/JobVacancies'
+    import ProjectFilling from '../job-matching/ProjectFilling'
     export default {
         data () {
           return {

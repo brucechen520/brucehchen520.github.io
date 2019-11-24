@@ -20,22 +20,9 @@
               </button>
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="https://goo.gl/HHXPvG" target="_blank">公開名片區</a>
-                <a class="dropdown-item" href="https://140.134.29.2:5001/sharing/wNhbCOzDw?fbclid=IwAR3QHKYUJCFoNFvBxHGvV0R72KkAqD5-r6EOudaWayZHNW7Il5Li_wxVg_8" target="_blank">公開名片區上傳</a>
-                <a class="dropdown-item" href="#" target="_blank">不公開名片區</a>
-                <a class="dropdown-item" href="#" target="_blank">不公開名片區上傳</a>
                 <a class="dropdown-item">
                   <router-link to="/WebsiteQuery">
                     網站查詢
-                  </router-link>
-                </a>
-                <a class="dropdown-item" v-if="users.name ==='訪客'">
-                  <div>
-                    請註冊會員再登入來查詢
-                  </div>
-                </a>
-                <a class="dropdown-item" v-if="users.name !=='訪客'">
-                  <router-link to="/WebsiteFilling" >
-                    網站填寫
                   </router-link>
                 </a>
               </div>
@@ -67,26 +54,26 @@
             </div>
           </li>
           
-          <li class="nav-item col-3-auto">
+          <li class="nav-item col-3-auto" v-if="users.name !=='訪客'">
             <div class="dropdown">
               <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §個人專區
               </button>
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" v-if="users.name ==='訪客'">
-                  <div >
-                    請註冊會員再登入來查詢
-                  </div>
-                </a>
                 <div v-if="users.name !=='訪客'">
                   <a class="dropdown-item">
+                    <router-link to="/myJob" >
+                      我的職缺
+                    </router-link>
+                  </a>
+                  <a class="dropdown-item">
                     <router-link to="/JobVacancies" >
-                      職缺填寫
+                      新增職缺
                     </router-link>
                   </a>
                   <a class="dropdown-item">
                     <router-link to="/ProjectFilling" > 
-                      專案填寫
+                      新增專案
                     </router-link>
                   </a>
                   <a class="dropdown-item">
@@ -95,15 +82,30 @@
                     </router-link>
                   </a>
                   <a class="dropdown-item">
-                    <router-link to="/SkillFilling" >
-                      專長填寫
+                    <router-link to="/WebsiteFilling" >
+                      新增網站
                     </router-link>
-                  </a>
-                  <a class="dropdown-item" v-if = "users.isAdmin">
+                  </a>                  
+                  <a class="dropdown-item" href="https://140.134.29.2:5001/sharing/wNhbCOzDw?fbclid=IwAR3QHKYUJCFoNFvBxHGvV0R72KkAqD5-r6EOudaWayZHNW7Il5Li_wxVg_8" target="_blank">公開名片區上傳</a>
+                  <a class="dropdown-item" href="#" target="_blank">不公開名片區上傳</a>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="nav-item col-3-auto" v-if = "users.isAdmin">
+            <div class="dropdown">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                  §管理
+              </button>
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+                <div>
+                  <a class="dropdown-item">
                     <router-link to="/ReviewQuery">
                       審核頁面
                     </router-link>
-                  </a>
+                  </a>                  
+                  <a class="dropdown-item" href="#" target="_blank">不公開名片區</a>
                 </div>
               </div>
             </div>
@@ -116,7 +118,7 @@
               </button>
             </div>
           </li>
-        </ul>
+        </ul>  
         <div style="margin-top:20px;">
           <router-view></router-view>
         </div>
