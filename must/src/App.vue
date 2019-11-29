@@ -15,10 +15,10 @@
           </li>
           <li class="nav-item col-3-auto">
             <div class="dropdown">
-              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §網站列表
               </button>
-              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton1">
                 <a class="dropdown-item" href="https://goo.gl/HHXPvG" target="_blank">公開名片區</a>
                 <a class="dropdown-item">
                   <router-link to="/WebsiteQuery">
@@ -31,10 +31,10 @@
 
           <li class="nav-item col-3-auto">
             <div class="dropdown">
-              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §工作媒合
               </button>
-              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton2">
                 <a class="dropdown-item" v-if="users.name ==='訪客'">
                   <div >
                     請註冊會員再登入來查詢
@@ -56,38 +56,81 @@
           
           <li class="nav-item col-3-auto" v-if="users.name !=='訪客'">
             <div class="dropdown">
-              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §個人專區
               </button>
-              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton3">
                 <div v-if="users.name !=='訪客'">
-                  <a class="dropdown-item">
-                    <router-link to="/myJob" >
-                      我的職缺
-                    </router-link>
-                  </a>
-                  <a class="dropdown-item">
-                    <router-link to="/JobVacancies" >
-                      新增職缺
-                    </router-link>
-                  </a>
-                  <a class="dropdown-item">
-                    <router-link to="/ProjectFilling" > 
-                      新增專案
-                    </router-link>
-                  </a>
-                  <a class="dropdown-item">
-                    <router-link to="/SkillFilling" >
-                      專長填寫
-                    </router-link>
-                  </a>
-                  <a class="dropdown-item">
-                    <router-link to="/WebsiteFilling" >
-                      新增網站
-                    </router-link>
-                  </a>                  
-                  <a class="dropdown-item" href="https://140.134.29.2:5001/sharing/wNhbCOzDw?fbclid=IwAR3QHKYUJCFoNFvBxHGvV0R72KkAqD5-r6EOudaWayZHNW7Il5Li_wxVg_8" target="_blank">公開名片區上傳</a>
-                  <a class="dropdown-item" href="#" target="_blank">不公開名片區上傳</a>
+                  <div class="dropdown-submenu">
+                    <span class = "dropdown-item">我的職缺</span>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/JobVacancies" >
+                            新增職缺
+                          </router-link>
+                        </a>
+                      </li>
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/ProjectFilling" > 
+                            新增專案
+                          </router-link>
+                        </a>
+                      </li>
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/SkillFilling" >
+                            專長填寫
+                          </router-link>
+                        </a>
+                      </li>
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/SkillFilling" >
+                            專長填寫
+                          </router-link>
+                        </a>
+                      </li>
+                    </ul>                    
+                  </div>
+                  <div class="dropdown-submenu">
+                    <span class = "dropdown-item">進行中的專案</span>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/JobVacancies" >
+                            新增職缺
+                          </router-link>
+                        </a>
+                      </li>
+                    </ul>                    
+                  </div>
+                  <div class="dropdown-submenu">
+                    <span class = "dropdown-item">網站</span>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/WebsiteFilling" >
+                            新增網站
+                          </router-link>
+                        </a>
+                      </li>
+                    </ul>                    
+                  </div>
+                  <div class="dropdown-submenu">
+                    <span class = "dropdown-item">名片上傳</span>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item" href="https://140.134.29.2:5001/sharing/wNhbCOzDw?fbclid=IwAR3QHKYUJCFoNFvBxHGvV0R72KkAqD5-r6EOudaWayZHNW7Il5Li_wxVg_8" target="_blank">公開名片區上傳</a>
+                      </li>
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item" href="#" target="_blank">不公開名片區上傳</a>
+                      </li>
+                    </ul>                    
+                  </div>              
+                  
+                  
                 </div>
               </div>
             </div>
@@ -95,10 +138,10 @@
 
           <li class="nav-item col-3-auto" v-if = "users.isAdmin">
             <div class="dropdown">
-              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §管理
               </button>
-              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton4">
                 <div>
                   <a class="dropdown-item">
                     <router-link to="/ReviewQuery">
@@ -108,6 +151,41 @@
                   <a class="dropdown-item" href="#" target="_blank">不公開名片區</a>
                 </div>
               </div>
+            </div>
+          </li>
+
+          <li class="nav-item col-3-auto">
+            <div class="dropdown">
+              <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                  §管理
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                <li class="dropdown-item"><a href="#">Some action</a></li>
+                <li class="dropdown-item"><a href="#">Some other action</a></li>
+                <li class="dropdown-divider"></li>
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" href="#">Even More..</a>
+                      <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">3rd level</a></li>
+                        <li class="dropdown-submenu"><a class="dropdown-item" href="#">another level</a>
+                          <ul class="dropdown-menu">
+                            <li class="dropdown-item"><a href="#">4th level</a></li>
+                            <li class="dropdown-item"><a href="#">4th level</a></li>
+                            <li class="dropdown-item"><a href="#">4th level</a></li>
+                          </ul>
+                        </li>
+                        <li class="dropdown-item"><a href="#">3rd level</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown-item"><a href="#">Second level</a></li>
+                    <li class="dropdown-item"><a href="#">Second level</a></li>
+                  </ul>
+                </li>
+              </ul>
             </div>
           </li>
 
@@ -177,4 +255,11 @@
       75% { left: 50%; }
       100% { left: 0; }
     }
+    
+    .dropdown-submenu{position:relative;}
+    .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+    .dropdown-submenu:hover>.dropdown-menu{display:block;}
+    .dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+    .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+    .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
 </style>
