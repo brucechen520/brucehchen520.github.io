@@ -62,6 +62,18 @@
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton3">
                 <div v-if="users.name !=='訪客'">
                   <div class="dropdown-submenu">
+                    <span class = "dropdown-item">我的專長</span>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-item">                        
+                        <a class="dropdown-item">
+                          <router-link to="/SkillFilling" >
+                            專長填寫
+                          </router-link>
+                        </a>
+                      </li>
+                    </ul>                    
+                  </div>
+                  <div class="dropdown-submenu">
                     <span class = "dropdown-item">我的職缺</span>
                     <ul class="dropdown-menu">
                       <li class="dropdown-item">                        
@@ -80,39 +92,34 @@
                       </li>
                       <li class="dropdown-item">                        
                         <a class="dropdown-item">
-                          <router-link to="/SkillFilling" >
-                            專長填寫
+                          <router-link to="/myJob" >
+                            修改職缺/專案
                           </router-link>
                         </a>
                       </li>
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/SkillFilling" >
-                            專長填寫
-                          </router-link>
-                        </a>
-                      </li>
-                    </ul>                    
-                  </div>
-                  <div class="dropdown-submenu">
-                    <span class = "dropdown-item">進行中的專案</span>
-                    <ul class="dropdown-menu">
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/JobVacancies" >
-                            新增職缺
-                          </router-link>
-                        </a>
-                      </li>
-                    </ul>                    
+                    </ul>
                   </div>
                   <div class="dropdown-submenu">
                     <span class = "dropdown-item">網站</span>
                     <ul class="dropdown-menu">
-                      <li class="dropdown-item">                        
+                      <li class="dropdown-item">
                         <a class="dropdown-item">
                           <router-link to="/WebsiteFilling" >
                             新增網站
+                          </router-link>
+                        </a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a class="dropdown-item">
+                          <router-link to="/WebsiteFilling" >
+                            修改網站
+                          </router-link>
+                        </a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a class="dropdown-item">
+                          <router-link to="/WebsiteFilling" >
+                            刪除網站
                           </router-link>
                         </a>
                       </li>
