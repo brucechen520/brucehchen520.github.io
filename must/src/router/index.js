@@ -9,6 +9,10 @@ import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
 import ReviewQuery from '../components/job-matching/ReviewQuery'
 import myJob from '../components/personalManage/myJob'
+import projectPersonal from '../components/personalManage/projectPersonal'
+import reviewPersonal from '../components/personalManage/reviewPersonal'
+import vacancyPersonal from '../components/personalManage/vacancyPersonal'
+import websitePersonal from '../components/personalManage/websitePersonal'
 Vue.use(Router)
 const router = new Router({
     // use html5
@@ -59,7 +63,20 @@ const router = new Router({
         {
             path: '/myJob',
             name: 'myJob',
-            component: myJob
+            component: myJob,
+            children: [{
+                path: '/myJob/perosnalProject',
+                component: projectPersonal
+            },{
+                path: '/myJob/perosnalReview',
+                component: reviewPersonal
+            },{
+                path: '/myJob/perosnalVacancy',
+                component: vacancyPersonal
+            },{
+                path: '/myJob/perosnalWebsite',
+                component: websitePersonal
+            }]
         }
       ]
 })

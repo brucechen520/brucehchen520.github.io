@@ -1,14 +1,15 @@
 <template>
   <div class="container">
-    <div>
+    <div id = "myJob">
         <div class="col-2">
-            <router-link to="/JobVacancies">
-              審核頁面
+            <router-link to="/myJob/projectPersonal">
+              我的專案
             </router-link>
         </div>
             
-        <router-view></router-view>
+        
     </div>
+    <router-view></router-view>
   </div>
   
 </template>
@@ -16,8 +17,10 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import * as api from '../lib/api';
-    import JobVacancies from '../job-matching/JobVacancies'
-    import ProjectFilling from '../job-matching/ProjectFilling'
+    import projectPersonal from './projectPersonal'
+    import reviewPersonal from './reviewPersonal'
+    import vacancyPersonal from './vacancyPersonal'
+    import websitePersonal from './websitePersonal'
     export default {
         data () {
           return {
