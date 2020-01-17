@@ -1,5 +1,8 @@
 <?
     session_start();
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
+    header('Access-Control-Allow-Methods: *');
     include "../db_config.php" ;
     include_once '../phpclass.php';
     $json = array();

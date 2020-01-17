@@ -1,5 +1,8 @@
 <?
     session_start();
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
+    header('Access-Control-Allow-Methods: *');
     include "../db_config.php" ;
     include_once '../phpclass.php';
     $Mail = new MailSender();
@@ -254,13 +257,18 @@
       case 'update':
 
           break;
-	  case 'examined_update':
-		  $update_obj = json_decode($_POST['data']);
+    case 'examined_update':
+      echo var_dump($_POST['data']);
+      //$update_obj = json_decode($_POST['data']);
+      $update_obj->id = $_POST['data']['id'];
+      $update_obj->suggestion = $_POST['data']['suggestion'];
+      $update_obj->examined = $_POST['data']['examined'];
 		  $str = "UPDATE `alumnidata`.`Industry_Vacancy_List` SET `suggestion` = '".$update_obj->suggestion."',
 				`examined` = '".$update_obj->examined."',
 				`adminer` = '".$user->Mem_Se."',
 				`verifyTime` = '".time()."'
-		  WHERE (`JB_Id` = '".$update_obj->id."');";
+      WHERE (`JB_Id` = '".$update_obj->id."');";
+      echo var_dump($str);
 		  $list = mysql_query($str);
 		  if($list === FALSE) { // 資料庫有沒有 FALSE
               $json['error'] = mysql_error();

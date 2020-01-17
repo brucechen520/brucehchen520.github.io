@@ -1,5 +1,6 @@
 <?
     session_start();
+    header("Access-Control-Allow-Origin: *");
     include "../db_config.php" ;
     include_once '../phpclass.php';
     $Mail = new MailSender();
