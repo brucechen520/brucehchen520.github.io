@@ -26,9 +26,10 @@
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
                   <select v-model="item.examined">
                     <option v-for="isPass in passOrNoPass" 
-                            :value="item.examined">{{ isPass.msg }}</option>
+                            :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
-                  <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button> 
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="update({'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -39,7 +40,8 @@
 </template>
 
 <script>
-    import * as api from '../lib/api';
+    import * as api from '../lib/api.js';
+    import { api2 } from '../../assets/api.js'
     import { mapGetters, mapActions } from 'vuex';
     import CasePage from '../job-query/CasePage.vue';
     export default {
@@ -52,11 +54,12 @@
             'type': '0',
             'operator': 'project'
         });
-        this.select({
-            'url': '/ee/api/api_vacancy.php',
-            'type': '0',
-            'operator': 'vacancy'
-        });
+        // this.select({
+        //     'url': '/ee/api/api_vacancy.php',
+        //     'type': '0',
+        //     'operator': 'vacancy'
+        // });
+        this.vacance_get();
       },
       data () {
         return {
@@ -156,6 +159,27 @@
         }
       },
       methods: {
+        vacance_get(){
+          var _this = this;
+          console.log('inget');
+          api2.vacance_get({},function(result){
+            if(result.code == 'success')
+              _this.vacancy_data = [...result.data];
+          });
+
+          // api.getData('/ee/api/api_vacancy_get.php', {params: {}})
+          //   .then(function (data) {
+          //       if(!data.error){
+          //           // console.log(data);
+          //           _this.vacancy_data = [...data];
+          //       }                        
+          //       // else
+          //         //alert(data.error);
+          //   })
+          //   .catch(function (error) {
+          //       alert(error);
+          //   });
+        },
         select (object) {
           var _this = this;
           api.getData(object.url, {
@@ -177,22 +201,41 @@
               });
         },
         update (object) {
-          // console.log(object);
+          console.log(JSON.stringify(object));
           var _this = this;
-          let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
-
-          api.postData(url, object)
-              .then(function (data) {
+          // let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
+          api2.vacancy_conform(object,function(data){
                   if(!data.error){
                       // console.log(data);
                       alert(data);
                   }                        
                   else
                     alert(data.error);
-              })
-              .catch(function (error) {
-                  alert(error);
               });
+          // api.postData('/ee/api/api_vacancy_comfirm.php', object)
+          //     .then(function (data) {
+          //         if(!data.error){
+          //             // console.log(data);
+          //             alert(data);
+          //         }                        
+          //         else
+          //           alert(data.error);
+          //     })
+          //     .catch(function (error) {
+          //         alert(error);
+          //     });
+          // api.postData(url, object)
+          //     .then(function (data) {
+          //         if(!data.error){
+          //             // console.log(data);
+          //             alert(data);
+          //         }                        
+          //         else
+          //           alert(data.error);
+          //     })
+          //     .catch(function (error) {
+          //         alert(error);
+          //     });
         },
         showPage (item) {
           let _this = this;
