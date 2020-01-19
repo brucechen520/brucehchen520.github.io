@@ -36,6 +36,13 @@ export const action_vacance_get  = ({ commit }, param) => {
     });        
 }
 
+export const action_web_get  = ({ commit }, param) => {
+    api2.web_get(param,function(result){
+          if(result.code == 'success'){
+            commit(types.SET_WEB_DATA, result.data);
+          }
+    });        
+}
 export const action_vacancy_conform  = ({ commit }, param) => {
     api2.vacancy_conform(param,function(data){
         if(result.code != 'success'){
@@ -48,6 +55,16 @@ export const action_vacancy_conform  = ({ commit }, param) => {
 
 export const action_project_conform  = ({ commit }, param) => {
     api2.project_conform(param,function(data){
+        if(result.code != 'success'){
+            alert(data);
+        }                        
+        else
+          alert(data.error);
+    });        
+}
+
+export const action_web_conform  = ({ commit }, param) => {
+    api2.web_conform(param,function(data){
         if(result.code != 'success'){
             alert(data);
         }                        

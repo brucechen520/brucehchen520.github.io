@@ -3,11 +3,42 @@
       <div v-if="stateReviewType === 0">
         <h3 class="mt-0 header"> 專案列表審核 </h3>
       </div>
-      <div v-else>
+      <div v-else-if="stateReviewType === 1">
         <h3 class="mt-0 header"> 職缺列表審核 </h3>
       </div>
-      <div v-if = "list = stateReviewType === 0? stateProjectData.list : stateVacanceData.list"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
-        <div v-for="(item, index) in list">
+      <div v-else >
+        <h3 class="mt-0 header"> 網站列表審核 </h3>
+      </div>
+      <div v-if = "stateReviewType ==0"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
+        <div v-for="(item, index) in stateProjectData.list">
+            <div class="list-group container">
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 專案名稱: {{ item.Name }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning">
+                <span>管理員審查意見: </span>
+                <div :class="[isShow? 'show': 'hidden']">
+                             {{ item.suggestion }}</div>
+                <textarea class="list-group-item list-group-item-action list-group-item-secondary"
+                          :class="[isShow? 'hidden': 'show']"
+                          v-model = "item.suggestion" > 
+                             {{ item.suggestion }} </textarea>
+                <button @click="changeShow" class="btn btn-info">{{ isShow? "編輯": "完成" }}</button>
+              </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning">
+                  <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
+                  <select v-model="item.examined">
+                    <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
+                  </select>
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+              </div>
+            </div>
+            <hr>
+        </div>
+      </div>
+      <div v-if = "stateReviewType == 1"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
+        <div v-for="(item, index) in stateVacanceData.list">
             <div class="list-group container">
               <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
@@ -29,6 +60,36 @@
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
                   <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+              </div>
+            </div>
+            <hr>
+        </div>
+      </div>
+      <div v-if = "stateReviewType === 2"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
+        <div v-for="(item, index) in stateWebData.list">
+            <div class="list-group container">
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: {{ item.wName }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 網站屬性: {{ item.type }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 網站網址: {{ item.address }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 建立人: {{ item.name }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning">
+                <span>管理員審查意見: </span>
+                <div :class="[isShow? 'show': 'hidden']">
+                             {{ item.suggestion }}</div>
+                <textarea class="list-group-item list-group-item-action list-group-item-secondary"
+                          :class="[isShow? 'hidden': 'show']"
+                          v-model = "item.suggestion" > 
+                             {{ item.suggestion }} </textarea>
+                <button @click="changeShow" class="btn btn-info">{{ isShow? "編輯": "完成" }}</button>
+              </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning">
+                  <!-- <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button> -->
+                  <select v-model="item.examined">
+                    <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
+                  </select>
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="updateWeb({'id': item.id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -138,7 +199,7 @@
       },
       computed: {
         // ...mapGetters 為 ES7 寫法
-        ...mapState(['stateProjectData','stateVacanceData','stateReviewType']),
+        ...mapState(['stateProjectData','stateVacanceData','stateReviewType','stateWebData']),
         ...mapGetters({
             // getTodo return value 將會存在別名為 todos 的 webData 上
             getJob: 'getJob'
@@ -146,7 +207,7 @@
       },
       methods: {
         ...mapActions([
-  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_conform', 'action_project_conform'
+  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_conform', 'action_project_conform', 'action_web_conform'
   	    ]),
         update (param) {
           var _this = this;
@@ -154,6 +215,9 @@
             _this.action_project_conform(param);
           else
             _this.action_vacancy_conform(param);
+        },
+        updateWeb(param){
+          this.action_web_conform(param);
         },
         showPage (item) {
           let _this = this;

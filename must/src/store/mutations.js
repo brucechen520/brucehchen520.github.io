@@ -17,6 +17,7 @@ export const state = {
   },
   stateProjectData:{},
   stateVacanceData:{},
+  stateWebData:{},
   stateReviewType:"",
 }
 
@@ -48,5 +49,8 @@ export const mutations = {
   },
   [types.SET_REVIEW_TYPE] (state, data) {
     state.stateReviewType = data;
+  },
+  [types.SET_WEB_DATA] (state, data) {
+    state.stateWebData = data;
   },
 }
