@@ -91,5 +91,12 @@ export const api2 = {
     },
     vacancy_conform: function (param,handleSuccess, handleComplete, handleError){
         this.$http.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
-    }
+    },
+    project_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_project_get.php',param, handleSuccess, handleComplete, handleError);
+    },
+    project_conform: function (param,handleSuccess, handleComplete, handleError){
+        this.$http.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
+    },
+    
 }

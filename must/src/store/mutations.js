@@ -14,7 +14,10 @@ export const state = {
     'selected': 1,
     'projectCount': 0,
     'jobCount': 0
-  }
+  },
+  stateProjectData:{},
+  stateVacanceData:{},
+  stateReviewType:"",
 }
 
 // mutations
@@ -37,5 +40,13 @@ export const mutations = {
     // 在 mutation 改變 state（只有 mutation 可以改變！）
     this.state.userInfo.error = error;
   },
-  
+  [types.SET_PROJECT_DATA] (state, data) {
+    state.stateProjectData = data;
+  },
+  [types.SET_VACANCE_DATA] (state, data) {
+    state.stateVacanceData = data;
+  },
+  [types.SET_REVIEW_TYPE] (state, data) {
+    state.stateReviewType = data;
+  },
 }

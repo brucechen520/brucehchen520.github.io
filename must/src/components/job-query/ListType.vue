@@ -1,163 +1,37 @@
 <template>
   <div>
     	<div class="list-group container">
-          <div class="btn badge badge-pill badge-dark" @click="changeSelected(0)">外包專案: {{ projectCount  }}</div>
-          <div class="btn badge badge-pill badge-dark" @click="changeSelected(1)">工作職缺: {{ vacancytCount }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(0)">外包專案: {{ stateProjectData.totalCount }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(1)">工作職缺: {{ stateVacanceData.totalCount }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(2)">網站: {{ stateVacanceData.totalCount }}</div>
       </div>
   </div>
 </template>
 
 <script>
-	import { mapGetters, mapActions } from 'vuex';  
+  import { api2 } from '../../assets/api.js'
+	import { mapState, mapGetters, mapActions } from 'vuex';  
   import * as api from '../lib/api';
     export default {
       props: ['selectType'],
       created () {
-        this.selectPrjoect(this.selectType);
-        this.selectVacancy(this.selectType);
+        this.action_project_get({examined:0});
+        this.action_vacance_get({examined:0});
       },
-      mounted () {
-        this.setItemCount();
+      mounted () {        
       },
       data () {
           return {
-            project_data: [{  
-                  'id': '', // PJID
-                  'company_Name':'', // 公司名稱
-                  'company_Website':'', // 公司網址
-                  'Name':'', // 專案名稱
-                  'description':'', // 描述
-                  'type': [             // 職務類別是否已被選擇                          
-                      {
-                        'id':'',
-                          'title':'',
-                          'content': ''                   
-                      }
-                  ], 
-                  'key':[{}],       // 關鍵字
-                  'offer':'',    // 案件預算
-                  'language':[{
-                          'id':'',
-                          'type': '',
-                          'listen': '',
-                          'speak': '',
-                          'read': '',
-                          'write': ''
-                      }],  //  語文條件
-                  'skills':[{
-                          'id': '',
-                          'value':''
-                      }],  //  專長技能
-                  'deadline':'',  //  截止期限
-                  'contact_Name':'',  //  聯絡人姓名
-                  'contact_Mail':'',  //  E-MAIL
-                  'contact_Phone':'',  //  連絡電話
-                  'contact_Time': ''   //  方便聯絡時間
-                  }],
-            vacancy_data: [{
-                      'id': '', // JBID
-                      'company_Name':'', // 公司名稱
-                      'company_Website':'', // 公司網址
-                      'Name':'', // 職缺名稱
-                      'description':'', // 描述
-                      'type': [             // 職務類別是否已被選擇                          
-                          {
-                              'title':'',
-                              'content': ''                    
-                          }
-                      ], 
-                      'location':'', // 上班地點
-                      'duty':'', // 管理責任
-                      'offer':'',    // 工作待遇
-                      'officeHour':'', // 上班時段
-                      'trip': '',  // 出差外派
-                      'vacation':'', // 休假制度
-                      'demandMans':'', // 需求人數
-                      'academicRequire': '', // 學歷要求
-                      'exprience': '', // 工作經歷
-                      'others':'', // 其他福利
-                      'welfare':'', // 公司福利
-                      'language':[{
-                              'id':'',
-                              'type': '',
-                              'listen': '',
-                              'speak': '',
-                              'read': '',
-                              'write': ''
-                          }],  //  語文條件
-                      'skills':[{
-                              'id': '',
-                              'value':''
-                              }
-                            ],  //  工作技能
-                      'contact_Name':'',  //  聯絡人姓名
-                      'contact_Mail':'',  //  E-MAIL
-                      'contact_Phone':'',  //  連絡電話
-                      'contact_Time': ''   //  方便聯絡時間
-              }],
-            projectCount: 0,
-            vacancytCount: 0
           }
       },
       computed: {
         // ...mapGetters 為 ES7 寫法
-        ...mapGetters({
-            // getTodo return value 將會存在別名為 todos 的 webData 上
-            selected: 'getJob'
-        })
+        ...mapState(['stateProjectData','stateVacanceData']),
       },
       methods: {
       	...mapActions([
-  	      'changeSelected'
+  	      'action_project_get','action_vacance_get','action_set_review_type'
   	    ]),
-        setItemCount () {
-            var _this = this;            
-            this.$store.dispatch('setCount', {
-              projectCount: _this.projectCount,
-              jobCount: _this.vacancytCount
-            })
-        },
-	      selectPrjoect (selectType) {
-              var _this = this ;
-              api.getData('/ee/api/api_project.php', {
-                  params: {
-                    methods: 'select',
-                    examined: selectType,
-                  }
-                })
-                  .then(function (data) {
-                      if(!data.error){
-                          _this.project_data = [...data];
-                          _this.projectCount = _this.project_data.length;
-                      }
-                      else
-                        alert(data.error);
-                  })
-                  .catch(function (error) {
-                      alert(error);
-                  })
-            },
-        selectVacancy (selectType) {
-          var _this = this ;
-          api.getData('/ee/api/api_vacancy.php', {
-              params: {
-                methods: 'select',
-                examined: selectType,
-              }
-            })
-              .then(function (data) {
-                  if(!data.error){
-                       _this.vacancy_data = [...data];
-                       _this.vacancytCount = _this.vacancy_data.length;
-                  }
-                  else {
-                    alert(data.error);
-                  }
-              })
-              .catch(function (error) {
-                  alert(error);
-              })
-        },
       }
     }
 </script>

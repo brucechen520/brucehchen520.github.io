@@ -1,12 +1,12 @@
 <template>
   <div>
-      <div v-if="getJob.selected === 0">
+      <div v-if="stateReviewType === 0">
         <h3 class="mt-0 header"> 專案列表審核 </h3>
       </div>
       <div v-else>
         <h3 class="mt-0 header"> 職缺列表審核 </h3>
       </div>
-      <div v-if = "list = getJob.selected === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
+      <div v-if = "list = stateReviewType === 0? stateProjectData.list : stateVacanceData.list"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in list">
             <div class="list-group container">
               <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
@@ -25,11 +25,10 @@
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
                   <select v-model="item.examined">
-                    <option v-for="isPass in passOrNoPass" 
-                            :value="isPass.value">{{ isPass.msg }}</option>
+                    <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -42,31 +41,20 @@
 <script>
     import * as api from '../lib/api.js';
     import { api2 } from '../../assets/api.js'
-    import { mapGetters, mapActions } from 'vuex';
+    import { mapState, mapGetters, mapActions } from 'vuex';
     import CasePage from '../job-query/CasePage.vue';
     export default {
       components: {
         CasePage
       },
       created() {
-        this.select({
-            'url': '/ee/api/api_project.php',
-            'type': '0',
-            'operator': 'project'
-        });
-        // this.select({
-        //     'url': '/ee/api/api_vacancy.php',
-        //     'type': '0',
-        //     'operator': 'vacancy'
-        // });
-        this.vacance_get();
       },
       data () {
         return {
           response: [],
           itemPage: '',
           isShow: true,
-          passOrNoPass: [{"msg": "不通過", "value": 0}, {"msg": "通過", "value": 1}],
+          passOrNoPass: [{"msg": "未審核", "value": 0}, {"msg": "通過", "value": 1}, {"msg": "不通過", "value": 2}],
           requestData: {
                 'url_api_project': '/ee/api/api_project.php',
                 'url_api_vacancy': '/ee/api/api_vacancy.php',
@@ -150,92 +138,22 @@
       },
       computed: {
         // ...mapGetters 為 ES7 寫法
+        ...mapState(['stateProjectData','stateVacanceData','stateReviewType']),
         ...mapGetters({
             // getTodo return value 將會存在別名為 todos 的 webData 上
             getJob: 'getJob'
         }),
-        urlForExamined (examined) {
-          return getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
-        }
       },
       methods: {
-        vacance_get(){
+        ...mapActions([
+  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_conform', 'action_project_conform'
+  	    ]),
+        update (param) {
           var _this = this;
-          console.log('inget');
-          api2.vacance_get({},function(result){
-            if(result.code == 'success')
-              _this.vacancy_data = [...result.data];
-          });
-
-          // api.getData('/ee/api/api_vacancy_get.php', {params: {}})
-          //   .then(function (data) {
-          //       if(!data.error){
-          //           // console.log(data);
-          //           _this.vacancy_data = [...data];
-          //       }                        
-          //       // else
-          //         //alert(data.error);
-          //   })
-          //   .catch(function (error) {
-          //       alert(error);
-          //   });
-        },
-        select (object) {
-          var _this = this;
-          api.getData(object.url, {
-              params: {
-                methods: 'select',
-                examined: object.type,
-              }
-            })
-              .then(function (data) {
-                  if(!data.error){
-                      // console.log(data);
-                      object.operator == "project"? _this.project_data = [...data]:  _this.vacancy_data = [...data];
-                  }                        
-                  else
-                    alert(data.error);
-              })
-              .catch(function (error) {
-                  alert(error);
-              });
-        },
-        update (object) {
-          console.log(JSON.stringify(object));
-          var _this = this;
-          // let url = _this.getJob.selected === 0? "/ee/api/api_project.php?methods=examined_update": "/ee/api/api_vacancy.php?methods=examined_update";
-          api2.vacancy_conform(object,function(data){
-                  if(!data.error){
-                      // console.log(data);
-                      alert(data);
-                  }                        
-                  else
-                    alert(data.error);
-              });
-          // api.postData('/ee/api/api_vacancy_comfirm.php', object)
-          //     .then(function (data) {
-          //         if(!data.error){
-          //             // console.log(data);
-          //             alert(data);
-          //         }                        
-          //         else
-          //           alert(data.error);
-          //     })
-          //     .catch(function (error) {
-          //         alert(error);
-          //     });
-          // api.postData(url, object)
-          //     .then(function (data) {
-          //         if(!data.error){
-          //             // console.log(data);
-          //             alert(data);
-          //         }                        
-          //         else
-          //           alert(data.error);
-          //     })
-          //     .catch(function (error) {
-          //         alert(error);
-          //     });
+          if(_this.stateReviewType == 0)
+            _this.action_project_conform(param);
+          else
+            _this.action_vacancy_conform(param);
         },
         showPage (item) {
           let _this = this;
@@ -252,7 +170,7 @@
 <style>
   .wordBreak {
     word-wrap: break-word;
-  },
+  }
   .show {
     display:inline;
   }
