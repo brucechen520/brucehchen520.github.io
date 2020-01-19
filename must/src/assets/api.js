@@ -16,8 +16,7 @@ export const api2 = {
         //console.log("[POST] " + url);
         //console.log("   - params : "+ JSON.stringify(params));
         var self = this;
-        self.init();
-        console.log('123');   
+        self.init();   
         this.$http.post(url, params)
              .then(response => {
                 if(handleSuccess){
@@ -97,6 +96,12 @@ export const api2 = {
     },
     project_conform: function (param,handleSuccess, handleComplete, handleError){
         this.$http.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
+    },
+    web_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_web_get.php',param, handleSuccess, handleComplete, handleError);
+    },
+    web_conform: function (param,handleSuccess, handleComplete, handleError){
+        this.$http.post(this.API_HOST + '/ee/api/api_web_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }
