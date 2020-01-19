@@ -13,8 +13,7 @@
       $user->GetMemberData();
       $user->GetMemberConfirm();
     }
-    
-    $webData = array() ;
+
       $update_obj = json_decode(file_get_contents('php://input'));
 		  $str = "UPDATE `alumnidata`.`Industry_Vacancy_List` SET `suggestion` = '".$update_obj->suggestion."',
 				`examined` = '".$update_obj->examined."',

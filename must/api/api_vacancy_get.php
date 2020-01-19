@@ -92,10 +92,13 @@
         array_push($webData, $now_row);
       }
       mysql_close($link);
-      $json['data'] = $webData;
-      $result = new stdClass();
-      $result->code = 'success';
-      $result->data = $webData;
+ 
+	  $data = new stdClass();
+	  $data->list = $webData;
+	  $data->totalCount = count($webData);
+	  $result = new stdClass();
+	  $result->code = 'success';
+	  $result->data = $data;
       echo json_encode($result);
     }
 ?>
