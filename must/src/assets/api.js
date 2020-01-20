@@ -88,19 +88,19 @@ export const api2 = {
     vacance_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_get.php',param, handleSuccess, handleComplete, handleError);
     },
-    vacancy_conform: function (param,handleSuccess, handleComplete, handleError){
+    vacancy_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.$http.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     project_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_project_get.php',param, handleSuccess, handleComplete, handleError);
     },
-    project_conform: function (param,handleSuccess, handleComplete, handleError){
+    project_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.$http.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     web_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_web_get.php',param, handleSuccess, handleComplete, handleError);
     },
-    web_conform: function (param,handleSuccess, handleComplete, handleError){
+    web_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.$http.post(this.API_HOST + '/ee/api/api_web_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     

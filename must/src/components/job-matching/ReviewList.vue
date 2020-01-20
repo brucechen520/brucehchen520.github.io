@@ -207,17 +207,17 @@
       },
       methods: {
         ...mapActions([
-  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_conform', 'action_project_conform', 'action_web_conform'
+  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm'
   	    ]),
         update (param) {
           var _this = this;
           if(_this.stateReviewType == 0)
-            _this.action_project_conform(param);
+            _this.action_project_comfirm(param);
           else
-            _this.action_vacancy_conform(param);
+            _this.action_vacancy_comfirm(param);
         },
         updateWeb(param){
-          this.action_web_conform(param);
+          this.action_web_comfirm(param);
         },
         showPage (item) {
           let _this = this;
