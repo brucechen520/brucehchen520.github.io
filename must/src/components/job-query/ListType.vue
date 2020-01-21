@@ -15,9 +15,9 @@
     export default {
       props: ['selectType'],
       created () {
-        this.action_project_get({examined:0});
-        this.action_vacance_get({examined:0});
-        this.action_web_get({examined:0});
+        this.action_project_get({status:0});
+        this.action_vacance_get({status:0});
+        this.action_web_get({status:0});
       },
       mounted () {        
       },

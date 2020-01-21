@@ -16,7 +16,7 @@
 	  
 	  $str = "UPDATE `alumnidata`.`Industry_Website` SET
 				`suggestion` = '".$param->suggestion."',
-				`examined` = '".$param->examined."',
+				`status` = '".$param->status."',
 				`adminer` = '".$user->Mem_Se."',
 				`verifyTime` = '".time()."'
 		  WHERE (`Web_Id` = '".$param->id."');";

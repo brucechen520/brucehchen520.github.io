@@ -30,7 +30,7 @@
                       LEFT JOIN alumnidata.Industry_Project_Language AS lang ON li.PJ_Id = lang.PJ_Id
                       LEFT JOIN alumnidata.Industry_Project_Skill AS sk ON li.PJ_Id = sk.PJ_Id
                       LEFT JOIN alumnidata.Industry_Project_Type AS t ON li.PJ_Id = t.PJ_Id
-                      WHERE li.examined = '".$param->examined."'
+                      WHERE li.status = '".$param->status."'
                       GROUP BY PJ_Id ;";
           $list = mysql_query($str);
           if($list === FALSE) { // 資料庫有沒有 FALSE
@@ -49,7 +49,7 @@
                 $PJ_row->contact_Name  =  $row[CT_Man];
                 $PJ_row->contact_Mail  =  $row[CT_Mail];
                 $PJ_row->contact_Phone  =  $row[CT_Phone];
-                $PJ_row->examined  =  $row[examined]; 
+                $PJ_row->status  =  $row[status]; 
 				$PJ_row->contact_Time  =  $row[CT_Time];
                 $PJ_row->modify  =  date("Y-m-d", $row[modify]);
 				$PJ_row->suggestion = $row[suggestion];

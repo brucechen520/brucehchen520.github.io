@@ -14,9 +14,9 @@
       $user->GetMemberData();
       $user->GetMemberConfirm();
     }
-    
+    $param = json_decode(file_get_contents('php://input'));
     $webData = array() ;
-	  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` where examined != '1'";
+	  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` where status == '".$param->status."'";
     $list = mysql_query($str);
 		//echo $str;
     if($list === FALSE) { // 資料庫有沒有 FALSE
@@ -45,7 +45,7 @@
         $now_row->contact_Mail  =  $row[CT_Mail];
         $now_row->contact_Phone  =  $row[CT_Phone];
         $now_row->contact_Time  =  $row[CT_Time];
-        $now_row->examined = $row[examined];
+        $now_row->status = $row[status];
         $now_row->modify  =  date("Y-m-d", $row[modify]);
         $now_row->suggestion  =  $row[suggestion];
         $now_row->adminer  =  $row[adminer];

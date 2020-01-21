@@ -16,10 +16,10 @@
     }
     $param = json_decode(file_get_contents('php://input'));
 	$webData = array();
-	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.examined,B.M_Name
+	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,B.M_Name
 			FROM `Industry_Website` A
 			LEFT JOIN Member B USING(`Mem_Se`)
-			WHERE (A.examined = '".$param->examined."')
+			WHERE (A.status = '".$param->status."')
 			ORDER BY `Web_Id` DESC;";
 
 	$list = mysql_query($str);
@@ -35,7 +35,7 @@
 			$now_row->description  =  $row[web_description];
 			$now_row->address  =  $row[web_address];
 			$now_row->name  =  $row[M_Name];
-			$now_row->examined = $row[examined];
+			$now_row->status = $row[status];
 			array_push($webData, $now_row);
 		}
 				  

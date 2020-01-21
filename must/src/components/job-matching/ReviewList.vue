@@ -27,11 +27,11 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
-                  <select v-model="item.examined">
+                  <select v-model="item.status">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
-                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -55,11 +55,11 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
-                  <select v-model="item.examined">
+                  <select v-model="item.status">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
-                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -85,11 +85,11 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <!-- <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button> -->
-                  <select v-model="item.examined">
+                  <select v-model="item.status">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
-                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'examined': item.examined}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="updateWeb({'id': item.id, 'suggestion': item.suggestion, 'examined': item.examined})"> 送出 </button> 
+                  <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
+                  <button class="btn btn-info" @click="updateWeb({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -154,7 +154,7 @@
                 'suggestion': '', // 建議
                 'adminer': '', // 管理員
                 'verifyTime': '', //
-                'examined': '', // 審核
+                'status': '', // 審核
               }],
           vacancy_data: [{
               'JB_Id': '', // JBID
@@ -193,7 +193,7 @@
               'contact_Mail':'',  //  E-MAIL
               'contact_Phone':'',  //  連絡電話
               'contact_Time': '',   //  方便聯絡時間
-              'examined': '', // 審核
+              'status': '', // 審核
             }],
         }
       },

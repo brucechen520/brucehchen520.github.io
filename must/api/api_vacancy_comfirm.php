@@ -16,7 +16,7 @@
 
       $update_obj = json_decode(file_get_contents('php://input'));
 		  $str = "UPDATE `alumnidata`.`Industry_Vacancy_List` SET `suggestion` = '".$update_obj->suggestion."',
-				`examined` = '".$update_obj->examined."',
+				`status` = '".$update_obj->status."',
 				`adminer` = '".$user->Mem_Se."',
 				`verifyTime` = '".time()."'
       WHERE (`JB_Id` = '".$update_obj->id."');";

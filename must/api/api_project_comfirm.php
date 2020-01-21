@@ -16,7 +16,7 @@
 	  
 	  $str = "UPDATE `alumnidata`.`Industry_Project_List` SET
 				`suggestion` = '".$param->suggestion."',
-				`examined` = '".$param->examined."',
+				`status` = '".$param->status."',
 				`adminer` = '".$user->Mem_Se."',
 				`verifyTime` = '".time()."'
 		  WHERE (`PJ_Id` = '".$param->id."');";
