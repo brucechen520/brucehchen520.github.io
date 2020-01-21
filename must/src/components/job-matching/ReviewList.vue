@@ -1,13 +1,13 @@
 <template>
   <div>
       <div v-if="stateReviewType === 0">
-        <h3 class="mt-0 header"> 專案列表審核 </h3>
+        <h3 class="mt-0 header"> 專案列表審核({{stateProjectData.totalCount}}) </h3>
       </div>
       <div v-else-if="stateReviewType === 1">
-        <h3 class="mt-0 header"> 職缺列表審核 </h3>
+        <h3 class="mt-0 header"> 職缺列表審核({{stateVacanceData.totalCount}}) </h3>
       </div>
       <div v-else >
-        <h3 class="mt-0 header"> 網站列表審核 </h3>
+        <h3 class="mt-0 header"> 網站列表審核({{stateWebData.totalCount}}) </h3>
       </div>
       <div v-if = "stateReviewType ==0"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in stateProjectData.list">
@@ -109,6 +109,9 @@
         CasePage
       },
       created() {
+        this.action_project_get({status:0});
+        this.action_vacance_get({status:0});
+        this.action_web_get({status:0});
       },
       data () {
         return {
@@ -207,7 +210,7 @@
       },
       methods: {
         ...mapActions([
-  	      'changeSelected','action_project_get','action_vacance_get','action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm'
+  	      'changeSelected','action_project_get','action_vacance_get', 'action_web_get', 'action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm'
   	    ]),
         update (param) {
           var _this = this;

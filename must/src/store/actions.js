@@ -21,19 +21,29 @@ export const acceptUser  = ({ commit }, data) => {
     
 }
 export const action_project_get  = ({ commit }, param) => {
-    api2.project_get(param,function(result){
-          if(result.code == 'success'){
-            commit(types.SET_PROJECT_DATA, result.data);
-          }
-    });        
+    return new Promise((resolve, reject) => {
+        api2.project_get(param,function(result){
+            if(result.code == 'success'){
+              commit(types.SET_PROJECT_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });     
 }
 
 export const action_vacance_get  = ({ commit }, param) => {
-    api2.vacance_get(param,function(result){
-          if(result.code == 'success'){
-            commit(types.SET_VACANCE_DATA, result.data);
-          }
-    });        
+    return new Promise((resolve, reject) => {
+        api2.vacance_get(param,function(result){
+            if(result.code == 'success'){
+              commit(types.SET_VACANCE_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });      
 }
 
 export const action_web_get  = ({ commit }, param) => {

@@ -1,12 +1,12 @@
 <template>
   <div>
-  		<div v-if="getJob.selected === 0">
-	    	<h3 class="mt-0 header"> 專案列表 </h3>
+  		<div v-if="stateReviewType === 0">
+	    	<h3 class="mt-0 header"> 專案列表({{stateProjectData.totalCount}}) </h3>
 	  	</div>
 	  	<div v-else>
-	    	<h3 class="mt-0 header"> 職缺列表 </h3>
+	    	<h3 class="mt-0 header"> 職缺列表({{stateVacanceData.totalCount}}) </h3>
 	  	</div>
-  		<div v-if = "list = getJob.selected === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
+  		<div v-if = "list = stateReviewType === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
   			<div v-for="(item, index) in list">
 	          <div class="list-group container">
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-	import { mapGetters, mapActions } from 'vuex';
+  import { mapState, mapGetters, mapActions } from 'vuex';
 	import * as api from '../lib/api';
 	import CasePage from './CasePage.vue';
     export default {
@@ -38,8 +38,13 @@
     		CasePage
     	},
     	created() {
-    		this.selectPrjoect();
-    		this.selectVacancy();
+        var _this = this
+        this.action_project_get({status:1}).then(function(){
+                _this.project_data = [..._this.stateProjectData.list];
+            });;
+        this.action_vacance_get({status:1}).then(function(){
+                _this.vacancy_data = [..._this.stateVacanceData.list];
+            });;
     	},
     	data () {
     		return {
@@ -118,7 +123,8 @@
     		}
     	},
     	computed: {
-	    		// ...mapGetters 為 ES7 寫法
+          // ...mapGetters 為 ES7 寫法
+          ...mapState(['stateProjectData','stateVacanceData','stateReviewType','stateWebData']),
 	        ...mapGetters({
 	            // getTodo return value 將會存在別名為 todos 的 webData 上
 	            getJob: 'getJob'
@@ -133,46 +139,9 @@
 	        }
     	},
     	methods: {
-    		selectPrjoect () {
-          var _this = this ;
-          api.getData('/ee/api/api_project.php', {
-              params: {
-                methods: 'select',
-                examined: '1',
-              }
-            })
-              .then(function (data) {
-                  if(!data.error){
-                  		//console.log(data);
-                    	_this.project_data = [...data];
-                  }                        
-                  else
-                    alert(data.error);
-              })
-              .catch(function (error) {
-                  alert(error);
-              })
-      	},
-      	selectVacancy () {
-          var _this = this ;
-          api.getData('/ee/api/api_vacancy.php', {
-              params: {
-                methods: 'select',
-                examined: '1',
-              }
-            })
-              .then(function (data) {
-                  if(!data.error){
-                  	   //console.log(data);
-                       _this.vacancy_data = [...data];
-                  }                        
-                  else
-                    alert(data.error);
-              })
-              .catch(function (error) {
-                  alert(error);
-              })
-      	},
+        ...mapActions([
+  	      'changeSelected','action_project_get','action_vacance_get', 'action_web_get', 'action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm'
+  	    ]),
       	showPage (item) {
       		let _this = this;
       		_this.itemPage = item;

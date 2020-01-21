@@ -1,9 +1,9 @@
 <template>
   <div>
     	<div class="list-group container">
-          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(0)">外包專案: {{ stateProjectData.totalCount }}</div>
-          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(1)">工作職缺: {{ stateVacanceData.totalCount }}</div>
-          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(2)">網站: {{ stateWebData.totalCount }}</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(0)">外包專案</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(1)">工作職缺</div>
+          <div class="btn badge badge-pill badge-dark" @click="action_set_review_type(2)">網站</div>
       </div>
   </div>
 </template>
@@ -15,9 +15,7 @@
     export default {
       props: ['selectType'],
       created () {
-        this.action_project_get({status:0});
-        this.action_vacance_get({status:0});
-        this.action_web_get({status:0});
+
       },
       mounted () {        
       },
