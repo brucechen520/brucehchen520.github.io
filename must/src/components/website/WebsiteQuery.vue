@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapState, mapGetters, mapActions } from 'vuex';  
     import * as api from '../lib/api';
     export default {
         data () {
@@ -72,9 +72,14 @@
           }
         },
         created () {
-            this.select();
+            let _this = this;
+            this.action_web_get({status:0}).then(function(){
+                _this.website_sets = [..._this.stateWebData.list];
+                _this.setPage();
+            });
         },
         computed: {
+          ...mapState(['stateProjectData','stateVacanceData','stateWebData']),
           webFilter () {
               var _this = this ; 
               if(_this.query === 'all')
@@ -104,38 +109,9 @@
           })
         },
         methods: {
-          select() {
-              var _this = this ;
-              api.getData('/ee/api/api_web.php', {
-                  params: {
-                    methods: 'select',
-                  }
-                })
-                  .then(function (data) {
-                      // console.log(data);
-                      //console.log(user[1].address);
-                      if(!data.error){
-                          _this.website_sets = [...data];
-                          _this.setPage();
-                          /*
-                          user.map(arr => {
-                            _this.website_sets = [..._this.website_sets,{
-                              id: arr.id,
-                              type: arr.type,
-                              name: arr.name,
-                              wName: arr.wName,
-                              address: arr.address,
-                              description: arr.description
-                            }];
-                          })*/
-                      }                        
-                      else
-                        alert(data.error);
-                  })
-                  .catch(function (error) {
-                      alert(error);
-                  })
-          },
+          ...mapActions([
+  	      'action_project_get','action_vacance_get','action_set_review_type','action_web_get'
+  	      ]),
           setPage: function(clickedPage = 1){ // 設定頁碼
             let itemMax = this.totalPage; // 最大的頁碼
             let start  = 0;

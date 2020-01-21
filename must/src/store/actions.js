@@ -37,11 +37,16 @@ export const action_vacance_get  = ({ commit }, param) => {
 }
 
 export const action_web_get  = ({ commit }, param) => {
-    api2.web_get(param,function(result){
-          if(result.code == 'success'){
-            commit(types.SET_WEB_DATA, result.data);
-          }
-    });        
+    return new Promise((resolve, reject) => {
+        api2.web_get(param,function(result){
+            if(result.code == 'success'){
+                commit(types.SET_WEB_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });       
 }
 export const action_vacancy_comfirm  = ({ commit }, param) => {
     api2.vacancy_comfirm(param,function(data){
