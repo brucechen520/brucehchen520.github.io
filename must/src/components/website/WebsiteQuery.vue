@@ -73,7 +73,7 @@
         },
         created () {
             let _this = this;
-            this.action_web_get({status:0}).then(function(){
+            this.action_web_get({status:1}).then(function(){
                 _this.website_sets = [..._this.stateWebData.list];
                 _this.setPage();
             });
