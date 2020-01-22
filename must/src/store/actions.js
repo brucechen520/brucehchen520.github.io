@@ -108,6 +108,19 @@ export const action_resume_insert  = ({ commit }, param) => {
         });       
     });            
 }
+
+export const action_resume_get  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.resume_get(param,function(result){
+            if(result.code == 'success'){
+                commit(types.SET_RESUME_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_set_review_type  = ({ commit }, data) => {
     commit(types.SET_REVIEW_TYPE, data);
 }

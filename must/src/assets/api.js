@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const api2 = {
     $http: axios,
-    API_HOST: '',
+    API_HOST: 'http://140.134.29.2',
     init: function(){
         this.$http.defaults.headers = { 'Content-Type': 'application/json'}
         // if(window.$cookies.get("auth") && window.$cookies.get("auth").user && window.$cookies.get("auth").user.token){
@@ -105,6 +105,9 @@ export const api2 = {
     },
     resume_insert: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_resume_insert.php',param, handleSuccess, handleComplete, handleError);
+    },
+    resume_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_resume_get.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }

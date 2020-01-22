@@ -19,6 +19,11 @@ export const state = {
   stateVacanceData:{},
   stateWebData:{},
   stateReviewType:0,
+  stateResumeData:{
+    expertise:[],
+    license:[],
+    works:[],
+  }
 }
 
 // mutations
@@ -52,6 +57,9 @@ export const mutations = {
   },
   [types.SET_WEB_DATA] (state, data) {
     state.stateWebData = data;
+  },
+  [types.SET_RESUME_DATA] (state, data) {
+    state.stateResumeData = data;
   },
   [types.SET_STATUS] (state, data) {
     if(state.stateReviewType == 0)

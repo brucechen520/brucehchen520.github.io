@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+      <!-- <div v-if=""> -->
+    <!-- <div v-if="stateResumeData.Mem_Se != null"> -->
     <h1>專長填寫</h1>
     <div class="row" style="color:red">*為必填</div>
     <div class="row">
@@ -46,13 +48,13 @@
         <button class="col-12 col-md-auto" @click="validateForm">送出</button>
     </div>
 
-
-  </div>
+    </div>
+  <!-- </div> -->
   
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapState, mapGetters, mapActions } from 'vuex';
     import * as api from '../lib/api';
     export default {
         data () {
@@ -87,17 +89,21 @@
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
+            ...mapState(['stateResumeData']),
             ...mapGetters({
                 // getTodo return value 將會存在別名為 todos 的 webData 上
                 users: 'getUser'
             }),
+        },
+        mounted(){
+            this.action_resume_get({id:this.users.id});
         },
         methods: {
             liclick (e) { // stay dropdown open
                 e.stopPropagation();
             },
             ...mapActions([
-  	            'action_resume_insert'
+  	            'action_resume_insert', 'action_resume_get'
   	        ]),
             toggleKey (id, item, key) {
                 var index = this.skill_data[key].findIndex(arr => arr.id === id ); // 取出目前欄位的index 

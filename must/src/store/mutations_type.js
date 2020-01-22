@@ -6,4 +6,4 @@ export const SET_VACANCE_DATA = 'SET_VACANCE_DATA';
 export const SET_REVIEW_TYPE = 'SET_REVIEW_TYPE';
 export const SET_WEB_DATA = 'SET_WEB_DATA';
 export const SET_STATUS = 'SET_STATUS';
-
+export const SET_RESUME_DATA = 'SET_RESUME_DATA';
