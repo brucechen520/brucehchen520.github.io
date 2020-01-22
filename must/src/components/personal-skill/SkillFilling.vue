@@ -1,16 +1,19 @@
 <template>
   <div class="container">
     <h1>專長填寫</h1>
+    <div class="row" style="color:red">*為必填</div>
     <div class="row">
         <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
-        <label class="col-12 col-md-auto">信箱</label>
+    </div>
+    <div class="row">    
+    <label class="col-12 col-md-auto">信箱<span style="color:red">*</span></label>
         <input class="col-12 col-md-auto" v-model="skill_data.mail" v-validate="'required|email'" type="email" name="email">
         <span>{{ errors.first('email') }}</span>
     </div>
     <div class="row">
         <label class="col-12 col-md-auto">手機</label>
         <input class="col-12 col-md-auto" v-model="skill_data.cellphone" v-validate="'numeric'">
-        <label class="col-12 col-md-auto">類別</label>
+        <label class="col-12 col-md-auto">手機是否公開<span style="color:red">*</span></label>
         <select class="col-12 col-md-auto" v-model="skill_data.permit" v-validate="'required'" >
           <option v-for="item in permitList" 
                   :value="item.value">{{ item.mes }}</option>
@@ -19,27 +22,25 @@
     <div class="row">
         <label class="col-12 col-md-auto">技能專長</label>
         <div  v-for="(item, index) in skill_data.expertise">
-            <input v-model="item.value" v-validate="'min: 3'" :name = "'keyWord_' +index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id,item ,'expertise')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
-        </div>
+        </div></div>
+    <div class="row">
         <label class="col-12 col-md-auto">作品</label>
         <div v-for="(item, index) in skill_data.works">
-            <input v-model="item.value" v-validate="'url'" :name = "'keyWord_' +index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'works')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
-        </div>
+        </div></div>
+    <div class="row">
         <label class="col-12 col-md-auto">證照</label>
         <div v-for="(item, index) in skill_data.license">
-            <input v-model="item.value" v-validate="'url'" :name = "'keyWord_' +index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'license')"></label>
-            <span v-show="errors.has('keyWord_' + index)">{{ errors.first('keyWord_' + index) }}</span>
         </div>
     </div>
     <div class="row">
-        <label class="col-2">自傳</label>
-        <textarea rows="5" cols="100" v-model="skill_data.biography" v-validate="'required|min:100'" name="description"> </textarea>
-        <span>{{ errors.first('description') }}</span>
+        <label class="col-2">自我介紹</label>
+        <textarea rows="5" cols="100" v-model="skill_data.biography" name="description"> </textarea>
     </div>
     <div class="row">
         <button class="col-12 col-md-auto" @click="validateForm">送出</button>
@@ -60,7 +61,7 @@
                 'biography':'',
                 'mail':'', // 信箱
                 'cellphone':'', // 手機
-                'permit':'', // 類別
+                'permit':0, // 類別
                 'expertise': [{  // 技能專長
                     'id': Number(1),
                     'value': '',
@@ -95,6 +96,9 @@
             liclick (e) { // stay dropdown open
                 e.stopPropagation();
             },
+            ...mapActions([
+  	            'action_resume_insert'
+  	        ]),
             toggleKey (id, item, key) {
                 var index = this.skill_data[key].findIndex(arr => arr.id === id ); // 取出目前欄位的index 
                 if(this.skill_data[key][index].status){
@@ -112,7 +116,11 @@
             validateForm () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        api.getData('/ee/api/api_skill.php', {
+                        this.action_resume_insert({data:this.skill_data}).then(function(result){
+                            if(result.code == 'success')
+                                alert('成功');
+                        });
+                        /*api.getData('/ee/api/api_skill.php', {
                             params: {
                                 methods: 'insert',
                                 data: this.skill_data
@@ -128,7 +136,7 @@
                         .catch(function (error) {
                             alert(error);
                         })
-                        return;
+                        return;*/
                     }
                     else
                         alert('Correct them errors!'); 
