@@ -16,16 +16,16 @@
     }
     $param = json_decode(file_get_contents('php://input'));
     $webData = array() ;
-	  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` where status == '".$param->status."'";
+	  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` WHERE `status` = '".$param->status."'";
     $list = mysql_query($str);
-		//echo $str;
+		//echo $str; 
     if($list === FALSE) { // 資料庫有沒有 FALSE
         $json['error'] = mysql_error();
         echo json_encode($json);
     } else{
       while ($row = mysql_fetch_array($list, MYSQL_ASSOC)) {
         $now_row = new stdClass;
-        $now_row->JB_Id    =  $row[JB_Id];
+        $now_row->id    =  $row[JB_Id];
         $now_row->company_Name    =  $row[CP_Name];
         $now_row->company_Website    =  $row[CP_Website];
         $now_row->Name  =  $row[JB_Name];

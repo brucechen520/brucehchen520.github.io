@@ -39,7 +39,7 @@
           } else{
             while ($row = mysql_fetch_array($list, MYSQL_ASSOC)) {
                 $PJ_row = new stdClass;
-                $PJ_row->PJ_Id  =  $row[PJ_Id];
+                $PJ_row->id  =  $row[PJ_Id];
                 $PJ_row->Name  =  $row[PJ_Name];
                 $PJ_row->description  =  $row[PJ_Description];
                 $PJ_row->offer  =  $row[PJ_Budget];

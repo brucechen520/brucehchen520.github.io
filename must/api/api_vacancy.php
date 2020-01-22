@@ -56,7 +56,7 @@
           // 新增資料進去專案基礎資料表
           $now = time();
           $str ="INSERT into Industry_Vacancy_List (";
-          $str .= "Mem_Se, JB_Name, JB_Description, JB_Offer, JB_location, CP_Name, CP_Website, CT_Man, CT_Mail, CT_Phone, CT_Time, JB_duty, JB_officeHour,JB_trip, JB_vacation, JB_demandMans, JB_academicRequire, JB_exprience, JB_others, JB_welfare, examined, modify" ;
+          $str .= "Mem_Se, JB_Name, JB_Description, JB_Offer, JB_location, CP_Name, CP_Website, CT_Man, CT_Mail, CT_Phone, CT_Time, JB_duty, JB_officeHour,JB_trip, JB_vacation, JB_demandMans, JB_academicRequire, JB_exprience, JB_others, JB_welfare, status, modify" ;
 
           $str .= " ) values (" ;
 
@@ -171,7 +171,7 @@
                           LEFT JOIN alumnidata.Industry_Vacancy_Skill AS sk ON li.JB_Id = sk.JB_Id
                           LEFT JOIN alumnidata.Industry_Vacancy_Type AS t ON li.JB_Id = t.JB_Id;";*/
 
-		  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` where examined = '".$examined."'";
+		  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` where ˋstatusˋ = '".$examined."'";
           $list = mysql_query($str);
 		  //echo $str;
           if($list === FALSE) { // 資料庫有沒有 FALSE

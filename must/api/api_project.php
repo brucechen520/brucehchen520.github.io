@@ -46,7 +46,7 @@
           // 新增資料進去專案基礎資料表
           $now = time();
           $str ="INSERT into Industry_Project_List (";
-      $str .= "`Mem_Se`, `PJ_Name`,`PJ_Description`, `PJ_Budget`, `PJ_TTL`, `CP_Name`, `CP_Website`, `CT_Man`, `CT_Mail`, `CT_Phone`, `CT_Time`, `examined`, `modify`" ;
+      $str .= "`Mem_Se`, `PJ_Name`,`PJ_Description`, `PJ_Budget`, `PJ_TTL`, `CP_Name`, `CP_Website`, `CT_Man`, `CT_Mail`, `CT_Phone`, `CT_Time`, `status`, `modify`" ;
 
       $str .= " ) values (" ;
 
