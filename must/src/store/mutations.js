@@ -18,7 +18,7 @@ export const state = {
   stateProjectData:{},
   stateVacanceData:{},
   stateWebData:{},
-  stateReviewType:"",
+  stateReviewType:0,
 }
 
 // mutations
@@ -52,5 +52,13 @@ export const mutations = {
   },
   [types.SET_WEB_DATA] (state, data) {
     state.stateWebData = data;
+  },
+  [types.SET_STATUS] (state, data) {
+    if(state.stateReviewType == 0)
+      state.stateProjectData.list.filter(e=>e.id == data.id)[0].status = data.status;
+    else if(state.stateReviewType == 1)
+      state.stateVacanceData.list.filter(e=>e.id == data.id)[0].status = data.status;
+    else
+      state.stateWebData.list.filter(e=>e.id == data.id)[0].status = data.status;
   },
 }

@@ -1,13 +1,14 @@
 <template>
   <div>
+      <span class="btn btn-info" @click="getdata(0)">待審核</span><span class="btn btn-info" @click="getdata(1)">審核通過</span><span class="btn btn-info" @click="getdata(2)" >審核不通過</span>
       <div v-if="stateReviewType === 0">
-        <h3 class="mt-0 header"> 專案列表審核({{stateProjectData.totalCount}}) </h3>
+        <h3 class="mt-0 header"> 專案列表{{statusText[tab]}}({{stateProjectData.totalCount}}) </h3>
       </div>
       <div v-else-if="stateReviewType === 1">
-        <h3 class="mt-0 header"> 職缺列表審核({{stateVacanceData.totalCount}}) </h3>
+        <h3 class="mt-0 header"> 職缺列表{{statusText[tab]}}({{stateVacanceData.totalCount}}) </h3>
       </div>
       <div v-else >
-        <h3 class="mt-0 header"> 網站列表審核({{stateWebData.totalCount}}) </h3>
+        <h3 class="mt-0 header"> 網站列表{{statusText[tab]}}({{stateWebData.totalCount}}) </h3>
       </div>
       <div v-if = "stateReviewType ==0"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in stateProjectData.list">
@@ -27,11 +28,11 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
-                  <select v-model="item.status">
+                  <select :value="item.status" :id="item.id" @change="changeStatus">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -55,11 +56,11 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
-                  <select v-model="item.status">
+                  <select :value="item.status" :id="item.id" @change="changeStatus">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': stateReviewType === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -85,7 +86,7 @@
               </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                   <!-- <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button> -->
-                  <select v-model="item.status">
+                  <select :value="item.status" :id="item.id" @change="changeStatus">
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
@@ -113,12 +114,28 @@
         this.action_vacance_get({status:0});
         this.action_web_get({status:0});
       },
+      watch:{
+        stateReviewType:function(value){
+          this.tab = 0;
+          if(value == 0){
+            this.action_project_get({status:0});
+          }
+          else if(value == 1){
+            this.action_vacance_get({status:0});
+          }
+          else if(value == 2){
+            this.action_web_get({status:0});
+          }
+        }
+      },
       data () {
         return {
+          tab:0,
+          statusText:{0:"待審核",1:"通過",2:"不通過"},
           response: [],
           itemPage: '',
           isShow: true,
-          passOrNoPass: [{"msg": "未審核", "value": 0}, {"msg": "通過", "value": 1}, {"msg": "不通過", "value": 2}],
+          passOrNoPass: [{"msg": "待審核", "value": 0}, {"msg": "通過", "value": 1}, {"msg": "不通過", "value": 2}, {"msg": "刪除", "value": 3}],
           requestData: {
                 'url_api_project': '/ee/api/api_project.php',
                 'url_api_vacancy': '/ee/api/api_vacancy.php',
@@ -210,17 +227,37 @@
       },
       methods: {
         ...mapActions([
-  	      'changeSelected','action_project_get','action_vacance_get', 'action_web_get', 'action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm'
+  	      'changeSelected','action_project_get','action_vacance_get', 'action_web_get', 'action_set_review_type','action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm', 'action_update_status'
   	    ]),
+        getdata(param){
+          let _this = this;
+          _this.tab = param;
+          if(this.stateReviewType == 0)
+            this.action_project_get({status:param});
+          else if(this.stateReviewType == 1)
+            this.action_vacance_get({status:param});
+          else if(this.stateReviewType == 2)
+            this.action_web_get({status:param});
+        },
         update (param) {
           var _this = this;
           if(_this.stateReviewType == 0)
-            _this.action_project_comfirm(param);
+            _this.action_project_comfirm(param).then(function(result){
+                alert('成功');
+                _this.action_project_get({status:_this.tab});
+            });
           else
-            _this.action_vacancy_comfirm(param);
+            _this.action_vacancy_comfirm(param).then(function(result){
+                alert('成功');
+                _this.action_vacancy_get({status:_this.tab});
+            });
         },
         updateWeb(param){
-          this.action_web_comfirm(param);
+          var _this = this;
+          this.action_web_comfirm(param).then(function(result){
+                alert('成功');
+                _this.action_web_get({status:_this.tab});
+            });
         },
         showPage (item) {
           let _this = this;
@@ -229,6 +266,10 @@
         changeShow () {
           var _this = this;
           _this.isShow = !_this.isShow;
+        },
+        changeStatus(e){
+            //console.log(e.target.value,':',e.target.id);
+            this.action_update_status({id:e.target.id,status:e.target.value});
         }
       }
     }

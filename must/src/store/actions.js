@@ -59,38 +59,52 @@ export const action_web_get  = ({ commit }, param) => {
     });       
 }
 export const action_vacancy_comfirm  = ({ commit }, param) => {
-    api2.vacancy_comfirm(param,function(data){
-        if(result.code != 'success'){
-            alert(data);
-        }                        
-        else
-          alert(data.error);
-    });        
+    return new Promise((resolve, reject) => {
+        api2.vacancy_comfirm(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
 }
 
 export const action_project_comfirm  = ({ commit }, param) => {
-    api2.project_comfirm(param,function(data){
-        if(result.code != 'success'){
-            alert(data);
-        }                        
-        else
-          alert(data.error);
-    });        
+    return new Promise((resolve, reject) => {
+        api2.project_comfirm(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });    
 }
 
 export const action_web_comfirm  = ({ commit }, param) => {
-    api2.web_comfirm(param,function(data){
-        if(result.code != 'success'){
-            alert(data);
-        }                        
-        else
-          alert(data.error);
-    });        
+    return new Promise((resolve, reject) => {
+        api2.web_comfirm(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
 }
 
 export const action_set_review_type  = ({ commit }, data) => {
     commit(types.SET_REVIEW_TYPE, data);
 }
+
+export const action_update_status  = ({ commit }, data) => {
+    commit(types.SET_STATUS, data);
+}
+
 export const changeSelected  = ({ commit }, data) => {
     
     commit(types.CHANGE_SELECTED, data);

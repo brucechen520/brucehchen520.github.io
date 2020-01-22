@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const api2 = {
     $http: axios,
-    API_HOST: 'http://140.134.29.2',
+    API_HOST: '',
     init: function(){
         this.$http.defaults.headers = { 'Content-Type': 'application/json'}
         // if(window.$cookies.get("auth") && window.$cookies.get("auth").user && window.$cookies.get("auth").user.token){
@@ -20,7 +20,7 @@ export const api2 = {
         this.$http.post(url, params)
              .then(response => {
                 if(handleSuccess){
-                    console.log(response);
+                    //console.log(response);
                     handleSuccess(response.data);
                 }else{
                     self.commonSuccess(response.data);
@@ -89,19 +89,19 @@ export const api2 = {
         this.post(this.API_HOST + '/ee/api/api_vacancy_get.php',param, handleSuccess, handleComplete, handleError);
     },
     vacancy_comfirm: function (param,handleSuccess, handleComplete, handleError){
-        this.$http.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
+        this.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     project_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_project_get.php',param, handleSuccess, handleComplete, handleError);
     },
     project_comfirm: function (param,handleSuccess, handleComplete, handleError){
-        this.$http.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
+        this.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     web_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_web_get.php',param, handleSuccess, handleComplete, handleError);
     },
     web_comfirm: function (param,handleSuccess, handleComplete, handleError){
-        this.$http.post(this.API_HOST + '/ee/api/api_web_comfirm.php',param, handleSuccess, handleComplete, handleError);
+        this.post(this.API_HOST + '/ee/api/api_web_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }
