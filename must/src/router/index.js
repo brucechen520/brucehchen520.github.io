@@ -15,8 +15,6 @@ import vacancyPersonal from '../components/personalManage/vacancyPersonal'
 import websitePersonal from '../components/personalManage/websitePersonal'
 Vue.use(Router)
 const router = new Router({
-    // use html5
-    mode: 'history',
     // route table
     routes: [
         {
