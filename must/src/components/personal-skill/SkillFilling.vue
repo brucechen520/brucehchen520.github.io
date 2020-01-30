@@ -1,7 +1,25 @@
 <template>
   <div class="container">
-      <!-- <div v-if=""> -->
-    <!-- <div v-if="stateResumeData.Mem_Se != null"> -->
+<div v-if="stateResumeData.Mem_Se != null">
+    <div v-if="!isModify">
+    <h1>我的資料</h1>
+    <div class="row">
+        <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
+    </div>
+    <div class="row"><label class="col-12 col-md-auto">信箱:{{stateResumeData.mail}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">手機:{{stateResumeData.cellphone}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">技能專長:{{stateResumeData.expertise.toString()}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">作品:{{stateResumeData.works.toString()}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">證照:{{stateResumeData.license.toString()}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">自我介紹:{{stateResumeData.biography}}</label></div>
+        <span class="btn btn-info" @click="modifyData">修改</span>
+    </div>
+    <div v-else>
+        施工中
+        <span class="btn btn-info" @click="modifyCancel">取消</span>
+    </div>
+</div>
+<div v-else>
     <h1>專長填寫</h1>
     <div class="row" style="color:red">*為必填</div>
     <div class="row">
@@ -49,7 +67,7 @@
     </div>
 
     </div>
-  <!-- </div> -->
+</div>
   
 </template>
 
@@ -59,6 +77,7 @@
     export default {
         data () {
           return {
+            isModify : false,
             skill_data: {
                 'biography':'',
                 'mail':'', // 信箱
@@ -147,6 +166,12 @@
                     else
                         alert('Correct them errors!'); 
                 })
+            },
+            modifyData(){
+                this.isModify = true;
+            },
+            modifyCancel(){
+                this.isModify = false;
             }
 
         }
