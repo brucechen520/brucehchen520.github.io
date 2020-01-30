@@ -21,6 +21,7 @@
       //  回傳系級跟姓名
       $json['level'] = $user->M_ULevel;
       $json['name'] = $user->Name;
+      $json['id'] = $user->Mem_Se;
       if($user->Confirm == 4)
           $json['isAdmin'] = 1; // 管理員
       echo json_encode($json);

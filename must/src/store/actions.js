@@ -108,7 +108,18 @@ export const action_resume_insert  = ({ commit }, param) => {
         });       
     });            
 }
-
+export const action_resume_update  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.resume_update(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_resume_get  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.resume_get(param,function(result){

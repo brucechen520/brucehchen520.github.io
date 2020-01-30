@@ -1,7 +1,66 @@
 <template>
   <div class="container">
-      <!-- <div v-if=""> -->
-    <!-- <div v-if="stateResumeData.Mem_Se != null"> -->
+<div v-if="stateResumeData.Mem_Se != null">
+    <div v-if="!isModify">
+    <h1>我的資料</h1>
+    <div class="row">
+        <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
+    </div>
+    <div class="row"><label class="col-12 col-md-auto">信箱:{{stateResumeData.mail}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">手機:{{stateResumeData.cellphone}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">技能專長:{{stateResumeData.expertise}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">作品:{{stateResumeData.works}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">證照:{{stateResumeData.license}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">自我介紹:{{stateResumeData.biography}}</label></div>
+        <span class="btn btn-info" @click="toModifyData">修改</span>
+    </div>
+    <div v-else>
+        <h1>個人資料修改</h1>
+        <div class="row" style="color:red">*為必填</div>
+        <div class="row">
+            <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
+        </div>
+        <div class="row">    
+    <label class="col-12 col-md-auto">信箱<span style="color:red">*</span></label>
+        <input class="col-12 col-md-auto" v-model="modifyData.mail" v-validate="'required|email'" type="email" name="email">
+        <span>{{ errors.first('email') }}</span>
+    </div>
+    <div class="row">
+        <label class="col-12 col-md-auto">手機</label>
+        <input class="col-12 col-md-auto" v-model="modifyData.cellphone" v-validate="'numeric'">
+        <label class="col-12 col-md-auto">手機是否公開<span style="color:red">*</span></label>
+        <select class="col-12 col-md-auto" v-model="modifyData.permit" v-validate="'required'" >
+          <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
+        </select>
+    </div>
+    <div class="row">
+        <label class="col-12 col-md-auto">技能專長</label>
+        <div v-for="(item, index) in modifyData.expertise" :key="index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
+            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey2(item.id,item ,'expertise')"></label>
+        </div></div>
+    <div class="row">
+        <label class="col-12 col-md-auto">作品</label>
+        <div v-for="(item, index) in modifyData.works" :key="index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
+            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey2(item.id, item , 'works')"></label>
+        </div></div>
+    <div class="row">
+        <label class="col-12 col-md-auto">證照</label>
+        <div v-for="(item, index) in modifyData.license" :key="index">
+            <input v-model="item.value" :name = "'keyWord_' +index">
+            <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey2(item.id, item , 'license')"></label>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-2">自我介紹</label>
+        <textarea rows="5" cols="100" v-model="modifyData.biography" name="description"> </textarea>
+    </div>
+        <span class="btn btn-info" @click="modifyCancel">取消</span>
+        <span class="btn btn-info" @click="validateForm2">送出</span>
+    </div>
+</div>
+<div v-else>
     <h1>專長填寫</h1>
     <div class="row" style="color:red">*為必填</div>
     <div class="row">
@@ -17,25 +76,24 @@
         <input class="col-12 col-md-auto" v-model="skill_data.cellphone" v-validate="'numeric'">
         <label class="col-12 col-md-auto">手機是否公開<span style="color:red">*</span></label>
         <select class="col-12 col-md-auto" v-model="skill_data.permit" v-validate="'required'" >
-          <option v-for="item in permitList" 
-                  :value="item.value">{{ item.mes }}</option>
+          <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
         </select>
     </div>
     <div class="row">
         <label class="col-12 col-md-auto">技能專長</label>
-        <div  v-for="(item, index) in skill_data.expertise">
+        <div v-for="(item, index) in skill_data.expertise" :key="index">
             <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id,item ,'expertise')"></label>
         </div></div>
     <div class="row">
         <label class="col-12 col-md-auto">作品</label>
-        <div v-for="(item, index) in skill_data.works">
+        <div v-for="(item, index) in skill_data.works" :key="index">
             <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'works')"></label>
         </div></div>
     <div class="row">
         <label class="col-12 col-md-auto">證照</label>
-        <div v-for="(item, index) in skill_data.license">
+        <div v-for="(item, index) in skill_data.license" :key="index">
             <input v-model="item.value" :name = "'keyWord_' +index">
             <label :class="[item.status ? 'fas fa-plus' : 'fas fa-minus']" @click="toggleKey(item.id, item , 'license')"></label>
         </div>
@@ -49,7 +107,7 @@
     </div>
 
     </div>
-  <!-- </div> -->
+</div>
   
 </template>
 
@@ -59,6 +117,8 @@
     export default {
         data () {
           return {
+            isModify : false,
+            modifyData:{},
             skill_data: {
                 'biography':'',
                 'mail':'', // 信箱
@@ -103,7 +163,7 @@
                 e.stopPropagation();
             },
             ...mapActions([
-  	            'action_resume_insert', 'action_resume_get'
+  	            'action_resume_insert', 'action_resume_get','action_resume_update'
   	        ]),
             toggleKey (id, item, key) {
                 var index = this.skill_data[key].findIndex(arr => arr.id === id ); // 取出目前欄位的index 
@@ -119,34 +179,84 @@
                     this.skill_data[key] = this.skill_data[key].filter(arr => arr.id !== id); // 移除目前id的輸入視窗
                 }
             },
+            toggleKey2 (id, item, key) {
+                var index = this.modifyData[key].findIndex(arr => arr.id === id ); // 取出目前欄位的index 
+                if(this.modifyData[key][index].status){
+                    this.modifyData[key][index].status = false;  // 加號變減號
+                    this.modifyData[key] = [...this.modifyData[key], { // 新增一個陣列欄位，重新繪出視窗
+                        'id':this.modifyData[key][this.modifyData[key].length-1].id + 1,
+                        'status': true,
+                        'value': ''
+                        }];
+                }
+                else {
+                    this.modifyData[key] = this.modifyData[key].filter(arr => arr.id !== id); // 移除目前id的輸入視窗
+                }
+            },
             validateForm () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        this.action_resume_insert({data:this.skill_data}).then(function(result){
-                            if(result.code == 'success')
+                        let param = {
+                            biography:this.skill_data.biography,
+                            mail:this.skill_data.mail,
+                            cellphone:this.skill_data.cellphone,
+                            permit:this.skill_data.permit,
+                            expertise:this.skill_data.expertise,
+                            works:this.skill_data.works,
+                            license:this.skill_data.license,
+                        }
+                        param.expertise = param.expertise.map(e=>e.value).toString().replace(/,/g,'、');
+                        param.works = param.works.map(e=>e.value).toString().replace(/,/g,'、');
+                        param.license = param.license.map(e=>e.value).toString().replace(/,/g,'、');
+                        this.action_resume_insert({data:param}).then(function(result){
+                            if(result.code == 'success'){
                                 alert('成功');
-                        });
-                        /*api.getData('/ee/api/api_skill.php', {
-                            params: {
-                                methods: 'insert',
-                                data: this.skill_data
+                                this.action_resume_get({id:this.users.id});
+                                modifyCancel();
                             }
-                        })
-                        .then(function (user) {
-                            console.log(user);
-                            if(user.success)
-                                alert(user.success);
-                            else
-                                alert(user.error);
-                        })
-                        .catch(function (error) {
-                            alert(error);
-                        })
-                        return;*/
+                        });
                     }
                     else
                         alert('Correct them errors!'); 
                 })
+            },
+            validateForm2 () {
+                this.$validator.validateAll().then((result) => {
+                    let self = this;
+                    if (result) {
+                        let param = Object.assign({},self.modifyData);
+                        param.expertise = param.expertise.map(e=>e.value).toString().replace(/,/g,'、');
+                        param.works = param.works.map(e=>e.value).toString().replace(/,/g,'、');
+                        param.license = param.license.map(e=>e.value).toString().replace(/,/g,'、');
+                        self.action_resume_update({data:param}).then(function(result){
+                            if(result.code == 'success'){
+                                alert('成功');
+                                self.action_resume_get({id:self.users.id});
+                                self.modifyCancel();
+                            }
+                        });
+                    }
+                    else
+                        alert('Correct them errors!'); 
+                })
+            },
+            toModifyData(){
+                this.modifyData = Object.assign({},this.stateResumeData);
+                function toObj(e,index,arr){
+                    let obj = {
+                        id:index+1,
+                        value:e,
+                        status:(index+1 == arr.length)
+                    }
+                    return obj;
+                };
+                this.modifyData.expertise = this.modifyData.expertise.split("、").map(toObj);
+                this.modifyData.works = this.modifyData.works.split("、").map(toObj);
+                this.modifyData.license = this.modifyData.license.split("、").map(toObj);
+                this.isModify = true;
+            },
+            modifyCancel(){
+                this.isModify = false;
             }
 
         }
