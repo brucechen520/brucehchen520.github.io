@@ -10,7 +10,7 @@
                     <select v-model="webData.website_sets[index].permit"
                             :class="{'isNullSelect': website_set.pstatus}">
                           <option v-for="item in permitList" 
-                                  :value="item.Permit_Id">{{ item.Permit_Value }}</option>
+                                  :value="item.value">{{ item.mes }}</option>
                     </select>
                     <label>網站名稱:</label>
                     <input type="text" 
@@ -81,7 +81,7 @@
                 astatus: false,  // 網址狀態
                 description: '',
                 dstatus: false,  // 描述狀態
-                permit: '',
+                permit: '0',
                 pstatus: false, // 權限狀態
                 rowStatus: true // 加減號狀態
               }],
@@ -92,7 +92,10 @@
               'github',
               'others'
             ],
-            permitList: []
+            permitList: [              
+              {'mes': '對系友公開', 'value': '0'},
+              {'mes': '對訪客公開', 'value': '1'},
+              {'mes': '不公開', 'value': '2'}]
           }
         },
         computed: {
@@ -103,7 +106,7 @@
             }),
         },
         created () {
-          this.getPermit()
+          //this.getPermit()
         },
         methods: {
           getPermit () {

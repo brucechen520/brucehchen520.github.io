@@ -16,7 +16,7 @@
     }
     $param = json_decode(file_get_contents('php://input'));
 	$webData = array();
-	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,B.M_Name
+	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,B.M_Name
 			FROM `Industry_Website` A
 			LEFT JOIN Member B USING(`Mem_Se`)
 			WHERE (A.status = '".$param->status."')
@@ -36,6 +36,7 @@
 			$now_row->address  =  $row[web_address];
 			$now_row->name  =  $row[M_Name];
 			$now_row->status = $row[status];
+			$now_row->verifyTime = $row[verifyTime];
 			array_push($webData, $now_row);
 		}
 				  
