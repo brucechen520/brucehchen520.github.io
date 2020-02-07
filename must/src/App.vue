@@ -100,30 +100,7 @@
                     </ul>
                   </div>
                   <div class="dropdown-submenu">
-                    <span class = "dropdown-item">網站</span>
-                    <ul class="dropdown-menu">
-                      <li class="dropdown-item">
-                        <a class="dropdown-item">
-                          <router-link to="/WebsiteFilling" >
-                            新增網站
-                          </router-link>
-                        </a>
-                      </li>
-                      <li class="dropdown-item">
-                        <a class="dropdown-item">
-                          <router-link to="/WebsiteFilling" >
-                            修改網站
-                          </router-link>
-                        </a>
-                      </li>
-                      <li class="dropdown-item">
-                        <a class="dropdown-item">
-                          <router-link to="/WebsiteFilling" >
-                            刪除網站
-                          </router-link>
-                        </a>
-                      </li>
-                    </ul>                    
+                    <router-link to="/PersonalWeb">網站</router-link>
                   </div>
                   <div class="dropdown-submenu">
                     <span class = "dropdown-item">名片上傳</span>

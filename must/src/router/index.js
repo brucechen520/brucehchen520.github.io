@@ -4,7 +4,8 @@ import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
 import ProjectFilling from '../components/job-matching/ProjectFilling'
-import SkillFilling from '../components/personal-skill/SkillFilling'
+import SkillFilling from '../components/personal/SkillFilling'
+import PersonalWeb from '../components/personal/Website'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
 import ReviewQuery from '../components/job-matching/ReviewQuery'
@@ -42,6 +43,11 @@ const router = new Router({
             path: '/SkillFilling',
             name: 'SkillFilling',
             component: SkillFilling
+        },
+        {
+            path: '/PersonalWeb',
+            name: 'PersonalWeb',
+            component: PersonalWeb
         },
         {
             path: '/JobQuery',
