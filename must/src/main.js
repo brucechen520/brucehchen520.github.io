@@ -8,6 +8,9 @@ import api from './components/lib/api'
 import VeeValidate, { Validator } from 'vee-validate';
 import zh_TW from 'vee-validate/dist/locale/zh_TW';
 import jquery from 'jquery'
+import VModal from 'vue-js-modal' 
+Vue.use(VModal, { dialog: true })
+
 Validator.localize('zh_TW', zh_TW);
 Vue.use(VeeValidate, {
   validity: true

@@ -1,6 +1,7 @@
 <template>
   <div>
-      我的網站
+      <h1>我的網站</h1>
+      <span class="btn btn-info" @click="addweb">新增網站</span>
       <!-- 查詢 -->
       <div>
           <label>查詢:</label>
@@ -34,12 +35,38 @@
             <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 發布日期: {{ datetimeFormat(item.verifyTime)}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 狀態: {{statusdesc[item.status]}} </div>
+
           </div>
           <hr>
         </div>
 
       </div>
-
+      <modal id="modal-script" name="modalDetail" transition="pop-out" :width="800" :pivotX="0.55" :pivotY="0.3">
+        <div>Hi</div>
+        
+        <!-- <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">{{modalTitle}}</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalDetail">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mg-1">
+                            <div class="block-color-24 font-color-10 width-100 hidden border-0 pd-2" name="" id="" cols="20" rows="10">
+                                {{modalContent}}
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer flex-container-center text-c">
+                    <button @click="closeModalDetail()" type="button" class="width-30 btn btn-outline-3 round-radius">关闭</button>
+                    <button v-clipboard:copy="modalContent" v-clipboard:success="handleCopySuccess" v-clipboard:error="handleCopyError" type="button" class="width-30 btn btn-fill-8 font-color-1">复制</button>
+                </div>
+            </div>
+        </div> -->
+    </modal>
   </div>
 </template>
 
@@ -49,6 +76,7 @@
     export default {
         data () {
           return {
+            statusdesc:["待審核","審核通過","審核不通過","已封存"],
             pagination: {
               itemPerPage: 10, // 每頁呈現幾筆資料
               currentPage: 1, // 指定目前的頁碼
@@ -75,7 +103,7 @@
         },
         created () {
             let _this = this;
-            this.action_web_get({status:1}).then(function(){
+            this.action_web_get({Mem_Se:1}).then(function(){
                 _this.website_sets = [..._this.stateWebData.list];
                 _this.setPage();
             });
@@ -152,7 +180,10 @@
                 }else{
                     return d.getFullYear() +"-"+ ((d.getMonth()+1 >9)?(d.getMonth()+1):"0"+(d.getMonth()+1))+"-"+((d.getDate() >9)?d.getDate():"0"+d.getDate());
                 }
-            },
+          },
+          addweb(){
+            this.$modal.show("modalDetail");
+          }
         }
     }
 </script>
