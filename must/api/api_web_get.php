@@ -14,15 +14,35 @@
       $user->GetMemberData();
       $user->GetMemberConfirm();
     }
-    $param = json_decode(file_get_contents('php://input'));
-	$webData = array();
+	$param = json_decode(file_get_contents('php://input'));
+	$whereString = "";
+	$wherefirst = true;
+	if($param->status != null && $param->status != ''){
+		$whereString = "WHERE (A.status = '".$param->status."'";
+		$wherefirst = false;
+	}
+	if($param->Mem_Se != null){
+		if($param->Mem_Se == 'auto')
+			$param->Mem_Se = $user->Mem_Se;
+		if($wherefirst){
+			$whereString = "WHERE (A.Mem_Se = '".$param->Mem_Se."'";
+			$wherefirst = false;
+		}
+		else
+			$whereString .= " && A.Mem_Se = '".$param->Mem_Se."'";
+	}
+	if(!$wherefirst)
+		$whereString .= ")";
+	
 	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,B.M_Name
-			FROM `Industry_Website` A
-			LEFT JOIN Member B USING(`Mem_Se`)
-			WHERE (A.status = '".$param->status."')
-			ORDER BY `Web_Id` DESC;";
-
+		FROM `Industry_Website` A
+		LEFT JOIN Member B USING(`Mem_Se`)
+		".$whereString."
+		ORDER BY `Web_Id` DESC;";
+	//var_dump($param);
+	//var_dump($param->Mem_Se != null);
 	$list = mysql_query($str);
+	$webData = array();
 	if($list === FALSE) { // 資料庫有沒有 FALSE
 		$json['error'] = mysql_error();
 		echo json_encode($json);

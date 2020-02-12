@@ -51,7 +51,8 @@
         </div>
         <div class="modal-body">
           <span>名稱</span><input v-model="webAddData.name" placeholder="請輸入網站名稱">
-          <span>網址</span><input v-model="webAddData.address" placeholder="請輸入完整網站網址">
+          <span>網址</span><input v-model="webAddData.address" placeholder="請輸入完整網站網址" v-validate="'url'" name="url">
+          <span v-show="errors.has('url')" class="validate-error-message">請輸入正確的網址</span>
           <span>是否公開</span>
           <select v-model="webAddData.permit">
             <option v-for="item in permitList" :value="item.value">{{ item.mes }}</option>
@@ -65,7 +66,8 @@
           <span>敘述</span><textarea v-model="webAddData.description" placeholder="請輸入網站敘述"></textarea>
         </div>
         <div class="modal-footer">
-          <button type="button" @click="addWebData">新增</button>
+          <button type="button" @click="addWebData" v-if="completeValidate">新增</button>
+          <button type="button" v-else class="disable">新增</button>
           <button type="button" @click="closeModalAdd">取消</button>
         </div>
     </modal>
@@ -114,15 +116,15 @@
             webAddData:{
               name:'',
               address:'',
-              permit:'',
-              type:'',
+              permit:'0',
+              type:'personal',
               description:'',
             }
           }
         },
         created () {
             let _this = this;
-            this.action_web_get({Mem_Se:''}).then(function(){
+            this.action_web_get({Mem_Se:'auto'}).then(function(){
                 _this.website_sets = [..._this.stateWebData.list];
                 _this.setPage();
             });
@@ -150,6 +152,13 @@
                 return _this.totalPage
               else
                 return _this.pagination.range
+          },
+          completeValidate() {
+            if (this.errors.items.length > 0 || this.webAddData.name === "") {
+                return false;
+            } else {
+                return true;
+            }
           },
           // ...mapGetters 為 ES7 寫法
           ...mapGetters({
@@ -212,16 +221,20 @@
               if(result.code == 'success'){
                   alert('成功');
               }
+              self.action_web_get({Mem_Se:'auto'}).then(function(){
+                self.website_sets = [...self.stateWebData.list];
+                self.setPage();
+            });
             });
             self.$modal.hide("modalWebAdd");
             self.webAddData = {
               name:'',
               address:'',
-              permit:'',
-              type:'',
+              permit:'0',
+              type:'personal',
               description:'',
             }
-          }
+          },
         }
     }
 </script>
