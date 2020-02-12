@@ -11,6 +11,9 @@ import jquery from 'jquery'
 import VModal from 'vue-js-modal' 
 Vue.use(VModal, { dialog: true })
 
+//style
+import './assets/css/global.css'
+
 Validator.localize('zh_TW', zh_TW);
 Vue.use(VeeValidate, {
   validity: true

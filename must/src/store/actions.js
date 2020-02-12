@@ -58,6 +58,19 @@ export const action_web_get  = ({ commit }, param) => {
         });       
     });       
 }
+
+export const action_web_insert  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.web_insert(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });     
+}
 export const action_vacancy_comfirm  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.vacancy_comfirm(param,function(result){

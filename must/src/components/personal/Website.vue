@@ -42,30 +42,32 @@
         </div>
 
       </div>
-      <modal id="modal-script" name="modalDetail" transition="pop-out" :width="800" :pivotX="0.55" :pivotY="0.3">
-        <div>Hi</div>
-        
-        <!-- <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">{{modalTitle}}</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalDetail">
+      <modal id="modal-addweb" name="modalWebAdd" transition="pop-out" :width="800" :height="550" :pivotX="0.5" :pivotY="0.3">
+        <div class="modal-header">
+          <h2>新增網站</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
                         <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="mg-1">
-                            <div class="block-color-24 font-color-10 width-100 hidden border-0 pd-2" name="" id="" cols="20" rows="10">
-                                {{modalContent}}
-                            </div>
-                    </div>
-                </div>
-                <div class="modal-footer flex-container-center text-c">
-                    <button @click="closeModalDetail()" type="button" class="width-30 btn btn-outline-3 round-radius">关闭</button>
-                    <button v-clipboard:copy="modalContent" v-clipboard:success="handleCopySuccess" v-clipboard:error="handleCopyError" type="button" class="width-30 btn btn-fill-8 font-color-1">复制</button>
-                </div>
-            </div>
-        </div> -->
+          </button>
+        </div>
+        <div class="modal-body">
+          <span>名稱</span><input v-model="webAddData.name" placeholder="請輸入網站名稱">
+          <span>網址</span><input v-model="webAddData.address" placeholder="請輸入完整網站網址">
+          <span>是否公開</span>
+          <select v-model="webAddData.permit">
+            <option v-for="item in permitList" :value="item.value">{{ item.mes }}</option>
+          </select>
+          
+          <span>類別</span>
+          <select v-model="webAddData.type">
+            <option  v-for="item in website_type" :value="item">{{ item }}</option>
+          </select>
+          
+          <span>敘述</span><textarea v-model="webAddData.description" placeholder="請輸入網站敘述"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" @click="addWebData">新增</button>
+          <button type="button" @click="closeModalAdd">取消</button>
+        </div>
     </modal>
   </div>
 </template>
@@ -91,6 +93,16 @@
               'github',
               'others'
             ],
+            website_type: [
+              'personal',
+              'company',
+              'github',
+              'others'
+            ],
+            permitList: [              
+              {'mes': '完全公開', 'value': '0'},
+              {'mes': '僅系友公開', 'value': '1'},
+              {'mes': '不公開', 'value': '2'}],
             website_sets: [{
                 id: Number(1),
                 type: '',
@@ -99,11 +111,18 @@
                 address: '',
                 description: ''
               }],
+            webAddData:{
+              name:'',
+              address:'',
+              permit:'',
+              type:'',
+              description:'',
+            }
           }
         },
         created () {
             let _this = this;
-            this.action_web_get({Mem_Se:1}).then(function(){
+            this.action_web_get({Mem_Se:''}).then(function(){
                 _this.website_sets = [..._this.stateWebData.list];
                 _this.setPage();
             });
@@ -140,7 +159,7 @@
         },
         methods: {
           ...mapActions([
-  	      'action_project_get','action_vacance_get','action_set_review_type','action_web_get'
+  	      'action_project_get','action_vacance_get','action_set_review_type','action_web_get','action_web_insert'
   	      ]),
           setPage: function(clickedPage = 1){ // 設定頁碼
             let itemMax = this.totalPage; // 最大的頁碼
@@ -182,7 +201,26 @@
                 }
           },
           addweb(){
-            this.$modal.show("modalDetail");
+            this.$modal.show("modalWebAdd");
+          },
+          closeModalAdd(){
+            this.$modal.hide("modalWebAdd");
+          },
+          addWebData(){
+            let self = this;
+            self.action_web_insert({data:self.webAddData}).then(function(result){
+              if(result.code == 'success'){
+                  alert('成功');
+              }
+            });
+            self.$modal.hide("modalWebAdd");
+            self.webAddData = {
+              name:'',
+              address:'',
+              permit:'',
+              type:'',
+              description:'',
+            }
           }
         }
     }
