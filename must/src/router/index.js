@@ -4,12 +4,12 @@ import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
 import ProjectFilling from '../components/job-matching/ProjectFilling'
-import SkillFilling from '../components/personal/SkillFilling'
+import personalSkill from '../components/personal/SkillFilling'
 import PersonalWeb from '../components/personal/Website'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
 import ReviewQuery from '../components/job-matching/ReviewQuery'
-import myJob from '../components/personalManage/myJob'
+import parsonal from '../components/personalManage/personal'
 import projectPersonal from '../components/personalManage/projectPersonal'
 import reviewPersonal from '../components/personalManage/reviewPersonal'
 import vacancyPersonal from '../components/personalManage/vacancyPersonal'
@@ -42,7 +42,7 @@ const router = new Router({
         {
             path: '/SkillFilling',
             name: 'SkillFilling',
-            component: SkillFilling
+            component: personalSkill
         },
         {
             path: '/PersonalWeb',
@@ -65,21 +65,25 @@ const router = new Router({
             component: ReviewQuery
         },
         {
-            path: '/myJob',
-            name: 'myJob',
-            component: myJob,
+            path: '/personal',
+            name: 'personal',
+            component: parsonal,
             children: [{
-                path: '/myJob/perosnalProject',
-                component: projectPersonal
+                path: 'skill',
+                name: 'personalSkill',
+                component: personalSkill
+            },{                
+                path: 'vacancy',
+                name: 'personalVacancy',
+                component: JobVacancies
             },{
-                path: '/myJob/perosnalReview',
-                component: reviewPersonal
+                path: 'project',
+                name: 'personalProject',
+                component: ProjectFilling
             },{
-                path: '/myJob/perosnalVacancy',
-                component: vacancyPersonal
-            },{
-                path: '/myJob/perosnalWebsite',
-                component: websitePersonal
+                path: 'web',
+                name: 'personalWeb',
+                component: PersonalWeb
             }]
         }
       ]

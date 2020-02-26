@@ -61,19 +61,12 @@
               </button>
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton3">
                 <div v-if="users.name !=='訪客'">
-                  <div class="dropdown-submenu">
-                    <span class = "dropdown-item">我的專長</span>
-                    <ul class="dropdown-menu">
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/SkillFilling" >
-                            專長填寫
-                          </router-link>
-                        </a>
-                      </li>
-                    </ul>                    
-                  </div>
-                  <div class="dropdown-submenu">
+                    <a class="dropdown-item">
+                      <router-link :to="{name:'personalSkill'}" >
+                        基本資料
+                      </router-link>
+                    </a>
+                  <!-- <div class="dropdown-submenu">
                     <span class = "dropdown-item">我的職缺</span>
                     <ul class="dropdown-menu">
                       <li class="dropdown-item">                        
@@ -98,10 +91,16 @@
                         </a>
                       </li>
                     </ul>
-                  </div>
-                  <div class="dropdown-submenu">
-                    <router-link to="/PersonalWeb">網站</router-link>
-                  </div>
+                  </div> -->
+                  <a class="dropdown-item">                  
+                    <router-link :to="{name:'personalVacancy'}">職缺</router-link>
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link :to="{name:'personalProject'}">專案</router-link>
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link :to="{name:'personalWeb'}">網站</router-link>
+                  </a>
                   <div class="dropdown-submenu">
                     <span class = "dropdown-item">名片上傳</span>
                     <ul class="dropdown-menu">
@@ -138,7 +137,7 @@
             </div>
           </li>
 
-          <li class="nav-item col-3-auto">
+          <!-- <li class="nav-item col-3-auto">
             <div class="dropdown">
               <button class="btn alert-info dropdown-toggle" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                   §管理
@@ -171,7 +170,7 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> -->
 
           <li class="nav-item col-3-auto">
             <div class="btn-group">
