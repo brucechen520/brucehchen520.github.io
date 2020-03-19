@@ -42,7 +42,7 @@
         </div>
 
       </div>
-      <modal id="modal-addweb" name="modalWebAdd" transition="pop-out" :width="800" :height="550" :pivotX="0.5" :pivotY="0.3">
+      <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" :width="800" :height="550" :pivotX="0.5" :pivotY="0.3">
         <div class="modal-header">
           <h2>新增網站</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
@@ -124,7 +124,7 @@
         },
         created () {
             let _this = this;
-            this.action_web_get({Mem_Se:'auto'}).then(function(){
+            this.action_web_get({Mem_Se:_this.users.id}).then(function(){
                 _this.website_sets = [..._this.stateWebData.list];
                 _this.setPage();
             });
@@ -221,7 +221,7 @@
               if(result.code == 'success'){
                   alert('成功');
               }
-              self.action_web_get({Mem_Se:'auto'}).then(function(){
+              self.action_web_get({Mem_Se:self.users.id}).then(function(){
                 self.website_sets = [...self.stateWebData.list];
                 self.setPage();
             });

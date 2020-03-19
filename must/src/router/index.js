@@ -5,15 +5,18 @@ import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
 import ProjectFilling from '../components/job-matching/ProjectFilling'
 import personalSkill from '../components/personal/SkillFilling'
-import PersonalWeb from '../components/personal/Website'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
-import ReviewQuery from '../components/job-matching/ReviewQuery'
-import parsonal from '../components/personalManage/personal'
-import projectPersonal from '../components/personalManage/projectPersonal'
-import reviewPersonal from '../components/personalManage/reviewPersonal'
-import vacancyPersonal from '../components/personalManage/vacancyPersonal'
-import websitePersonal from '../components/personalManage/websitePersonal'
+
+import manage from '../components/manage/manage'
+import manageReview from '../components/manage/review'
+import manageLog from '../components/manage/log'
+
+import parsonal from '../components/personal/personal'
+import personalVacancy from '../components/personal/vacancy'
+import personalProject from '../components/personal/project'
+import personalWeb from '../components/personal/website'
+
 Vue.use(Router)
 const router = new Router({
     // route table
@@ -47,7 +50,7 @@ const router = new Router({
         {
             path: '/PersonalWeb',
             name: 'PersonalWeb',
-            component: PersonalWeb
+            component: personalWeb
         },
         {
             path: '/JobQuery',
@@ -62,7 +65,7 @@ const router = new Router({
         {
             path: '/ReviewQuery',
             name: 'ReviewQuery',
-            component: ReviewQuery
+            component: manageReview
         },
         {
             path: '/personal',
@@ -75,17 +78,31 @@ const router = new Router({
             },{                
                 path: 'vacancy',
                 name: 'personalVacancy',
-                component: JobVacancies
+                component: personalVacancy
             },{
                 path: 'project',
                 name: 'personalProject',
-                component: ProjectFilling
+                component: personalProject
             },{
                 path: 'web',
                 name: 'personalWeb',
-                component: PersonalWeb
+                component: personalWeb
             }]
-        }
+        },
+        {
+            path: '/manage',
+            name: 'manage',
+            component: manage,
+            children: [{
+                path: 'review',
+                name: 'manageReview',
+                component: manageReview
+            },{                
+                path: 'log',
+                name: 'manageLog',
+                component: manageLog
+            }]
+        },
       ]
 })
 export default router; // 一定要加

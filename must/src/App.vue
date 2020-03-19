@@ -19,12 +19,12 @@
                   §網站列表
               </button>
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton1">
-                <a class="dropdown-item" href="https://goo.gl/HHXPvG" target="_blank">公開名片區</a>
                 <a class="dropdown-item">
                   <router-link to="/WebsiteQuery">
                     網站查詢
                   </router-link>
                 </a>
+                <a class="dropdown-item" href="https://goo.gl/HHXPvG" target="_blank">公開名片區</a>
               </div>
             </div>
           </li>
@@ -127,10 +127,15 @@
               <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdownMenuButton4">
                 <div>
                   <a class="dropdown-item">
-                    <router-link to="/ReviewQuery">
+                    <router-link :to="{name:'manageReview'}">
                       審核頁面
                     </router-link>
-                  </a>                  
+                  </a>
+                  <a class="dropdown-item">
+                    <router-link :to="{name:'manageLog'}">
+                      操作紀錄
+                    </router-link>
+                  </a>             
                   <a class="dropdown-item" href="#" target="_blank">不公開名片區</a>
                 </div>
               </div>
