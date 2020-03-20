@@ -88,6 +88,12 @@ export const api2 = {
     vacance_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_get.php',param, handleSuccess, handleComplete, handleError);
     },
+    vacancy_insert: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_vacancy_insert.php',param, handleSuccess, handleComplete, handleError);
+    },
+    vacancy_update: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_vacancy_update.php',param, handleSuccess, handleComplete, handleError);
+    },
     vacancy_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },

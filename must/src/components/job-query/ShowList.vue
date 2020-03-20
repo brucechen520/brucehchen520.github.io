@@ -9,7 +9,7 @@
   		<div v-if = "list = stateReviewType === 0? project_data : vacancy_data"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
   			<div v-for="(item, index) in list">
 	          <div class="list-group container">
-	            <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
+	            <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.vacancy_Name }}  </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 內容描述: {{ abstractDescription[index] }}... </div>
 	            <div class="list-group-item list-group-item-action list-group-item-warning"> 工作技能:
