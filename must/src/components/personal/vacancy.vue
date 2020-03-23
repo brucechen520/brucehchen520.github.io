@@ -48,7 +48,23 @@
           <button type="button" @click="updateVacancyData" v-if="completeValidate()">送出</button>
           <button type="button" v-else class="disable">不能送出</button>
         </div>
+          <button type="button" @click="deleteVacancyModal">刪除</button>
           <button type="button" @click="closeModalAdd">取消</button>
+        </div>
+    </modal>
+    <modal id="check-modal" class="modalform" name="checkModal" transition="pop-out" :width="500" :height="300" :pivotX="0.5" :pivotY="0.3">
+        <div class="modal-header">
+          <h2>刪除職缺</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="checkModalCancel">
+                        <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span>刪除後無法復原，確定刪除?</span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" @click="deleteVacancy">確定</button>
+          <button type="button" @click="checkModalCancel">取消</button>
         </div>
     </modal>
   </div>
@@ -106,7 +122,7 @@
         },
         methods: {
             ...mapActions([
-  	            'action_vacancy_insert','action_vacance_get', 'action_vacancy_update'
+  	            'action_vacancy_insert','action_vacance_get', 'action_vacancy_update', 'action_vacancy_delete'
   	        ]),
             addVacancy(){
                 //this.modalOption.title = "新增職缺";
@@ -116,6 +132,8 @@
             },
             closeModalAdd(){
                 this.$modal.hide("modalVacancyAdd");
+                if(this.modalOption.status != 1)
+                    this.clearVacancyData();
             },
             addVacancyData(){
                 let self = this;
@@ -127,6 +145,11 @@
                     });
                 });
                 self.$modal.hide("modalVacancyAdd");
+                self.clearVacancyData();
+
+            },
+            clearVacancyData(){
+                let self = this;
                 self.vacancyData = {
                     company_Name:"",
                     company_Website:"",
@@ -164,6 +187,24 @@
                 this.modalOption.readonly = true;
                 this.modalOption.status = 0;
                 this.$modal.show("modalVacancyAdd");
+            },
+            deleteVacancyModal(){
+                this.$modal.show("checkModal");
+            },
+            checkModalCancel(){
+                this.$modal.hide("checkModal");
+            },
+            deleteVacancy(){
+                let self = this;
+                self.action_vacancy_delete({data:self.vacancyData}).then(function(result){
+                    if(result.code == 'success'){
+                        alert('成功');
+                    }
+                    self.$modal.hide("checkModal");
+                    self.$modal.hide("modalVacancyAdd");
+                    self.action_vacance_get({Mem_Se:self.users.id});
+                    self.clearVacancyData();
+                });
             },
             liclick (e) { // stay dropdown open
                 e.stopPropagation();

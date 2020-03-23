@@ -107,6 +107,18 @@ export const action_vacancy_update  = ({ commit }, param) => {
         });       
     });            
 }
+export const action_vacancy_delete  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.vacancy_delete(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_project_comfirm  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.project_comfirm(param,function(result){

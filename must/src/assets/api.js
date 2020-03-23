@@ -94,6 +94,9 @@ export const api2 = {
     vacancy_update: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_update.php',param, handleSuccess, handleComplete, handleError);
     },
+    vacancy_delete: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_vacancy_delete.php',param, handleSuccess, handleComplete, handleError);
+    },
     vacancy_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
