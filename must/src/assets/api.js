@@ -103,6 +103,15 @@ export const api2 = {
     project_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_project_get.php',param, handleSuccess, handleComplete, handleError);
     },
+    project_insert: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_project_insert.php',param, handleSuccess, handleComplete, handleError);
+    },
+    project_update: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_project_update.php',param, handleSuccess, handleComplete, handleError);
+    },
+    project_delete: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_project_delete.php',param, handleSuccess, handleComplete, handleError);
+    },
     project_comfirm: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_project_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },

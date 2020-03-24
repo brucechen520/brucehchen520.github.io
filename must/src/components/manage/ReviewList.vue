@@ -13,7 +13,7 @@
       <div v-if = "stateReviewType ==0"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in stateProjectData.list">
             <div class="list-group container">
-              <div class="list-group-item list-group-item-action list-group-item-warning"> 專案名稱: {{ item.Name }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 專案名稱: {{ item.project_Name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">

@@ -131,7 +131,42 @@ export const action_project_comfirm  = ({ commit }, param) => {
         });       
     });    
 }
-
+export const action_project_insert  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.project_insert(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });     
+}
+export const action_project_update  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.project_update(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
+export const action_project_delete  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.project_delete(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_web_comfirm  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.web_comfirm(param,function(result){

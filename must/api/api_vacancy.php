@@ -14,6 +14,7 @@
       $user->GetMemberData();
       $user->GetMemberConfirm();
     }
+    
     /*
       methods
         'insert'	->   新增資料

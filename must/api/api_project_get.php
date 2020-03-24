@@ -15,23 +15,43 @@
       $user->GetMemberConfirm();
     }
     $param = json_decode(file_get_contents('php://input'));
+    $whereString = "";
+    $wherefirst = true;
+    if($param->status != null && $param->status != ''){
+      $whereString = "WHERE (status = '".$param->status."'";
+      $wherefirst = false;
+    }
+    if($param->Mem_Se != null){
+      if($param->Mem_Se == 'auto')
+        $param->Mem_Se = $user->Mem_Se;
+      if($wherefirst){
+        $whereString = "WHERE (Mem_Se = '".$param->Mem_Se."'";
+        $wherefirst = false;
+      }
+      else
+        $whereString .= " && Mem_Se = '".$param->Mem_Se."'";
+    }
+    if(!$wherefirst)
+      $whereString .= ")";
+
+    $str = "SELECT * FROM alumnidata.`Industry_Project_List` ".$whereString;
     $PJ_List = array() ; // 專案基本
           $L_List = array() ; // 語言
           $K_List = array() ; // 關鍵字
           $Sk_List = array() ; // 專長
           $TP_List = array() ; // 類型
 
-          $str = "SELECT li.*, GROUP_CONCAT(DISTINCT CONCAT(t.serial,'_',t.PJ_Title,'_',PJ_Type) SEPARATOR ',') as type,
-                      GROUP_CONCAT(DISTINCT CONCAT(sk.serial,'_',sk.PJ_Skill) SEPARATOR ',') as skill,
-                      GROUP_CONCAT(DISTINCT CONCAT(kw.serial,'_',kw.PJ_KeyWords) SEPARATOR ',') as keywords,
-                      GROUP_CONCAT(DISTINCT CONCAT(lang.serial,'_',lang.PJ_Language ,'_', lang.listen ,'_', lang.speak ,'_', lang.read, '_', lang.write) SEPARATOR ', ') as language_sum
-                      FROM alumnidata.Industry_Project_List AS li
-                      LEFT JOIN alumnidata.Industry_Project_KeyW AS kw ON li.PJ_Id = kw.PJ_Id
-                      LEFT JOIN alumnidata.Industry_Project_Language AS lang ON li.PJ_Id = lang.PJ_Id
-                      LEFT JOIN alumnidata.Industry_Project_Skill AS sk ON li.PJ_Id = sk.PJ_Id
-                      LEFT JOIN alumnidata.Industry_Project_Type AS t ON li.PJ_Id = t.PJ_Id
-                      WHERE li.status = '".$param->status."'
-                      GROUP BY PJ_Id ;";
+        //   $str = "SELECT li.*, GROUP_CONCAT(DISTINCT CONCAT(t.serial,'_',t.PJ_Title,'_',PJ_Type) SEPARATOR ',') as type,
+        //               GROUP_CONCAT(DISTINCT CONCAT(sk.serial,'_',sk.PJ_Skill) SEPARATOR ',') as skill,
+        //               GROUP_CONCAT(DISTINCT CONCAT(kw.serial,'_',kw.PJ_KeyWords) SEPARATOR ',') as keywords,
+        //               GROUP_CONCAT(DISTINCT CONCAT(lang.serial,'_',lang.PJ_Language ,'_', lang.listen ,'_', lang.speak ,'_', lang.read, '_', lang.write) SEPARATOR ', ') as language_sum
+        //               FROM alumnidata.Industry_Project_List AS li
+        //               LEFT JOIN alumnidata.Industry_Project_KeyW AS kw ON li.PJ_Id = kw.PJ_Id
+        //               LEFT JOIN alumnidata.Industry_Project_Language AS lang ON li.PJ_Id = lang.PJ_Id
+        //               LEFT JOIN alumnidata.Industry_Project_Skill AS sk ON li.PJ_Id = sk.PJ_Id
+        //               LEFT JOIN alumnidata.Industry_Project_Type AS t ON li.PJ_Id = t.PJ_Id
+        //               ".$whereString."'
+        //               GROUP BY PJ_Id ;";
           $list = mysql_query($str);
           if($list === FALSE) { // 資料庫有沒有 FALSE
               $json['error'] = mysql_error();
@@ -40,7 +60,7 @@
             while ($row = mysql_fetch_array($list, MYSQL_ASSOC)) {
                 $PJ_row = new stdClass;
                 $PJ_row->id  =  $row[PJ_Id];
-                $PJ_row->Name  =  $row[PJ_Name];
+                $PJ_row->project_Name  =  $row[PJ_Name];
                 $PJ_row->description  =  $row[PJ_Description];
                 $PJ_row->offer  =  $row[PJ_Budget];
                 $PJ_row->deadline  =  $row[PJ_TTL];

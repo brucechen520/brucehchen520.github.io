@@ -16,7 +16,27 @@
     }
     $param = json_decode(file_get_contents('php://input'));
     $webData = array() ;
-	  $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` WHERE `status` = '".$param->status."'";
+
+    $whereString = "";
+    $wherefirst = true;
+    if($param->status != null && $param->status != ''){
+      $whereString = "WHERE (status = '".$param->status."'";
+      $wherefirst = false;
+    }
+    if($param->Mem_Se != null){
+      if($param->Mem_Se == 'auto')
+        $param->Mem_Se = $user->Mem_Se;
+      if($wherefirst){
+        $whereString = "WHERE (Mem_Se = '".$param->Mem_Se."'";
+        $wherefirst = false;
+      }
+      else
+        $whereString .= " && Mem_Se = '".$param->Mem_Se."'";
+    }
+    if(!$wherefirst)
+      $whereString .= ")";
+
+    $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` ".$whereString;
     $list = mysql_query($str);
 		//echo $str; 
     if($list === FALSE) { // 資料庫有沒有 FALSE
@@ -28,7 +48,7 @@
         $now_row->id    =  $row[JB_Id];
         $now_row->company_Name    =  $row[CP_Name];
         $now_row->company_Website    =  $row[CP_Website];
-        $now_row->Name  =  $row[JB_Name];
+        $now_row->vacancy_Name  =  $row[JB_Name];
         $now_row->description  =  $row[JB_Description];
         $now_row->location    =  $row[JB_location];
         $now_row->duty    =  $row[JB_duty];
