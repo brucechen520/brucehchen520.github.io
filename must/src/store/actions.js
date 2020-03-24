@@ -179,6 +179,17 @@ export const action_web_comfirm  = ({ commit }, param) => {
         });       
     });            
 }
+export const action_actionlog_get  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.actionlog_get(param,function(result){
+            if(result.code == 'success'){
+                resolve(result);
+            }
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });      
+}
 export const action_resume_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.resume_insert(param,function(result){

@@ -42,6 +42,16 @@
         echo json_encode($json);
         break;
     }
+    //寫入log
+    $logData = new stdClass();
+    $logData->memberTitle=$user->ConfirmDesc;
+    $logData->memberName=$user->Name;
+    $logData->pageType="專案";
+    $logData->actionType="新增";
+    $logData->actionDetail="成員".$user->Name."新增了一件專案需求:".$data->project_Name;
+    $logData->actionTime=time();
+    
+    insertActionLog($logData);
 
     mysql_close($link);
           

@@ -25,6 +25,18 @@
         $json['error'] = mysql_error();
         echo json_encode($json);
     }
+
+    //寫入log
+    $logData = new stdClass();
+    $logData->memberTitle=$user->ConfirmDesc;
+    $logData->memberName=$user->Name;
+    $logData->pageType="職缺";
+    $logData->actionType="刪除";
+    $logData->actionDetail="成員".$user->Name."刪除了一件職缺:職缺序號".$data->id;
+    $logData->actionTime=time();
+
+    insertActionLog($logData);
+
     mysql_close($link);
           
     if(!array_key_exists("error",$json)){

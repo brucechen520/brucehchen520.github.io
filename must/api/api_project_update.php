@@ -38,6 +38,18 @@
         $json['error'] = mysql_error();
         echo json_encode($json);
     }
+
+    //寫入log
+    $logData = new stdClass();
+    $logData->memberTitle=$user->ConfirmDesc;
+    $logData->memberName=$user->Name;
+    $logData->pageType="專案";
+    $logData->actionType="修改";
+    $logData->actionDetail="成員".$user->Name."修改了一件專案需求:".$data->project_Name."專案序號:".$data->id;
+    $logData->actionTime=time();
+    
+    insertActionLog($logData);
+
     mysql_close($link);
           
     if(!array_key_exists("error",$json)){

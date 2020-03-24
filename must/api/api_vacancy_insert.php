@@ -43,6 +43,17 @@
         break;
     }
 
+    //寫入log
+    $logData = new stdClass();
+    $logData->memberTitle=$user->ConfirmDesc;
+    $logData->memberName=$user->Name;
+    $logData->pageType="職缺";
+    $logData->actionType="新增";
+    $logData->actionDetail="成員".$user->Name."新增了一件職缺需求:".$data->vacancy_Name;
+    $logData->actionTime=time();
+    
+    insertActionLog($logData);
+
     mysql_close($link);
           
     if(!array_key_exists("error",$json)){
