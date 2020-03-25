@@ -32,7 +32,7 @@
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update(item)"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -60,7 +60,7 @@
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="update({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
+                  <button class="btn btn-info" @click="update(item)"> 送出 </button> 
               </div>
             </div>
             <hr>
@@ -239,18 +239,34 @@
           else if(this.stateReviewType == 2)
             this.action_web_get({status:param});
         },
-        update (param) {
+        update (item) {
           var _this = this;
-          if(_this.stateReviewType == 0)
+          if(_this.stateReviewType == 0){
+            let param = {
+              'id': item.id,
+              'suggestion': item.suggestion,
+              'status': item.status,
+              'creater': item.M_Name,
+              'project_Name' : item.project_Name
+            }
             _this.action_project_comfirm(param).then(function(result){
                 alert('成功');
                 _this.action_project_get({status:_this.tab});
             });
-          else
+          } else{
+            let param = {
+              'id': item.id,
+              'suggestion': item.suggestion,
+              'status': item.status,
+              'creater': item.M_Name,
+              'project_Name' : item.vacancy_Name
+            }
             _this.action_vacancy_comfirm(param).then(function(result){
                 alert('成功');
                 _this.action_vacancy_get({status:_this.tab});
             });
+          }
+
         },
         updateWeb(param){
           var _this = this;

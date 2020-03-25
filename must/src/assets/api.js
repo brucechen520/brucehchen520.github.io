@@ -1,13 +1,13 @@
 import axios from 'axios'
 export const api2 = {
     $http: axios,
-    API_HOST: 'http://140.134.29.2',
+    API_HOST: '',
     init: function(){
         this.$http.defaults.headers = { 'Content-Type': 'application/json'}
-        // if(window.$cookies.get("auth") && window.$cookies.get("auth").user && window.$cookies.get("auth").user.token){
-        //     var token = window.$cookies.get("auth").user.token;
-        //     this.$http.defaults.headers.token = token;
-        // }
+        if(window.$cookies.get("auth")){
+             var token = window.$cookies.get("auth").token;
+             this.$http.defaults.headers.token = token;
+        }
     },
     commonComplete : function(){
         
@@ -135,6 +135,12 @@ export const api2 = {
     },
     resume_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_resume_get.php',param, handleSuccess, handleComplete, handleError);
+    },
+    login: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/test.php',param, handleSuccess, handleComplete, handleError);
+    },
+    user_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_user.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }

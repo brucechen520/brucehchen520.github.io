@@ -10,7 +10,8 @@ import zh_TW from 'vee-validate/dist/locale/zh_TW';
 import jquery from 'jquery'
 import VModal from 'vue-js-modal' 
 Vue.use(VModal, { dialog: true })
-
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 //style
 import './assets/css/global.css'
 

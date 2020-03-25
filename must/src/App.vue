@@ -184,6 +184,7 @@
               </button>
             </div>
           </li>
+          <!-- <li @click="login">登入</li> -->
         </ul>  
         <div style="margin-top:20px;">
           <router-view></router-view>
@@ -205,6 +206,14 @@
               // getTodo return value 將會存在別名為 todos 的 webData 上
               users: 'getUser'
           }),
+      },
+      methods:{
+        login(){
+          this.$store.dispatch('action_login').then(() =>{
+            this.$store.dispatch('action_user_get');
+          })
+          
+        }
       },
       components: {
 
