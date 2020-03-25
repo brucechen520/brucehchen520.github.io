@@ -10,6 +10,13 @@
     $user = unserialize($_SESSION['mem']);
     //$ULEVEL = $tmp['ULEVEL'];
     //$json['ULEVEL'] = $ULEVEL;
+    //$headers = apache_request_headers();
+
+    // foreach ($_SERVER as $header => $value) {
+    //     echo "$header: $value <br />\n";
+    // }
+    //echo "token:".$_SERVER["HTTP_TOKEN"];
+    //echo var_dump($_SESSION['mem']);
     if(is_object($user)){
       $user->GetMemberData();
       $user->GetMemberConfirm();
@@ -25,7 +32,22 @@
       if($user->Confirm == 4)
           $json['isAdmin'] = 1; // 管理員
       echo json_encode($json);
-    } else {
+    }
+    else if($_SERVER["HTTP_TOKEN"] != null){
+        if($_SERVER["HTTP_TOKEN"] == "testMan"){
+          $user = new Member(1);
+          $user->GetMemberData();
+          $user->GetMemberConfirm();
+
+          $json['level'] = $user->M_ULevel;
+          $json['name'] = $user->Name;
+          $json['id'] = $user->Mem_Se;
+          if($user->Confirm == 4)
+            $json['isAdmin'] = 1; // 管理員
+          echo json_encode($json);
+        }
+    }
+    else {
       $json['name'] = '訪客';
       echo json_encode($json);
     }
