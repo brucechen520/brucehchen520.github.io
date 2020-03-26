@@ -241,9 +241,10 @@ export const action_login  = ({ commit }, param) => {
 export const action_user_get  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.user_get(param,function(result){
-            if(result.code == 'success'){
+            //if(result.code == 'success'){
+                commit(types.ACCEPT_USER, result);
                 resolve(result);
-            }
+            //}
         }, false, function(error){                
             resolve("failed");                
         });       
