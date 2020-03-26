@@ -41,7 +41,7 @@
       <div v-if = "stateReviewType == 1"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in stateVacanceData.list">
             <div class="list-group container">
-              <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.Name }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.vacancy_Name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
@@ -259,7 +259,7 @@
               'suggestion': item.suggestion,
               'status': item.status,
               'creater': item.M_Name,
-              'project_Name' : item.vacancy_Name
+              'vacancy_Name' : item.vacancy_Name
             }
             _this.action_vacancy_comfirm(param).then(function(result){
                 alert('成功');
