@@ -240,6 +240,10 @@
       animation: marquee 20s linear infinite;
     }
 
+    .marquee div:hover {
+      animation-play-state: paused;
+    }
+
     .marquee span {
       float: left;
       width: 100%;
