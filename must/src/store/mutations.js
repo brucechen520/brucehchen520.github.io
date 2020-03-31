@@ -59,6 +59,9 @@ export const mutations = {
     state.stateWebData = data;
   },
   [types.SET_RESUME_DATA] (state, data) {
+    data.expertise = data.expertise || "";
+    data.works = data.works || "";
+    data.license = data.license || "";
     state.stateResumeData = data;
   },
   [types.SET_STATUS] (state, data) {

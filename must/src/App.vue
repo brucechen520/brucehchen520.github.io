@@ -93,13 +93,13 @@
                     </ul>
                   </div> -->
                   <a class="dropdown-item">                  
-                    <router-link :to="{name:'personalVacancy'}">職缺</router-link>
+                    <router-link :to="{name:'personalVacancy'}">發佈職缺</router-link>
                   </a>
                   <a class="dropdown-item">
-                    <router-link :to="{name:'personalProject'}">專案</router-link>
+                    <router-link :to="{name:'personalProject'}">發佈專案</router-link>
                   </a>
                   <a class="dropdown-item">
-                    <router-link :to="{name:'personalWeb'}">網站</router-link>
+                    <router-link :to="{name:'personalWeb'}">發佈網站</router-link>
                   </a>
                   <div class="dropdown-submenu">
                     <span class = "dropdown-item">名片上傳</span>
