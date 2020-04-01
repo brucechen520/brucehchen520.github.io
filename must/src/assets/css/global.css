@@ -1,0 +1,63 @@
+.modalform{
+    /*height:500px;*/
+}
+.modalform input{
+    display:block;
+    border:0;
+    border-bottom:1px solid #dddedf;
+    width:100%;
+    margin-bottom: 5px;
+}
+.modalform textarea{
+    display:block;
+    border:1px solid #dddedf;
+    width:100%;
+    height:100px;
+}
+.modalform select{
+    display:block;
+    margin-bottom: 5px;
+}
+.modalform .modal-header{
+    text-align:center;
+}
+.modalform .modal-body{
+    margin-left: 10px;
+}
+.modalform .modal-footer button{
+    background: #fff;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    letter-spacing: 1px;
+    font-family: Open Sans,sans-serif;
+    font-weight: 400;
+    min-width: 140px;
+    margin-top: 8px;
+    color: #777777;
+    cursor: pointer;
+    border: 1px solid #dddedf;
+    text-transform: uppercase;
+    transition: all .1s;
+    outline: none;
+}
+.modalform .modal-footer button:hover{
+    border-color: #3C8AE0;
+    background: #3C8AE0;
+    color: #FFF;
+}
+.validate-error-message{
+    display:block;
+    color:#FF0000;
+    font-size: small;
+}
+.disable{
+    color:#AAAAAA !important;
+    /*border-color: #AAAAAA !important;*/
+    background:  #FFFFFF !important;
+}
+.disable:hover{
+    background: #FFFFFF !important;
+    border: 1px solid #dddedf !important;
+    cursor: default !important;
+}
