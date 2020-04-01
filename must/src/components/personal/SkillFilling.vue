@@ -6,9 +6,11 @@
     <div class="row">
         <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
     </div>
+    <div class="row"><label class="col-12 col-md-auto">姓名是否公開:{{permitdesc[stateResumeData.permit.name]}}</label></div>
     <div class="row"><label class="col-12 col-md-auto">信箱:{{stateResumeData.mail}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">信箱是否公開:{{permitdesc[stateResumeData.permit.mail]}}</label></div>
     <div class="row"><label class="col-12 col-md-auto">手機:{{stateResumeData.cellphone}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">是否公開:{{permitdesc[stateResumeData.permit]}}</label></div>
+    <div class="row"><label class="col-12 col-md-auto">手機是否公開:{{permitdesc[stateResumeData.permit.phone]}}</label></div>
     <div class="row"><label class="col-12 col-md-auto">技能專長:{{stateResumeData.expertise}}</label></div>
     <div class="row"><label class="col-12 col-md-auto">作品:{{stateResumeData.works}}</label></div>
     <div class="row"><label class="col-12 col-md-auto">證照:{{stateResumeData.license}}</label></div>
@@ -21,16 +23,28 @@
         <div class="row">
             <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
         </div>
-        <div class="row">    
-    <label class="col-12 col-md-auto">信箱<span style="color:red">*</span></label>
-        <input class="col-12 col-md-auto" v-model="modifyData.mail" v-validate="'required|email'" type="email" name="email">
-        <span>{{ errors.first('email') }}</span>
+        <div class="row">
+            <label class="col-12 col-md-auto">姓名是否公開<span style="color:red">*</span></label>
+                    <select class="col-12 col-md-auto" v-model="modifyData.permit.name" v-validate="'required'" >
+          <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
+        </select>
+        </div>
+        <div class="row">
+            <label class="col-12 col-md-auto">信箱<span style="color:red">*</span></label>
+                <input class="col-12 col-md-auto" v-model="modifyData.mail" v-validate="'required|email'" type="email" name="email">
+                <span>{{ errors.first('email') }}</span>
     </div>
+    <div class="row">
+            <label class="col-12 col-md-auto">信箱是否公開<span style="color:red">*</span></label>
+                    <select class="col-12 col-md-auto" v-model="modifyData.permit.mail" v-validate="'required'" >
+          <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
+        </select>
+        </div>
     <div class="row">
         <label class="col-12 col-md-auto">手機</label>
         <input class="col-12 col-md-auto" v-model="modifyData.cellphone" v-validate="'numeric'">
-        <label class="col-12 col-md-auto">是否公開<span style="color:red">*</span></label>
-        <select class="col-12 col-md-auto" v-model="modifyData.permit" v-validate="'required'" >
+        <label class="col-12 col-md-auto">手機是否公開<span style="color:red">*</span></label>
+        <select class="col-12 col-md-auto" v-model="modifyData.permit.phone" v-validate="'required'" >
           <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
         </select>
     </div>
@@ -67,16 +81,28 @@
     <div class="row">
         <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
     </div>
+    <div class="row">
+        <label class="col-12 col-md-auto">姓名是否公開<span style="color:red">*</span></label>
+        <select class="col-12 col-md-auto" v-model="skill_data.permit.name" v-validate="'required'" >
+            <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
+        </select>
+    </div>
     <div class="row">    
     <label class="col-12 col-md-auto">信箱<span style="color:red">*</span></label>
         <input class="col-12 col-md-auto" v-model="skill_data.mail" v-validate="'required|email'" type="email" name="email">
         <span>{{ errors.first('email') }}</span>
     </div>
     <div class="row">
+        <label class="col-12 col-md-auto">信箱是否公開<span style="color:red">*</span></label>
+        <select class="col-12 col-md-auto" v-model="skill_data.permit.mail" v-validate="'required'" >
+            <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
+        </select>
+    </div>
+    <div class="row">
         <label class="col-12 col-md-auto">手機</label>
         <input class="col-12 col-md-auto" v-model="skill_data.cellphone" v-validate="'numeric'">
-        <label class="col-12 col-md-auto">是否公開<span style="color:red">*</span></label>
-        <select class="col-12 col-md-auto" v-model="skill_data.permit" v-validate="'required'" >
+        <label class="col-12 col-md-auto">手機是否公開<span style="color:red">*</span></label>
+        <select class="col-12 col-md-auto" v-model="skill_data.permit.phone" v-validate="'required'" >
           <option v-for="item in permitList" :key="item.value" :value="item.value" >{{ item.mes }}</option>
         </select>
     </div>
@@ -124,7 +150,11 @@
                 'biography':'',
                 'mail':'', // 信箱
                 'cellphone':'', // 手機
-                'permit':0, // 類別
+                'permit':{
+                    name:0,
+                    mail:0,
+                    phone:0
+                },
                 'expertise': [{  // 技能專長
                     'id': Number(1),
                     'value': '',
