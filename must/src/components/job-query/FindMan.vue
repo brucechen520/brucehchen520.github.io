@@ -1,36 +1,14 @@
 <template>
   <div>
-      <!-- 查詢 -->
-      <div>
-          <label>查詢:</label>
-          <select v-model="query">
-            <option v-for="webList in website_lists" :value=webList>{{ webList }}</option>
-          </select>
-      </div>
-      <!--  Pagination  -->
-      <div>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li :class="[pagination.currentPage === 1 ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage - 1)">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-              </li>   
-              <li class="page-item" v-for="n in pagination.items" @click="setPage(n)">
-                <a :class="[pagination.currentPage === n ? 'page-link is-info': 'page-link']" href="#">{{ n }}</a>
-              </li>
-              <li :class="[pagination.currentPage === totalPage ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage + 1)">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
-      </div>
+
       <!-- 網站頁面 -->
       <div>
-        <div v-for = "item in manFilter.slice(pageStart, pageStart + this.pagination.itemPerPage)" >
+        <div v-for = "item in stateMemberData" >
           <div class="list-group ">
             <div class="list-group-item list-group-item-action list-group-item-warning"> 姓名: {{ item.name}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 序號: {{ item.id}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: <a :href="item.address" target="_blank">{{ item.wName}} </a></div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 電話: {{ item.cellphone}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 信箱: {{ item.mail}} </div>
+            <div class="list-group-item list-group-item-action list-group-item-warning"> 技能專長: {{ item.expertise}} </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
           </div>
           <hr>
@@ -42,7 +20,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapState, mapGetters, mapActions } from 'vuex';
     import * as api from '../lib/api';
     export default {
         data () {
@@ -87,8 +65,10 @@
         },
         created () {
             this.select();
+            this.action_member_get();
         },
         computed: {
+          ...mapState(['stateMemberData']),
           manFilter () {
               var _this = this ; 
               if(_this.query === 'all')
@@ -118,6 +98,7 @@
           })
         },
         methods: {
+          ...mapActions(['action_member_get']),
           select() {
               var _this = this ;
               api.getData('/ee/api/api_skill.php', {

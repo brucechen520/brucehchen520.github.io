@@ -66,32 +66,6 @@
                         基本資料
                       </router-link>
                     </a>
-                  <!-- <div class="dropdown-submenu">
-                    <span class = "dropdown-item">我的職缺</span>
-                    <ul class="dropdown-menu">
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/JobVacancies" >
-                            新增職缺
-                          </router-link>
-                        </a>
-                      </li>
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/ProjectFilling" > 
-                            新增專案
-                          </router-link>
-                        </a>
-                      </li>
-                      <li class="dropdown-item">                        
-                        <a class="dropdown-item">
-                          <router-link to="/myJob" >
-                            修改職缺/專案
-                          </router-link>
-                        </a>
-                      </li>
-                    </ul>
-                  </div> -->
                   <a class="dropdown-item">                  
                     <router-link :to="{name:'personalVacancy'}">發佈職缺</router-link>
                   </a>

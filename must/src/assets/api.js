@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const api2 = {
     $http: axios,
-    API_HOST: '',
+    API_HOST: 'http://140.134.29.2',
     init: function(){
         this.$http.defaults.headers = { 'Content-Type': 'application/json'}
         if(window.$cookies.get("auth")){
@@ -141,6 +141,9 @@ export const api2 = {
     },
     user_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_user.php',param, handleSuccess, handleComplete, handleError);
+    },
+    member_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_member_get.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }

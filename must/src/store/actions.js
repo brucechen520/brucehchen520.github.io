@@ -250,6 +250,18 @@ export const action_user_get  = ({ commit }, param) => {
         });       
     });            
 }
+export const action_member_get  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.member_get(param,function(result){
+            if(result.code == 'success'){
+                commit(types.SET_MEMBER_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_set_review_type  = ({ commit }, data) => {
     commit(types.SET_REVIEW_TYPE, data);
 }

@@ -23,7 +23,8 @@ export const state = {
     expertise:[],
     license:[],
     works:[],
-  }
+  },
+  stateMemberData:[]
 }
 
 // mutations
@@ -63,6 +64,12 @@ export const mutations = {
     data.works = data.works || "";
     data.license = data.license || "";
     state.stateResumeData = data;
+  },
+  [types.SET_MEMBER_DATA] (state, data) {
+    data.expertise = data.expertise || "";
+    data.works = data.works || "";
+    data.license = data.license || "";
+    state.stateMemberData = data;
   },
   [types.SET_STATUS] (state, data) {
     if(state.stateReviewType == 0)
