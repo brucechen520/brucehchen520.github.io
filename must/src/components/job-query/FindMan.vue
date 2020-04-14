@@ -9,14 +9,34 @@
             <div class="list-group-item list-group-item-action list-group-item-warning"> 電話: {{ item.cellphone}} </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 信箱: {{ item.mail}} </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 技能專長: {{ item.expertise}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
+            <div class="btn btn-info" @click="detail(item)"> 詳情 </div>
           </div>
           <hr>
         </div>
-
       </div>
-
+      <modal id="modal-member-detail" class="modalform" name="modalMemberDetail" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.3">
+        <div class="modal-header">
+          <h2>個人檔案</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class=""> 姓名: {{ memberDetailData.name}} </div>
+            <div class=""> 電話: {{ memberDetailData.cellphone}} </div>
+            <div class=""> 信箱: {{ memberDetailData.mail}} </div>
+            <div class=""> 技能專長: {{ memberDetailData.expertise}} </div>
+            <div class=""> 作品: {{ memberDetailData.works}} </div>
+            <div class=""> 證照: {{ memberDetailData.license}} </div>
+            <div class="wordBreak"> 自我介紹: {{ memberDetailData.biography}} </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" @click="closeModal">確認</button>
+        </div>
+    </modal>
   </div>
+  
 </template>
 
 <script>
@@ -25,6 +45,7 @@
     export default {
         data () {
           return {
+            widowHight08:window.innerHeight * 0.6,
             pagination: {
               'itemPerPage': 10, // 每頁呈現幾筆資料
               'currentPage': 1, // 指定目前的頁碼
@@ -61,6 +82,7 @@
                     'status': true
                 }]
               }],
+            memberDetailData:{},
           }
         },
         created () {
@@ -99,6 +121,13 @@
         },
         methods: {
           ...mapActions(['action_member_get']),
+          detail(item){
+            this.memberDetailData = item;
+            this.$modal.show("modalMemberDetail");
+          },
+          closeModal(){
+            this.$modal.hide("modalMemberDetail");
+          },
           select() {
               var _this = this ;
               api.getData('/ee/api/api_skill.php', {
@@ -166,5 +195,8 @@
     }
     .is-disabled {
       pointer-events: none;
+    }
+    .wordBreak{
+      word-break: break-word;
     }
 </style>
