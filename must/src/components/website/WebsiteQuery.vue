@@ -1,14 +1,14 @@
 <template>
   <div>
       <!-- 查詢 -->
-      <div>
+      <!-- <div>
           <label>查詢:</label>
           <select v-model="query">
             <option v-for="webList in website_lists" :value=webList>{{ webList }}</option>
           </select>
-      </div>
+      </div> -->
       <!--  Pagination  -->
-      <div>
+      <!-- <div>
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               <li :class="[pagination.currentPage === 1 ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage - 1)">
@@ -22,23 +22,36 @@
               </li>
             </ul>
           </nav>
-      </div>
+      </div> -->
       <!-- 網站頁面 -->
-      <div>
-        <div v-for = "item in webFilter.slice(pageStart, pageStart + this.pagination.itemPerPage)" >
-          <div class="list-group ">
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 姓名: {{ item.name}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 序號: {{ item.id}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: <a :href="item.address" target="_blank">{{ item.wName}} </a></div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 發布日期: {{ datetimeFormat(item.verifyTime)}} </div>
-          </div>
-          <hr>
-        </div>
-
-      </div>
-
+      <b-table striped hover outlined :fields="myFields" :items="getterWebDataList">
+        <template v-slot:cell(id)="row">{{row.index +1 }}</template>
+        <template v-slot:cell(name)="row">
+          <b-link :href="row.item.address" target="_blank">{{ row.item.name }}</b-link>
+        </template>
+        <template v-slot:cell(詳情)="row">
+          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+             {{ row.detailsShowing ? '縮小' : '詳情'}}
+          </b-button>
+        </template>
+        <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>序號:</b></b-col>
+            <b-col>{{ row.item.id }}</b-col>
+          </b-row>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>網站描述:</b></b-col>
+            <b-col>{{ row.item.description }}</b-col>
+          </b-row>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>詳細網址:</b></b-col>
+            <b-col><b-link :href="row.item.address" target="_blank">{{ row.item.address }}</b-link></b-col>
+          </b-row>
+          <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
+        </b-card>
+      </template>
+      </b-table>
   </div>
 </template>
 
@@ -48,6 +61,15 @@
     export default {
         data () {
           return {
+            myFields: [
+              {key: 'id', label: 'NO',},
+              {key: 'name', label: '網站名稱',},
+              {key: 'type', label: '類型',},
+              //{key: 'description', label: '網站描述',},
+              {key: 'publisher', label: '發布人',},
+              {key: 'verifyTime', label: '發布日期',formatter:'datetimeFormat'},
+              '詳情',
+            ],
             pagination: {
               itemPerPage: 10, // 每頁呈現幾筆資料
               currentPage: 1, // 指定目前的頁碼
@@ -106,7 +128,7 @@
           // ...mapGetters 為 ES7 寫法
           ...mapGetters({
               // getUser return value 將會存在別名為 users 的 webData 上
-              users: 'getUser'
+              users: 'getUser',getterWebDataList:'getterWebDataList'
           })
         },
         methods: {

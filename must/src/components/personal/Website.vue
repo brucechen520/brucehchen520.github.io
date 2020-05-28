@@ -30,6 +30,10 @@
             <b-col sm="2" class=""><b>詳細網址:</b></b-col>
             <b-col><b-link :href="row.item.address" target="_blank">{{ row.item.address }}</b-link></b-col>
           </b-row>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>管理員建議:</b></b-col>
+            <b-col>{{ row.item.suggestion}}</b-col>
+          </b-row>
           <b-button size="sm" variant="warning" @click="editWeb(row.item)">修改</b-button>
           <b-button size="sm" variant="danger" v-b-modal.delete-check-modal @click="deleteId = row.item.id">刪除</b-button>
           <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
