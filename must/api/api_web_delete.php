@@ -19,7 +19,7 @@
     $data = $param->data;
     // 修改資料
     $now = time();
-    $str = "DELETE FROM `alumnidata`.`Industry_Vacancy_List` WHERE (`JB_Id` = '".$data->id."');";
+    $str = "DELETE FROM `alumnidata`.`Industry_Website` WHERE (`Web_Id` = '".$data->id."');";
     $result = mysql_query($str,$link);
     if(!$result) {
         $json['error'] = mysql_error();
@@ -30,9 +30,9 @@
     $logData = new stdClass();
     $logData->memberTitle=$user->ConfirmDesc;
     $logData->memberName=$user->Name;
-    $logData->pageType="職缺";
+    $logData->pageType="網站";
     $logData->actionType="刪除";
-    $logData->actionDetail="成員".$user->Name."刪除了一件職缺:職缺序號".$data->id;
+    $logData->actionDetail="成員".$user->Name."刪除了一個網站:網站序號".$data->id;
     $logData->actionTime=time();
 
     insertActionLog($logData);

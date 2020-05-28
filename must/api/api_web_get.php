@@ -17,7 +17,7 @@
 	$param = json_decode(file_get_contents('php://input'));
 	$whereString = "";
 	$wherefirst = true;
-	if($param->status != null && $param->status != ''){
+	if($param->status !== null && $param->status !== ''){
 		$whereString = "WHERE (A.status = '".$param->status."'";
 		$wherefirst = false;
 	}
@@ -34,7 +34,7 @@
 	if(!$wherefirst)
 		$whereString .= ")";
 	
-	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,B.M_Name
+	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,A.suggestion,B.M_Name
 		FROM `Industry_Website` A
 		LEFT JOIN Member B USING(`Mem_Se`)
 		".$whereString."
@@ -51,12 +51,14 @@
 			$now_row = new stdClass;
 			$now_row->id  =  $row[Web_Id];
 			$now_row->type  =  $row[web_type];
-			$now_row->wName  =  $row[web_name];
+			$now_row->name  =  $row[web_name];
 			$now_row->description  =  $row[web_description];
 			$now_row->address  =  $row[web_address];
-			$now_row->name  =  $row[M_Name];
+			$now_row->publisher  =  $row[M_Name];
+			$now_row->permit  =  $row[Permit_Id];
 			$now_row->status = $row[status];
 			$now_row->verifyTime = $row[verifyTime];
+			$now_row->suggestion = $row[suggestion];
 			array_push($webData, $now_row);
 		}
 				  

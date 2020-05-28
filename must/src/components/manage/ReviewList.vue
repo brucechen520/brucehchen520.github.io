@@ -69,11 +69,11 @@
       <div v-if = "stateReviewType === 2"> <!-- selected: 0 -> project_data, 1 -> vacancy_data   -->
         <div v-for="(item, index) in stateWebData.list">
             <div class="list-group container">
-              <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: {{ item.wName }}  </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: {{ item.name }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 網站屬性: {{ item.type }}  </div>
               <div class="list-group-item list-group-item-action list-group-item-warning"> 網站網址: {{ item.address }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
-              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 建立人: {{ item.name }} </div>
+              <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 建立人: {{ item.publisher }} </div>
               <div class="list-group-item list-group-item-action list-group-item-warning">
                 <span>管理員審查意見: </span>
                 <div :class="[isShow? 'show': 'hidden']">

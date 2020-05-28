@@ -15,20 +15,15 @@
     // 修改資料
     if($user){
       $now = time();
-      $str ="UPDATE `alumnidata`.`Industry_Project_List` SET
-          `CP_Name` = '".$data->company_Name."',
-          `CP_Website` = '".$data->company_Website."',
-          `PJ_Name` = '".$data->project_Name."',
-          `PJ_Description` = '".$data->description."',
-          `PJ_Budget` = '".$data->offer."',
-          `PJ_TTL` = '".$data->deadline."',
-          `CT_Man` = '".$data->contact_Name."',
-          `CT_Mail` = '".$data->contact_Mail."',
-          `CT_Phone` = '".$data->contact_Phone."',
-          `CT_Time` = '".$data->contact_Time."',
+      $str ="UPDATE `alumnidata`.`Industry_Website` SET
+          `web_type` = '".$data->type."',
+          `web_name` = '".$data->name."',
+          `web_description` = '".$data->description."',
+          `web_address` = '".$data->address."',
+          `Permit_Id` = '".$data->permit."',
           `status` = '0',
           `modify` = '".$now."'
-          WHERE (`PJ_Id` = '".$data->id."');";
+          WHERE (`Web_Id` = '".$data->id."');";
       $result = mysql_query($str,$link);
       if(!$result) {
           $json['error'] = mysql_error();
@@ -39,9 +34,9 @@
       $logData = new stdClass();
       $logData->memberTitle=$user->ConfirmDesc;
       $logData->memberName=$user->Name;
-      $logData->pageType="專案";
+      $logData->pageType="網站";
       $logData->actionType="修改";
-      $logData->actionDetail="成員".$user->Name."修改了一件專案需求:".$data->project_Name."(專案序號:".$data->id.")";
+      $logData->actionDetail="成員".$user->Name."修改了一件網站需求:".$data->name."(網站序號:".$data->id.")";
       $logData->actionTime=time();
       
       insertActionLog($logData);
