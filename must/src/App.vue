@@ -6,7 +6,15 @@
             <span><a href="https://goo.gl/6npks4" target="_blank">各班失聯系友協尋名單</a></span>
           </div>  
         </div>
-
+        <b-navbar type="dark" variant="info">
+          <b-navbar-nav>
+            <b-nav-item href="https://etouch.ee.fcu.edu.tw/ee/main.php">§ 回會員系統</b-nav-item>
+            <b-nav-item-dropdown text="§網站列表" right>
+              <b-dropdown-item to="/WebsiteQuery">網站查詢</b-dropdown-item>
+              <b-dropdown-item href="https://goo.gl/HHXPvG">公開名片區</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-navbar>
         <ul class="nav row justify-content-start">
           <li class="nav-item col-3-auto">
               <button class="btn alert-info" type="button" aria-haspopup="true" aria-expanded="false" data-display="static">

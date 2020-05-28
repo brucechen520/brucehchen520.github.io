@@ -90,7 +90,7 @@
                     <option v-for="isPass in passOrNoPass" :value="isPass.value">{{ isPass.msg }}</option>
                   </select>
                   <!-- <button class="btn btn-info" @click="update({'data': {'id': getJob.selected === 0? item.PJ_Id : item.JB_Id, 'suggestion': item.suggestion, 'status': item.status}})"> 送出 </button>  -->
-                  <button class="btn btn-info" @click="updateWeb({'id': item.id, 'suggestion': item.suggestion, 'status': item.status})"> 送出 </button> 
+                  <button class="btn btn-info" @click="updateWeb({'id': item.id, 'suggestion': item.suggestion, 'status': item.status,'name':item.name,'publisher':item.publisher})"> 送出 </button> 
               </div>
             </div>
             <hr>
