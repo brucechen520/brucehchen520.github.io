@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container" style="float:left; ">
+    <div class="container" style="float:center; ">
         <div class="marquee">
           <div>
             <span><a href="https://goo.gl/6npks4" target="_blank">各班失聯系友協尋名單</a></span>

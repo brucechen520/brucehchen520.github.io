@@ -5,14 +5,15 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap-vue": "^2.0.0-rc.19",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
     "g": "^2.0.1",
     "hot-loader": "0.0.0",
     "jquery": "^3.4.1",
     "qs": "^6.7.0",
     "services": "0.0.3",
     "vee-validate": "^2.2.5",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "vue-axios": "^2.1.4",
     "vue-cli": "^2.9.6",
     "vue-cookies": "^1.7.0",
@@ -28,7 +29,7 @@
     "@vue/component-compiler-utils": "^2.6.0",
     "http-proxy-middleware": "^1.0.0",
     "parcel-bundler": "^1.12.3",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.11"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -5,6 +5,7 @@ import Vue from 'vue'
 export const state = {
   userInfo: 
     {
+      'id':'',
       'name':'',
       'level': '',
       'isAdmin': 0,
@@ -17,7 +18,7 @@ export const state = {
   },
   stateProjectData:{},
   stateVacanceData:{},
-  stateWebData:{},
+  stateWebData:{list:[]},
   stateReviewType:0,
   stateResumeData:{
     expertise:[],

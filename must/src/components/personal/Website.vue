@@ -1,16 +1,43 @@
 <template>
   <div>
       <h1>我的網站</h1>
-      <span class="btn btn-info" @click="addweb">新增網站</span>
+      <b-button variant="success" @click="addWeb" class="mb-2">新增網站</b-button>
       <!-- 查詢 -->
-      <div>
+      <!-- <div>
           <label>查詢:</label>
           <select v-model="query">
             <option v-for="webList in website_lists" :value=webList>{{ webList }}</option>
           </select>
-      </div>
+      </div> -->
+      <b-table striped hover outlined :fields="myFields" :items="getterWebDataList">
+        <template v-slot:cell(id)="row">{{row.index +1 }}</template>
+        <template v-slot:cell(詳情)="row">
+          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+             {{ row.detailsShowing ? '縮小' : '詳情'}}
+          </b-button>
+        </template>
+        <template v-slot:row-details="row">
+        <b-card>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>序號:</b></b-col>
+            <b-col>{{ row.item.id }}</b-col>
+          </b-row>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>網站描述:</b></b-col>
+            <b-col>{{ row.item.description }}</b-col>
+          </b-row>
+          <b-row class="mb-1">
+            <b-col sm="2" class=""><b>詳細網址:</b></b-col>
+            <b-col><b-link :href="row.item.address" target="_blank">{{ row.item.address }}</b-link></b-col>
+          </b-row>
+          <b-button size="sm" variant="warning" @click="editWeb(row.item)">修改</b-button>
+          <b-button size="sm" variant="danger" v-b-modal.delete-check-modal @click="deleteId = row.item.id">刪除</b-button>
+          <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
+        </b-card>
+      </template>
+      </b-table>
       <!--  Pagination  -->
-      <div>
+      <!-- <div>
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               <li :class="[pagination.currentPage === 1 ? 'page-item is-disabled': 'page-item']" @click="setPage(pagination.currentPage - 1)">
@@ -24,27 +51,11 @@
               </li>
             </ul>
           </nav>
-      </div>
+      </div> -->
       <!-- 網站頁面 -->
-      <div>
-        <div v-for = "item in webFilter.slice(pageStart, pageStart + this.pagination.itemPerPage)" >
-          <div class="list-group ">
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 姓名: {{ item.name}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 序號: {{ item.id}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站名稱: <a :href="item.address" target="_blank">{{ item.wName}} </a></div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站類型: {{ item.type}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 網站描述: {{ item.description}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 發布日期: {{ datetimeFormat(item.verifyTime)}} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 狀態: {{statusdesc[item.status]}} </div>
-
-          </div>
-          <hr>
-        </div>
-
-      </div>
       <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" :width="800" :height="550" :pivotX="0.5" :pivotY="0.3">
         <div class="modal-header">
-          <h2>新增網站</h2>
+          <h2>{{modalOption.title}}</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
                         <span aria-hidden="true">×</span>
           </button>
@@ -55,7 +66,7 @@
           <span v-show="errors.has('url')" class="validate-error-message">請輸入正確的網址</span>
           <span>是否公開</span>
           <select v-model="webAddData.permit">
-            <option v-for="item in permitList" :value="item.value">{{ item.mes }}</option>
+            <option v-for="item,index in permitList" :value="index">{{ item }}</option>
           </select>
           
           <span>類別</span>
@@ -66,11 +77,28 @@
           <span>敘述</span><textarea v-model="webAddData.description" placeholder="請輸入網站敘述"></textarea>
         </div>
         <div class="modal-footer">
+          <div v-if="modalOption.status == 2">
+            <button type="button" @click="updateWebData" v-if="completeValidate">送出</button>
+            <button type="button" v-else class="disable">不能送出</button>
+          </div>
+          <div v-if="modalOption.status == 1">
           <button type="button" @click="addWebData" v-if="completeValidate">新增</button>
           <button type="button" v-else class="disable">新增</button>
+          </div>
           <button type="button" @click="closeModalAdd">取消</button>
         </div>
     </modal>
+    <b-modal id="delete-check-modal" centered danger title="刪除網站" @ok="deleteWeb">
+      <p class="my-4">刪除後無法復原，確定刪除?</p>
+      <template v-slot:modal-footer="{ ok, cancel }">
+      <b-button size="sm" variant="danger" @click="ok()">
+        刪除
+      </b-button>
+      <b-button size="sm" @click="cancel()">
+        取消
+      </b-button>
+    </template>
+    </b-modal>
   </div>
 </template>
 
@@ -80,6 +108,17 @@
     export default {
         data () {
           return {
+            myFields: [
+              {key: 'id', label: 'NO',},
+              {key: 'name', label: '網站名稱',},
+              {key: 'type', label: '類型',},
+              //{key: 'description', label: '網站描述',},
+              {key: 'publisher', label: '發布人',},
+              {key: 'verifyTime', label: '發布日期',formatter:'datetimeFormat'},
+              {key: 'status', label: '狀態',formatter: e => this.statusdesc[e]},
+              '詳情',
+              ],
+            deleteId:'',
             statusdesc:["待審核","審核通過","審核不通過","已封存"],
             pagination: {
               itemPerPage: 10, // 每頁呈現幾筆資料
@@ -101,10 +140,11 @@
               'github',
               'others'
             ],
-            permitList: [              
-              {'mes': '完全公開', 'value': '0'},
-              {'mes': '僅系友公開', 'value': '1'},
-              {'mes': '不公開', 'value': '2'}],
+            permitList:{
+              0:'完全公開',
+              1:'僅系友公開',
+              2:'不公開'
+            },
             website_sets: [{
                 id: Number(1),
                 type: '',
@@ -119,18 +159,31 @@
               permit:'0',
               type:'personal',
               description:'',
-            }
+            },
+            modalOption:{
+                get title(){
+                    if(this.status == 0)
+                        return "專案詳情";
+                    else if(this.status == 1)
+                        return "新增網站";
+                    else
+                        return "修改網站";
+                },
+                readonly:false,
+                status:1,//0:show, 1:insert , 2:update
+            },
           }
         },
         created () {
-            let _this = this;
-            this.action_web_get({Mem_Se:_this.users.id}).then(function(){
-                _this.website_sets = [..._this.stateWebData.list];
-                _this.setPage();
+            let self = this;
+            this.action_web_get({Mem_Se:self.users.id}).then(function(){
+                //self.website_sets = [...self.stateWebData.list];
+                self.website_sets = self.stateWebData.list.map(e=>Object.assign({_showDetails: false},e));
+                self.setPage();
             });
         },
         computed: {
-          ...mapState(['stateProjectData','stateVacanceData','stateWebData']),
+          ...mapState(['stateProjectData','stateVacanceData','stateWebData','userInfo']),
           webFilter () {
               var _this = this ; 
               if(_this.query === 'all')
@@ -161,15 +214,12 @@
             }
           },
           // ...mapGetters 為 ES7 寫法
-          ...mapGetters({
-              // getUser return value 將會存在別名為 users 的 webData 上
-              users: 'getUser'
-          })
+          ...mapGetters({users: 'getUser',getterWebDataList:'getterWebDataList'})
         },
         methods: {
           ...mapActions([
-  	      'action_project_get','action_vacance_get','action_set_review_type','action_web_get','action_web_insert'
-  	      ]),
+  	      'action_project_get','action_vacance_get','action_set_review_type','action_web_get','action_web_insert','action_web_update',,'action_web_delete',
+          ]),
           setPage: function(clickedPage = 1){ // 設定頁碼
             let itemMax = this.totalPage; // 最大的頁碼
             let start  = 0;
@@ -201,7 +251,7 @@
           },
           datetimeFormat(milliseconds,formatStr='YYYY-mm-dd HH:mm:ss'){
                 if(!milliseconds)
-                    return "";
+                    return "未發布";
                 var d = new Date(milliseconds*1000);
                 if(formatStr=='YYYY-mm-dd HH:mm:ss'){
                     return d.getFullYear() +"-"+ ((d.getMonth()+1 >9)?(d.getMonth()+1):"0"+(d.getMonth()+1))+"-"+((d.getDate() >9)?d.getDate():"0"+d.getDate())+" "+(d.getHours()>9?d.getHours():"0"+d.getHours())+":"+(d.getMinutes()>9?d.getMinutes():"0"+d.getMinutes())+":"+(d.getSeconds()>9?d.getSeconds():"0"+d.getSeconds());
@@ -209,8 +259,36 @@
                     return d.getFullYear() +"-"+ ((d.getMonth()+1 >9)?(d.getMonth()+1):"0"+(d.getMonth()+1))+"-"+((d.getDate() >9)?d.getDate():"0"+d.getDate());
                 }
           },
-          addweb(){
+          addWeb(){
+            this.modalOption.status = 1;
             this.$modal.show("modalWebAdd");
+          },
+          editWeb(webData){
+            this.modalOption.status = 2;
+            console.log(webData);
+            this.webAddData = Object.assign({},webData);
+            this.$modal.show("modalWebAdd");
+          },
+          deleteWeb(){
+            let self = this;
+            self.action_web_delete({data:{id:self.deleteId}}).then(function(result){
+                if(result.code == 'success'){
+                    alert('成功');
+                }
+                self.$modal.hide("checkModal");
+                self.action_web_get({Mem_Se:self.users.id});
+                self.deleteId = '';
+            });
+          },
+          clearWebData(){
+              let self = this;
+              self.webAddData = {
+                name:'',
+                address:'',
+                permit:'0',
+                type:'personal',
+                description:'',
+              }
           },
           closeModalAdd(){
             this.$modal.hide("modalWebAdd");
@@ -222,7 +300,7 @@
                   alert('成功');
               }
               self.action_web_get({Mem_Se:self.users.id}).then(function(){
-                self.website_sets = [...self.stateWebData.list];
+                //self.website_sets = [...self.stateWebData.list];
                 self.setPage();
             });
             });
@@ -235,6 +313,18 @@
               description:'',
             }
           },
+          updateWebData(){
+            let self = this;
+            self.action_web_update({data:self.webAddData}).then(function(result){
+                if(result.code == 'success'){
+                    alert('成功');
+                }
+                console.log(self);
+                self.action_web_get({Mem_Se:self.users.id}).then(function(){
+                });
+                self.$modal.hide("modalWebAdd");
+            });
+          }
         }
     }
 </script>

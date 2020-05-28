@@ -10,3 +10,7 @@ export const getUser = state => {
 export const getJob = state => { 
     return state.jobOpts ;
 }
+
+export const getterWebDataList = state => {
+    return state.stateWebData.list.map(e=>Object.assign({_showDetails: false},e));
+}

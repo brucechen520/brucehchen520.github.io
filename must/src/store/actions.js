@@ -179,6 +179,30 @@ export const action_web_comfirm  = ({ commit }, param) => {
         });       
     });            
 }
+export const action_web_update  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.web_update(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
+export const action_web_delete  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.web_delete(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_actionlog_get  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.actionlog_get(param,function(result){

@@ -12,12 +12,18 @@ import VModal from 'vue-js-modal'
 Vue.use(VModal, { dialog: true })
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+// Install BootstrapVue
+Vue.use(BootstrapVue)
 //style
 import './assets/css/global.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Validator.localize('zh_TW', zh_TW);
 Vue.use(VeeValidate, {
-  validity: true
+  validity: true,
+  fieldsBagName: 'vvFields',
 })
 Vue.use(VueAxios, axios)
 new Vue({
