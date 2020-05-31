@@ -1,8 +1,67 @@
 <template>
   <div class="container">
     <h1>我的職缺</h1>
-    <span class="btn btn-info" @click="addVacancy">新增職缺</span>
-    <div v-for="(item, index) in stateVacanceData.list" :key="index" >
+    <b-button variant="success" @click="addVacancy" class="mb-2">新增職缺</b-button>
+    <b-table striped hover outlined :fields="vacancyFields" :items="stateVacanceData.list">
+          <template v-slot:cell(id)="row">{{row.index +1 }}</template>
+          <template v-slot:cell(name)="row">
+            <b-link :href="row.item.address" target="_blank">{{ row.item.name }}</b-link>
+          </template>
+          <template v-slot:cell(詳情)="row">
+            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+              {{ row.detailsShowing ? '縮小' : '詳情'}}
+            </b-button>
+          </template>
+          <template v-slot:row-details="row">
+          <b-card>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>序號:</b></b-col>
+              <b-col>{{ row.item.id }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>職缺內容描述:</b></b-col>
+              <b-col>{{ row.item.description }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>工作待遇:</b></b-col>
+              <b-col>{{ row.item.offer }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>上班地點:</b></b-col>
+              <b-col>{{row.item.location}}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>公司網址:</b></b-col>
+              <b-col><b-link :href="row.item.company_Website" target="_blank">{{ row.item.company_Website }}</b-link></b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>聯絡人:</b></b-col>
+              <b-col>{{ row.item.contact_Name }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>E-mail:</b></b-col>
+              <b-col>{{ row.item.contact_Mail }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>連絡電話:</b></b-col>
+              <b-col>{{ row.item.contact_Phone }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+              <b-col sm="2" class=""><b>方便聯絡時間:</b></b-col>
+              <b-col>{{ row.item.contact_Time }}</b-col>
+            </b-row>
+            <b-row class="mb-1">
+            <b-col sm="2" class=""><b>管理員建議:</b></b-col>
+            <b-col>{{ row.item.suggestion}}</b-col>
+          </b-row>
+            <b-button size="sm" variant="warning" @click="editVacancy(row.item)">修改</b-button>
+            <b-button size="sm" variant="danger" v-b-modal.delete-check-modal @click="deleteId = row.item.id">刪除</b-button>
+            <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
+          </b-card>
+        </template>
+        </b-table>
+
+    <!-- <div v-for="(item, index) in stateVacanceData.list" :key="index" >
         <div class="list-group container">
             <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.vacancy_Name }}  </div>
             <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
@@ -15,7 +74,7 @@
             </div>
         </div>
         <hr>
-    </div>
+    </div> -->
     <modal id="modal-add-vacancy" class="modalform" name="modalVacancyAdd" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.3">
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
@@ -48,35 +107,40 @@
           <button type="button" @click="updateVacancyData" v-if="completeValidate()">送出</button>
           <button type="button" v-else class="disable">不能送出</button>
         </div>
-          <button type="button" @click="deleteVacancyModal">刪除</button>
           <button type="button" @click="closeModalAdd">取消</button>
         </div>
     </modal>
-    <modal id="check-modal" class="modalform" name="checkModal" transition="pop-out" :width="500" :height="300" :pivotX="0.5" :pivotY="0.3">
-        <div class="modal-header">
-          <h2>刪除職缺</h2>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="checkModalCancel">
-                        <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <span>刪除後無法復原，確定刪除?</span>
-        </div>
-        <div class="modal-footer">
-          <button type="button" @click="deleteVacancy">確定</button>
-          <button type="button" @click="checkModalCancel">取消</button>
-        </div>
-    </modal>
+    <b-modal id="delete-check-modal" centered danger title="刪除職缺" @ok="deleteVacancy">
+      <p class="my-4">刪除後無法復原，確定刪除?</p>
+      <template v-slot:modal-footer="{ ok, cancel }">
+      <b-button size="sm" variant="danger" @click="ok()">
+        刪除
+      </b-button>
+      <b-button size="sm" @click="cancel()">
+        取消
+      </b-button>
+    </template>
+    </b-modal>
   </div>
   
 </template>
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
-    import * as api from '../lib/api';
     export default {
         data () {
           return {
+            vacancyFields: [
+              {key: 'id', label: 'NO'},
+              {key: 'vacancy_Name', label: '職缺名稱'},
+              {key: 'company_Name', label: '公司名稱'},
+              {key: 'M_Name', label: '發布人'},
+              {key: 'verifyTime', label: '發布日期'},
+              {key: 'status', label: '狀態',formatter: e => this.statusdesc[e]},
+              '詳情',
+            ],
+            statusdesc:["待審核","審核通過","審核不通過","已封存"],
+            deleteId:'',
             widowHight08:window.innerHeight * 0.8,
             vacancyData:{
                 company_Name:"",
@@ -107,10 +171,7 @@
         components: {
         },
         created () {
-            let self = this;
-            this.action_vacance_get({Mem_Se:self.users.id}).then(function(){
-                //self.website_sets = [...self.stateWebData.list];
-            });
+            this.action_vacance_get({Mem_Se:this.users.id});
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
@@ -181,123 +242,23 @@
                     return true;
                 }
             },
-            showPage(item){
+            editVacancy(item){
                 this.vacancyData = Object.assign({},item);
-                //this.modalOption.title = "職缺詳情";
-                this.modalOption.readonly = true;
-                this.modalOption.status = 0;
+                this.modalOption.readonly = false;
+                this.modalOption.status = 2;
                 this.$modal.show("modalVacancyAdd");
-            },
-            deleteVacancyModal(){
-                this.$modal.show("checkModal");
-            },
-            checkModalCancel(){
-                this.$modal.hide("checkModal");
             },
             deleteVacancy(){
                 let self = this;
-                self.action_vacancy_delete({data:self.vacancyData}).then(function(result){
+                self.action_vacancy_delete({data:{id:self.deleteId}}).then(function(result){
                     if(result.code == 'success'){
                         alert('成功');
                     }
-                    self.$modal.hide("checkModal");
                     self.$modal.hide("modalVacancyAdd");
                     self.action_vacance_get({Mem_Se:self.users.id});
                     self.clearVacancyData();
                 });
             },
-            liclick (e) { // stay dropdown open
-                e.stopPropagation();
-            },
-            selectDropAll (title, isAll) { // 下拉式選單裡面的全選
-                if(!isAll){
-                    this.vacancyTypeName.filter(arr => {
-                        if(arr.title === title){
-                            this.vacancy_data.checked.filter((arr1, index) => { 
-                                if(arr1.title === title){
-                                    this.vacancy_data.checked[index].content = arr.content;
-                                }
-                            })
-                        }
-                    });
-                }
-                else{
-                    this.vacancyTypeName.filter(arr => {
-                        if(arr.title === title){
-                            this.vacancy_data.checked.filter((arr1, index) => { 
-                                if(arr1.title === title){
-                                    this.vacancy_data.checked[index].content = [];
-                                }
-                            })
-                        }
-                    });
-                }
-            },
-            toggleSkill (id) {
-                var index = this.vacancy_data.skills.findIndex(arr => arr.id === id ); // 取出目前欄位的index 
-                if(this.vacancy_data.skills[index].status){
-                    this.vacancy_data.skills[index].status = false;  // 加號變減號
-                    this.vacancy_data.skills = [...this.vacancy_data.skills, { // 新增一個陣列欄位，重新繪出視窗
-                        'id':this.vacancy_data.skills[this.vacancy_data.skills.length-1].id + 1,
-                        'status': true,
-                        'value': ''
-                        }];
-                }
-                else {
-                    this.vacancy_data.skills = this.vacancy_data.skills.filter(arr => arr.id !== id); // 移除目前id的輸入視窗
-                }
-            },
-            toggleLang (id) {
-                var index = this.vacancy_data.language.findIndex(arr => arr.id === id ); // 取出目前欄位的index 
-                if(this.vacancy_data.language[index].status){
-                    this.vacancy_data.language[index].status = false;  // 加號變減號
-                    this.vacancy_data.language = [...this.vacancy_data.language, { // 新增一個陣列欄位，重新繪出視窗
-                        'id':this.vacancy_data.language[this.vacancy_data.language.length-1].id + 1,
-                        'status': true,
-                        'type': '',
-                        'read': '',
-                        'write': '',
-                        'listen': '',
-                        'speak': ''
-                        }];
-                }
-                else {
-                    this.vacancy_data.language = this.vacancy_data.language.filter(arr => arr.id !== id); // 移除目前id的輸入視窗
-                }
-            },
-            isChecked () { // vacancyTypeName 欄位是否有填寫
-                let count = 0
-                this.vacancy_data.checked.map(arr => {
-                    if(arr.content.length > 0)
-                        count++
-                })
-                return count;
-            },
-            validateForm () {
-                this.$validator.validateAll().then((result) => {
-                    if (result && this.isChecked()) {
-                        api.getData('/ee/api/api_vacancy.php', {
-                            params: {
-                                methods: 'insert',
-                                data: this.vacancy_data
-                            }
-                        })
-                        .then(function (user) {
-                            console.log(user);
-                            if(user.success)
-                                alert(user.success);
-                            else
-                                alert(user.error);
-                        })
-                        .catch(function (error) {
-                            alert(error);
-                        })
-                        return;
-                    }
-                    else
-                        alert('Correct them errors!'); 
-                })
-            }
         }
     }
     $(document).ready(function(){

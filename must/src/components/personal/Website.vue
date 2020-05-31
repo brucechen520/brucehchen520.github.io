@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="container">
       <h1>我的網站</h1>
       <b-button variant="success" @click="addWeb" class="mb-2">新增網站</b-button>
       <!-- 查詢 -->
@@ -40,6 +41,7 @@
         </b-card>
       </template>
       </b-table>
+      </div>
       <!--  Pagination  -->
       <!-- <div>
           <nav aria-label="Page navigation example">
