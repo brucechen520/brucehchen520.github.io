@@ -13,7 +13,7 @@
       <b-table striped hover outlined :fields="myFields" :items="getterWebDataList">
         <template v-slot:cell(id)="row">{{row.index +1 }}</template>
         <template v-slot:cell(詳情)="row">
-          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
              {{ row.detailsShowing ? '縮小' : '詳情'}}
           </b-button>
         </template>
