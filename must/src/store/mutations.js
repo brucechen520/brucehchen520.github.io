@@ -16,7 +16,7 @@ export const state = {
     'projectCount': 0,
     'jobCount': 0
   },
-  stateProjectData:{},
+  stateProjectData:{list:[]},
   stateVacanceData:{list:[]},
   stateWebData:{list:[]},
   stateReviewType:0,

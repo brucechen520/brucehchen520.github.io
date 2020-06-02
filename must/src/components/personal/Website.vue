@@ -107,7 +107,8 @@
         },
         created () {
             let self = this;
-            this.action_web_get({Mem_Se:self.users.id});
+            if(self.users.id)
+              this.action_web_get({Mem_Se:self.users.id});
         },
         computed: {
           ...mapState(['stateProjectData','stateVacanceData','stateWebData','userInfo']),
@@ -120,6 +121,11 @@
           },
           // ...mapGetters 為 ES7 寫法
           ...mapGetters({users: 'getUser',getterWebDataList:'getterWebDataList'})
+        },
+        watch:{
+          users : function(user){
+            this.action_web_get({Mem_Se:user.id});
+          }
         },
         methods: {
           ...mapActions([

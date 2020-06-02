@@ -91,7 +91,9 @@
           }
         },
         created () {
-            this.action_vacance_get({Mem_Se:this.users.id});
+          let self = this;
+            if(self.users.id)
+              this.action_vacance_get({Mem_Se:self.users.id});
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
@@ -99,6 +101,11 @@
             ...mapGetters({
                 users: 'getUser',getterVacancyDataList:'getterVacancyDataList'
             })
+        },
+        watch:{
+          users : function(user){
+            this.action_vacance_get({Mem_Se:user.id});
+          }
         },
         methods: {
             ...mapActions([
