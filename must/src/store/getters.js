@@ -14,3 +14,12 @@ export const getJob = state => {
 export const getterWebDataList = state => {
     return state.stateWebData.list.map(e=>Object.assign({_showDetails: false},e));
 }
+export const getterVacancyDataList = state => {
+    return state.stateVacanceData.list.map(e=>Object.assign({_showDetails: false},e));
+}
+export const getterProjectDataList = state => {
+    return state.stateProjectData.list.map(e=>Object.assign({_showDetails: false},e));
+}
+export const gettetMemberDataList = state => {
+    return state.stateMemberData.list.map(e=>Object.assign({_showDetails: false},e));
+}

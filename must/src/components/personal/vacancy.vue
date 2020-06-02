@@ -2,80 +2,8 @@
   <div class="container">
     <h1>我的職缺</h1>
     <b-button variant="success" @click="addVacancy" class="mb-2">新增職缺</b-button>
-    <b-table striped hover outlined :fields="vacancyFields" :items="stateVacanceData.list">
-          <template v-slot:cell(id)="row">{{row.index +1 }}</template>
-          <template v-slot:cell(name)="row">
-            <b-link :href="row.item.address" target="_blank">{{ row.item.name }}</b-link>
-          </template>
-          <template v-slot:cell(詳情)="row">
-            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-              {{ row.detailsShowing ? '縮小' : '詳情'}}
-            </b-button>
-          </template>
-          <template v-slot:row-details="row">
-          <b-card>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>序號:</b></b-col>
-              <b-col>{{ row.item.id }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>職缺內容描述:</b></b-col>
-              <b-col>{{ row.item.description }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>工作待遇:</b></b-col>
-              <b-col>{{ row.item.offer }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>上班地點:</b></b-col>
-              <b-col>{{row.item.location}}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>公司網址:</b></b-col>
-              <b-col><b-link :href="row.item.company_Website" target="_blank">{{ row.item.company_Website }}</b-link></b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>聯絡人:</b></b-col>
-              <b-col>{{ row.item.contact_Name }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>E-mail:</b></b-col>
-              <b-col>{{ row.item.contact_Mail }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>連絡電話:</b></b-col>
-              <b-col>{{ row.item.contact_Phone }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-              <b-col sm="2" class=""><b>方便聯絡時間:</b></b-col>
-              <b-col>{{ row.item.contact_Time }}</b-col>
-            </b-row>
-            <b-row class="mb-1">
-            <b-col sm="2" class=""><b>管理員建議:</b></b-col>
-            <b-col>{{ row.item.suggestion}}</b-col>
-          </b-row>
-            <b-button size="sm" variant="warning" @click="editVacancy(row.item)">修改</b-button>
-            <b-button size="sm" variant="danger" v-b-modal.delete-check-modal @click="deleteId = row.item.id">刪除</b-button>
-            <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
-          </b-card>
-        </template>
-        </b-table>
-
-    <!-- <div v-for="(item, index) in stateVacanceData.list" :key="index" >
-        <div class="list-group container">
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 職缺名稱: {{ item.vacancy_Name }}  </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning">
-            <span>管理員審查意見: {{item.suggestion}} </span>
-            </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning">
-                <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="showPage(item)"> 詳情 </button>
-            </div>
-        </div>
-        <hr>
-    </div> -->
-    <modal id="modal-add-vacancy" class="modalform" name="modalVacancyAdd" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.3">
+    <vacance-table :items="getterVacancyDataList" :editable="true" :editItem="editVacancy" :deleteItem="deleteItem"></vacance-table>
+    <modal id="modal-add-vacancy" class="modalform" name="modalVacancyAdd" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
@@ -127,19 +55,13 @@
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
+    import vacanceTable from '../tables/vacanceTable.vue'
     export default {
+        components: {
+          vacanceTable,
+        },
         data () {
           return {
-            vacancyFields: [
-              {key: 'id', label: 'NO'},
-              {key: 'vacancy_Name', label: '職缺名稱'},
-              {key: 'company_Name', label: '公司名稱'},
-              {key: 'M_Name', label: '發布人'},
-              {key: 'verifyTime', label: '發布日期'},
-              {key: 'status', label: '狀態',formatter: e => this.statusdesc[e]},
-              '詳情',
-            ],
-            statusdesc:["待審核","審核通過","審核不通過","已封存"],
             deleteId:'',
             widowHight08:window.innerHeight * 0.8,
             vacancyData:{
@@ -168,8 +90,6 @@
             }
           }
         },
-        components: {
-        },
         created () {
             this.action_vacance_get({Mem_Se:this.users.id});
         },
@@ -177,8 +97,7 @@
             // ...mapGetters 為 ES7 寫法
             ...mapState(['stateVacanceData']),
             ...mapGetters({
-                // getTodo return value 將會存在別名為 todos 的 webData 上
-                users: 'getUser'
+                users: 'getUser',getterVacancyDataList:'getterVacancyDataList'
             })
         },
         methods: {
@@ -248,9 +167,13 @@
                 this.modalOption.status = 2;
                 this.$modal.show("modalVacancyAdd");
             },
+            deleteItem(item){
+                this.vacancyData = item;
+                this.$bvModal.show('delete-check-modal');
+            },
             deleteVacancy(){
                 let self = this;
-                self.action_vacancy_delete({data:{id:self.deleteId}}).then(function(result){
+                self.action_vacancy_delete({data:{id:self.vacancyData.id}}).then(function(result){
                     if(result.code == 'success'){
                         alert('成功');
                     }
@@ -261,9 +184,6 @@
             },
         }
     }
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip(); 
-    });
 </script>
 
 <style>

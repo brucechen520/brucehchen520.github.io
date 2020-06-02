@@ -1,22 +1,9 @@
 <template>
   <div class="container">
     <h1>我的專案</h1>
-    <span class="btn btn-info" @click="addProject">新增專案</span>
-    <div v-for="(item, index) in stateProjectData.list" :key="index" >
-        <div class="list-group container">
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 專案名稱: {{ item.project_Name }}  </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning"> 公司名稱: {{ item.company_Name }} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning wordBreak"> 內容描述: {{ item.description }} </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning">
-            <span>管理員審查意見: {{item.suggestion}} </span>
-            </div>
-            <div class="list-group-item list-group-item-action list-group-item-warning">
-                <button class="btn btn-info" data-toggle="modal" data-target="#showCase" @click="detail(item)"> 詳情 </button>
-            </div>
-        </div>
-        <hr>
-    </div>
-    <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.3">
+    <b-button variant="success" @click="addProject" class="mb-2">新增專案</b-button>
+    <project-table :items="getterProjectDataList" :editable="true" :editproject="editProject" :deleteItem="deleteItem"></project-table>
+    <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
@@ -49,34 +36,33 @@
           <button type="button" @click="updateProjectData" v-if="completeValidate()">送出</button>
           <button type="button" v-else class="disable">不能送出</button>
         </div>
-          <button type="button" @click="deleteProjectModal">刪除</button>
           <button type="button" @click="closeModalAdd">取消</button>
         </div>
     </modal>
-        <modal id="check-modal" class="modalform" name="checkModal" transition="pop-out" :width="500" :height="300" :pivotX="0.5" :pivotY="0.3">
-        <div class="modal-header">
-          <h2>刪除專案</h2>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="checkModalCancel">
-                        <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <span>刪除後無法復原，確定刪除?</span>
-        </div>
-        <div class="modal-footer">
-          <button type="button" @click="deleteProject">確定</button>
-          <button type="button" @click="checkModalCancel">取消</button>
-        </div>
-    </modal>
+    <b-modal id="delete-check-modal" centered danger title="刪除專案" @ok="deleteProject">
+      <p class="my-4">刪除後無法復原，確定刪除?</p>
+      <template v-slot:modal-footer="{ ok, cancel }">
+      <b-button size="sm" variant="danger" @click="ok()">
+        刪除
+      </b-button>
+      <b-button size="sm" @click="cancel()">
+        取消
+      </b-button>
+    </template>
+    </b-modal>
   </div>
   
 </template>
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
-    import * as api from '../lib/api';
-    import DatePicker from 'vue2-datepicker' 
+    import DatePicker from 'vue2-datepicker'
+    import projectTable from '../tables/projectTable.vue'
     export default {
+        components: {
+            DatePicker,
+            projectTable
+        },
         data () {
           return {
             widowHight08:window.innerHeight * 0.8,
@@ -112,21 +98,17 @@
             },
           }
         },
-        components: {
-            DatePicker
-        },
         created () {
             let self = this;
-            this.action_project_get({Mem_Se:self.users.id}).then(function(){
-                //self.website_sets = [...self.stateWebData.list];
-            });
+            this.action_project_get({Mem_Se:self.users.id});
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
             ...mapState(['stateProjectData']),
             ...mapGetters({
                 // getTodo return value 將會存在別名為 todos 的 webData 上
-                users: 'getUser'
+                users: 'getUser',
+                getterProjectDataList:'getterProjectDataList'
             })
         },
         methods: {
@@ -134,7 +116,6 @@
   	            'action_project_insert','action_project_get', 'action_project_update', 'action_project_delete'
   	        ]),
             addProject(){
-                //this.modalOption.title = "新增專案";
                 this.modalOption.readonly = false;
                 this.modalOption.status = 1;
                 this.$modal.show("modalProject");
@@ -157,11 +138,11 @@
                 self.clearProjectData();
 
             },
-            deleteProjectModal(){
-                this.$modal.show("checkModal");
-            },
-            checkModalCancel(){
-                this.$modal.hide("checkModal");
+            editProject(item){
+                this.projectData = Object.assign({},item);
+                this.modalOption.readonly = false;
+                this.modalOption.status = 2;
+                this.$modal.show("modalProject");
             },
             completeValidate() {
                 if (this.errors.items.length > 0 || this.projectData.project_Name == "") {
@@ -192,13 +173,16 @@
                     contact_Time:"",
                 }
             },
+            deleteItem(item){
+                this.projectData = item;
+                this.$bvModal.show('delete-check-modal');
+            },
             deleteProject(){
                 let self = this;
-                self.action_project_delete({data:self.projectData}).then(function(result){
+                self.action_project_delete({data:{id:self.projectData.id}}).then(function(result){
                     if(result.code == 'success'){
                         alert('成功');
                     }
-                    self.$modal.hide("checkModal");
                     self.$modal.hide("modalProject");
                     self.action_project_get({Mem_Se:self.users.id});
                     self.clearProjectData();
@@ -217,9 +201,6 @@
             },
         }
     }
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip(); 
-    });
 </script>
 
 <style>

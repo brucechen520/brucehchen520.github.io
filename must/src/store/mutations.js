@@ -25,7 +25,7 @@ export const state = {
     license:[],
     works:[],
   },
-  stateMemberData:[]
+  stateMemberData:{list:[]},
 }
 
 // mutations
@@ -67,9 +67,6 @@ export const mutations = {
     state.stateResumeData = data;
   },
   [types.SET_MEMBER_DATA] (state, data) {
-    data.expertise = data.expertise || "";
-    data.works = data.works || "";
-    data.license = data.license || "";
     state.stateMemberData = data;
   },
   [types.SET_STATUS] (state, data) {
