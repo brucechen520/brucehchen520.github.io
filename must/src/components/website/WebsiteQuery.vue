@@ -1,6 +1,8 @@
 <template>
   <div>
-    <web-table :items="getterWebDataList"></web-table>
+    <div class="container">
+      <web-table :items="getterWebDataList"></web-table>
+    </div>
   </div>
 </template>
 

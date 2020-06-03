@@ -3,23 +3,92 @@
 <div v-if="stateResumeData.Mem_Se != null">
     <div v-if="!isModify">
     <h1>我的資料</h1>
-    <div class="row">
-        <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
-    </div>
-    <div class="row"><label class="col-12 col-md-auto">姓名是否公開:{{permitdesc[stateResumeData.permit.name]}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">信箱:{{stateResumeData.mail}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">信箱是否公開:{{permitdesc[stateResumeData.permit.mail]}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">手機:{{stateResumeData.cellphone}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">手機是否公開:{{permitdesc[stateResumeData.permit.phone]}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">技能專長:{{stateResumeData.expertise}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">作品:{{stateResumeData.works}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">證照:{{stateResumeData.license}}</label></div>
-    <div class="row"><label class="col-12 col-md-auto">自我介紹:{{stateResumeData.biography}}</label></div>
-        <span class="btn btn-info" @click="toModifyData">修改</span>
+    <b-button variant="success" @click="toModifyData" class="mb-2">修改資料</b-button>
+    <b-card :title="users.name" :sub-title="users.level+'級'" border-variant="Success">
+        <b-card-body>
+            <b-row class="border-bottom p-2">
+                <b-col>信箱:</b-col><b-col cols="10">{{stateResumeData.mail}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>手機:</b-col><b-col cols="10">{{stateResumeData.cellphone}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>技能專長:</b-col><b-col cols="10">{{stateResumeData.expertise}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>作品:</b-col><b-col cols="10">{{stateResumeData.works}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>證照:</b-col><b-col cols="10">{{stateResumeData.license}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>自我介紹:</b-col><b-col cols="10"><pre>{{stateResumeData.biography}}</pre></b-col>
+            </b-row>
+        </b-card-body>
+        <b-card-text class="small text-muted">隱私設定</b-card-text>
+        <b-card-body>
+            <b-row class="border-bottom p-2">
+                <b-col>姓名:</b-col><b-col cols="10">{{permitdesc[stateResumeData.permit.name]}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>信箱:</b-col><b-col cols="10">{{permitdesc[stateResumeData.permit.mail]}}</b-col>
+            </b-row>
+            <b-row class="border-bottom p-2">
+                <b-col>手機:</b-col><b-col cols="10">{{permitdesc[stateResumeData.permit.phone]}}</b-col>
+            </b-row>
+        </b-card-body>
+    </b-card>
     </div>
     <div v-else>
         <h1>個人資料修改</h1>
-        <div class="row" style="color:red">*為必填</div>
+            <b-form>
+                <b-row>
+                    <b-col cols=8><b-form-group label="姓名:" label-for="input-name" label-cols=1>
+                            <b-form-input id="input-name"  :value="users.name" type="text" readonly></b-form-input>
+                    </b-form-group></b-col>
+                    <b-col cols=4><b-form-group label="是否公開:" label-for="input-2" label-cols=4>
+                            <b-form-select v-model="modifyData.permit.name" :options="permitOption"></b-form-select>
+                    </b-form-group></b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols=8><b-form-group label="信箱:" label-for="input-email" label-cols=1>
+                            <b-form-input id="input-email" :state="mailValidation" v-model="modifyData.mail" type="email" required placeholder="輸入信箱"></b-form-input>
+                            <b-form-invalid-feedback :state="mailValidation">
+                                請輸入正確的信箱
+                            </b-form-invalid-feedback>
+                    </b-form-group></b-col>
+                    <b-col cols=4><b-form-group label="是否公開:" label-for="input-2" label-cols=4>
+                        <b-form-select v-model="modifyData.permit.mail" :options="permitOption"></b-form-select>
+                    </b-form-group></b-col>
+                </b-row>         
+                <b-row>
+                    <b-col cols=8><b-form-group label="手機:" label-for="input-phone" label-cols=1>
+                            <b-form-input id="input-phone" v-model="modifyData.cellphone" type="tel" required placeholder="輸入手機"></b-form-input>
+                    </b-form-group></b-col>
+                    <b-col cols=4><b-form-group label="是否公開:" label-for="input-2" label-cols=4>
+                        <b-form-select v-model="modifyData.permit.phone" :options="permitOption"></b-form-select>
+                    </b-form-group></b-col>
+                </b-row>
+                <b-form-group label="技能專長:" label-for="input-expertise" label-cols=1>
+                    <b-form-tags id="input-expertise" placeholder="輸入技能專長(enter即可新增)" remove-on-delete size="lg" tag-variant="success" v-model="modifyData.expertise2"></b-form-tags>
+                </b-form-group>
+                <b-form-group label="作品:" label-for="input-work" label-cols=1>
+                    <b-form-tags id="input-work" placeholder="輸入作品(enter即可新增)" remove-on-delete size="lg" tag-variant="info" v-model="modifyData.works2"></b-form-tags>
+                </b-form-group>
+                <b-form-group label="證照:" label-for="input-license" label-cols=1>
+                    <b-form-tags id="input-license" placeholder="輸入證照(enter即可新增)" remove-on-delete size="lg" tag-variant="danger" v-model="modifyData.license2"></b-form-tags>
+                </b-form-group>
+                <b-form-group label="自我介紹:" label-for="input-biography" label-cols=1>
+                    <b-form-textarea id="input-biography" placeholder="介紹一下你自己" rows="8" v-model="modifyData.biography"></b-form-textarea>
+                </b-form-group>
+                
+                <b-button v-if="mailValidation" variant="success" @click="modify">送出</b-button>
+                <b-button v-else >送出</b-button>
+                <b-button @click="modifyCancel">取消</b-button>
+            </b-form>
+
+
+        <!-- <div class="row" style="color:red">*為必填</div>
         <div class="row">
             <label class="col-12 col-md-auto">{{ users.level }}級:{{ users.name }}</label>
         </div>
@@ -72,7 +141,7 @@
         <textarea rows="5" cols="100" v-model="modifyData.biography" name="description"> </textarea>
     </div>
         <span class="btn btn-info" @click="modifyCancel">取消</span>
-        <span class="btn btn-info" @click="validateForm2">送出</span>
+        <span class="btn btn-info" @click="validateForm2">送出</span> -->
     </div>
 </div>
 <div v-else>
@@ -172,11 +241,29 @@
                 }]
             },
             permitList: [
-              {'mes': '對系友公開', 'value': '0'},
-              {'mes': '對訪客公開', 'value': '1'},
+              {'mes': '完全公開', 'value': '0'},
+              {'mes': '僅系友公開', 'value': '1'},
               {'mes': '不公開', 'value': '2'},        
             ],
-            permitdesc:['對系友公開','對訪客公開','不公開'],
+            permitOption: [
+              { value:0, text:'完全公開'},
+              { value:1, text:'僅系友公開'},
+              { value:2, text:'不公開'},        
+            ],
+            permitdesc:['完全公開','僅系友公開','不公開'],
+            form: {
+                name:'QQ',
+                mail: '',
+                cellphone: '',
+                expertise:'',
+                license:'',
+                works:'',
+                permit:{
+                    mail:0,
+                    name:0,
+                    phone:0,
+                }
+            },
           }
         },
         computed: {
@@ -186,6 +273,10 @@
                 // getTodo return value 將會存在別名為 todos 的 webData 上
                 users: 'getUser'
             }),
+            mailValidation(){
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(this.modifyData.mail).toLowerCase());
+            }
         },
         mounted(){
             this.action_resume_get({id:this.users.id});
@@ -272,6 +363,20 @@
                         alert('Correct them errors!'); 
                 })
             },
+            modify(){
+                let self = this;
+                let param = Object.assign({},self.modifyData);
+                param.expertise = param.expertise2.toString().replace(/,/g,'、');
+                param.works = param.works2.toString().replace(/,/g,'、');
+                param.license = param.license2.toString().replace(/,/g,'、');
+                self.action_resume_update({data:param}).then(function(result){
+                    if(result.code == 'success'){
+                        alert('成功');
+                        self.action_resume_get({id:self.users.id});
+                        self.modifyCancel();
+                    }
+                });
+            },
             toModifyData(){
                 this.modifyData = Object.assign({},this.stateResumeData);
                 function toObj(e,index,arr){
@@ -282,6 +387,9 @@
                     }
                     return obj;
                 };
+                this.modifyData.expertise2 = this.modifyData.expertise.split("、");
+                this.modifyData.works2 = this.modifyData.works.split("、");
+                this.modifyData.license2 = this.modifyData.license.split("、");
                 this.modifyData.expertise = this.modifyData.expertise.split("、").map(toObj);
                 this.modifyData.works = this.modifyData.works.split("、").map(toObj);
                 this.modifyData.license = this.modifyData.license.split("、").map(toObj);

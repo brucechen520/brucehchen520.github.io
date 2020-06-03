@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table striped hover outlined :fields="editable ? fieldsPersonal : fields" :items="items" @row-clicked="e => {e._showDetails = !e._showDetails}">
+        <b-table striped hover outlined :fields="(editable || auditable) ? fieldsPersonal : fields" :items="items" @row-clicked="e => {e._showDetails = !e._showDetails}">
             <template v-slot:cell(id)="row">{{row.index +1 }}</template>
             <template v-slot:cell(name)="row">
             <b-link :href="row.item.address" target="_blank">{{ row.item.name }}</b-link>
@@ -15,49 +15,50 @@
                 <b-row align-v="center">
                 <b-col cols=10>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>序號:</b></b-col>
+                <b-col cols=3 class=""><b>序號:</b></b-col>
                 <b-col>{{ row.item.id }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>專案描述:</b></b-col>
+                <b-col cols=3 class=""><b>專案描述:</b></b-col>
                 <b-col>{{ row.item.description }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>案件預算:</b></b-col>
+                <b-col cols=3 class=""><b>案件預算:</b></b-col>
                 <b-col>{{ row.item.offer }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>截止期限:</b></b-col>
+                <b-col cols=3 class=""><b>截止期限:</b></b-col>
                 <b-col>{{datetimeFormat(parseInt(row.item.deadline))}}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>公司網址:</b></b-col>
+                <b-col cols=3 class=""><b>公司網址:</b></b-col>
                 <b-col><b-link :href="row.item.company_Website" target="_blank">{{ row.item.company_Website }}</b-link></b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>聯絡人:</b></b-col>
+                <b-col cols=3 class=""><b>聯絡人:</b></b-col>
                 <b-col>{{ row.item.contact_Name }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>E-mail:</b></b-col>
+                <b-col cols=3 class=""><b>E-mail:</b></b-col>
                 <b-col>{{ row.item.contact_Mail }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>連絡電話:</b></b-col>
+                <b-col cols=3 class=""><b>連絡電話:</b></b-col>
                 <b-col>{{ row.item.contact_Phone }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=2 class=""><b>方便聯絡時間:</b></b-col>
+                <b-col cols=3 class=""><b>方便聯絡時間:</b></b-col>
                 <b-col>{{ row.item.contact_Time }}</b-col>
                 </b-row>
-                <b-row v-if="editable" class="mb-1">
-                    <b-col sm="2" class=""><b>管理員建議:</b></b-col>
+                <b-row v-if="editable || auditable" class="mb-1">
+                    <b-col cols=3 class=""><b>管理員建議:</b></b-col>
                     <b-col>{{ row.item.suggestion}}</b-col>
                 </b-row>
                 </b-col>
                 <b-col cols=2 align="center">
                 <b-button class="mb-2" size="sm" v-if="editable" variant="warning" @click="editItem(row.item)">修改</b-button><br>
                 <b-button class="mb-2" size="sm" v-if="editable" variant="danger" @click="deleteItem(row.item)">刪除</b-button><br>
+                <b-button class="mb-2" size="sm" v-if="auditable" variant="info" @click="auditItem(row.item)">審核</b-button><br>
                 <b-button class="mb-2" size="sm" @click="row.toggleDetails">縮小</b-button>
                 </b-col>
                 </b-row>
@@ -75,7 +76,9 @@
             },
             editable:{default:false},
             editItem:{type:Function},
-            deleteItem:{type:Function}
+            deleteItem:{type:Function},
+            auditable:{default:false},
+            auditItem:{type:Function},
         },
         components: {
         },
