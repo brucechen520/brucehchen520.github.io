@@ -41,6 +41,7 @@
     </div>
     <div v-else>
         <h1>個人資料修改</h1>
+        <ValidationObserver v-slot="{ valid }">
             <b-form>
                 <b-row>
                     <b-col cols=8><b-form-group label="姓名:" label-for="input-name" label-cols=1>
@@ -52,10 +53,12 @@
                 </b-row>
                 <b-row>
                     <b-col cols=8><b-form-group label="信箱:" label-for="input-email" label-cols=1>
-                            <b-form-input id="input-email" :state="mailValidation" v-model="modifyData.mail" type="email" required placeholder="輸入信箱"></b-form-input>
-                            <b-form-invalid-feedback :state="mailValidation">
-                                請輸入正確的信箱
+                            <ValidationProvider rules="required|email" v-slot="{ valid, errors }">
+                            <b-form-input id="input-email" :state="valid" v-model="modifyData.mail" type="email" required placeholder="輸入信箱"></b-form-input>
+                            <b-form-invalid-feedback :state="valid">
+                                {{ errors[0] }}
                             </b-form-invalid-feedback>
+                            </ValidationProvider>
                     </b-form-group></b-col>
                     <b-col cols=4><b-form-group label="是否公開:" label-for="input-2" label-cols=4>
                         <b-form-select v-model="modifyData.permit.mail" :options="permitOption"></b-form-select>
@@ -63,7 +66,12 @@
                 </b-row>         
                 <b-row>
                     <b-col cols=8><b-form-group label="手機:" label-for="input-phone" label-cols=1>
-                            <b-form-input id="input-phone" v-model="modifyData.cellphone" type="tel" required placeholder="輸入手機"></b-form-input>
+                            <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                            <b-form-input id="input-phone" :state="valid" v-model="modifyData.cellphone" type="tel" required placeholder="輸入手機"></b-form-input>
+                            <b-form-invalid-feedback :state="valid">
+                                {{ errors[0] }}
+                            </b-form-invalid-feedback>
+                            </ValidationProvider>
                     </b-form-group></b-col>
                     <b-col cols=4><b-form-group label="是否公開:" label-for="input-2" label-cols=4>
                         <b-form-select v-model="modifyData.permit.phone" :options="permitOption"></b-form-select>
@@ -79,14 +87,19 @@
                     <b-form-tags id="input-license" placeholder="輸入證照(enter即可新增)" remove-on-delete size="lg" tag-variant="danger" v-model="modifyData.license2"></b-form-tags>
                 </b-form-group>
                 <b-form-group label="自我介紹:" label-for="input-biography" label-cols=1>
-                    <b-form-textarea id="input-biography" placeholder="介紹一下你自己" rows="8" v-model="modifyData.biography"></b-form-textarea>
+                    <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                    <b-form-textarea id="input-biography" :state="valid" placeholder="介紹一下你自己" rows="8" v-model="modifyData.biography"></b-form-textarea>
+                    <b-form-invalid-feedback :state="valid">
+                        {{ errors[0] }}
+                    </b-form-invalid-feedback>
+                    </ValidationProvider>
                 </b-form-group>
                 
-                <b-button v-if="mailValidation" variant="success" @click="modify">送出</b-button>
+                <b-button v-if="valid" variant="success" @click="modify">送出</b-button>
                 <b-button v-else >送出</b-button>
                 <b-button @click="modifyCancel">取消</b-button>
             </b-form>
-
+        </ValidationObserver>
 
         <!-- <div class="row" style="color:red">*為必填</div>
         <div class="row">
