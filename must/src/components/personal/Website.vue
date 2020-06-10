@@ -6,17 +6,47 @@
       <web-table :items="getterWebDataList" :editable="true" :editItem="editWeb" :deleteItem="deleteItem"></web-table>
     </div>
 
-    <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" :width="800" :height="550" :pivotX="0.5" :pivotY="0.3">
+    <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" :width="800" :height="700" :pivotX="0.5" :pivotY="0.3">
       <div class="modal-header">
         <h2>{{modalOption.title}}</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
                       <span aria-hidden="true">×</span>
         </button>
       </div>
+      <ValidationObserver v-slot="{ valid }">
       <div class="modal-body">
-        <span>名稱</span><input v-model="webAddData.name" placeholder="請輸入網站名稱">
-        <span>網址</span><input v-model="webAddData.address" placeholder="請輸入完整網站網址" v-validate="'url'" name="url">
-        <span v-show="errors.has('url')" class="validate-error-message">請輸入正確的網址</span>
+        <b-form-group label="名稱:" label-for="input-name" label-cols=2>
+            <ValidationProvider rules="required" v-slot="{ valid, errors }">
+            <b-form-input id="input-name" :state="valid" v-model="webAddData.name" type="text" placeholder="請輸入網站名稱"></b-form-input>
+            <b-form-invalid-feedback :state="valid">
+                {{ errors[0] }}
+            </b-form-invalid-feedback>
+            </ValidationProvider>
+        </b-form-group>
+        <b-form-group label="網址:" label-for="input-address" label-cols=2>
+            <ValidationProvider rules="required" v-slot="{ valid, errors }">
+            <b-form-input id="input-address" :state="valid" v-model="webAddData.address" type="text" placeholder="請輸入完整網站網址"></b-form-input>
+            <b-form-invalid-feedback :state="valid">
+                {{ errors[0] }}
+            </b-form-invalid-feedback>
+            </ValidationProvider>
+        </b-form-group>
+        <b-form-group label="是否公開:" label-for="input-2" label-cols=2>
+            <b-form-select v-model="webAddData.permit" :options="permitOption"></b-form-select>
+        </b-form-group>
+        <b-form-group label="類別:" label-for="input-2" label-cols=2>
+            <b-form-select v-model="webAddData.type" :options="website_type"></b-form-select>
+        </b-form-group>
+        <b-form-group label="敘述:" label-for="input-description" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-textarea id="input-description" :state="valid" placeholder="請輸入網站敘述" rows="8" v-model="webAddData.description"></b-form-textarea>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+        <!-- <span>名稱</span><input v-model="webAddData.name" placeholder="請輸入網站名稱">
+        <span>網址</span><input v-model="webAddData.address" placeholder="請輸入完整網站網址">
         <span>是否公開</span>
         <select v-model="webAddData.permit">
           <option v-for="item,index in permitList" :value="index">{{ item }}</option>
@@ -27,19 +57,20 @@
           <option  v-for="item in website_type" :value="item">{{ item }}</option>
         </select>
         
-        <span>敘述</span><textarea v-model="webAddData.description" placeholder="請輸入網站敘述"></textarea>
+        <span>敘述</span><textarea v-model="webAddData.description" placeholder="請輸入網站敘述"></textarea> -->
       </div>
       <div class="modal-footer">
         <div v-if="modalOption.status == 2">
-          <button type="button" @click="updateWebData" v-if="completeValidate">送出</button>
+          <button type="button" @click="updateWebData" v-if="valid">送出</button>
           <button type="button" v-else class="disable">不能送出</button>
         </div>
         <div v-if="modalOption.status == 1">
-        <button type="button" @click="addWebData" v-if="completeValidate">新增</button>
+        <button type="button" @click="addWebData" v-if="valid">新增</button>
         <button type="button" v-else class="disable">新增</button>
         </div>
         <button type="button" @click="closeModalAdd">取消</button>
       </div>
+      </ValidationObserver>
   </modal>
   <b-modal id="delete-check-modal" centered danger title="刪除網站" @ok="deleteWeb">
     <p class="my-4">刪除後無法復原，確定刪除?</p>
@@ -76,6 +107,11 @@
               1:'僅系友公開',
               2:'不公開'
             },
+            permitOption: [
+              { value:0, text:'完全公開'},
+              { value:1, text:'僅系友公開'},
+              { value:2, text:'不公開'},        
+            ],
             website_sets: [{
                 id: Number(1),
                 type: '',
@@ -113,7 +149,7 @@
         computed: {
           ...mapState(['stateProjectData','stateVacanceData','stateWebData','userInfo']),
           completeValidate() {
-            if (this.errors.items.length > 0 || this.webAddData.name === "") {
+            if (this.webAddData.name === "") {
                 return false;
             } else {
                 return true;
@@ -226,5 +262,9 @@
     }
     .is-disabled {
       pointer-events: none;
+    }
+    #modal-addweb .modal-body{
+        overflow-y: auto;
+        max-height: calc(100% - 200px);
     }
 </style>

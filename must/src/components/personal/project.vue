@@ -10,10 +10,70 @@
                         <span aria-hidden="true">×</span>
           </button>
         </div>
+        <ValidationObserver v-slot="{ valid }">
         <div class="modal-body">
-          <span>公司名稱</span><input v-model="projectData.company_Name" placeholder="請輸入公司名稱" :readonly="modalOption.readonly">
+                        <b-form-group label="公司名稱:" label-for="input-company_Name" label-cols=2>
+                <b-form-input id="input-company_Name" v-model="projectData.company_Name" type="text" placeholder="請輸入公司名稱"></b-form-input>
+            </b-form-group>
+            <b-form-group label="公司網址:" label-for="input-company_Website" label-cols=2>
+                <b-form-input id="input-company_Website" v-model="projectData.company_Website" type="text" placeholder="請輸入公司網址"></b-form-input>
+            </b-form-group>
+            <b-form-group label="案件名稱:" label-for="input-project_Name" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-input id="input-project_Name" :state="valid" v-model="projectData.project_Name" type="text" placeholder="請輸入案件名稱"></b-form-input>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+            <b-form-group label="描述:" label-for="input-biography" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-textarea id="input-biography" :state="valid" placeholder="請輸入職缺描述" rows="8" v-model="projectData.description"></b-form-textarea>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+            <b-form-group label="案件預算:" label-for="input-offer" label-cols=2>
+                <b-form-input id="input-offer" v-model="projectData.offer" type="text" placeholder="請輸入案件預算"></b-form-input>
+            </b-form-group>
+            <b-form-group label="專案截止期限:" label-for="input-deadline" label-cols=2>
+                <date-picker id="input-deadline" v-model="projectData.deadline" :time-picker-options="timePickerOptions" value-type="timestamp" :not-before="new Date()" >{{projectData.deadline}}</date-picker>
+            </b-form-group>
+            <b-form-group label="聯絡人:" label-for="input-contact_Name" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-input id="input-contact_Name" :state="valid" v-model="projectData.contact_Name" type="text" placeholder="請輸入聯絡人"></b-form-input>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+            <b-form-group label="E-mail:" label-for="input-contact_Mail" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-input id="input-contact_Mail" :state="valid" v-model="projectData.contact_Mail" type="text" placeholder="請輸入聯絡E-mail"></b-form-input>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+            <b-form-group label="連絡電話:" label-for="input-contact_Phone" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-input id="input-contact_Phone" :state="valid" v-model="projectData.contact_Phone" type="text" placeholder="請輸入連絡電話"></b-form-input>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+            <b-form-group label="方便聯絡時間:" label-for="input-contact_Time" label-cols=2>
+                <ValidationProvider rules="required" v-slot="{ valid, errors }">
+                <b-form-input id="input-contact_Time" :state="valid" v-model="projectData.contact_Time" type="text" placeholder="請輸入聯絡時間"></b-form-input>
+                <b-form-invalid-feedback :state="valid">
+                    {{ errors[0] }}
+                </b-form-invalid-feedback>
+                </ValidationProvider>
+            </b-form-group>
+          <!-- <span>公司名稱</span><input v-model="projectData.company_Name" placeholder="請輸入公司名稱" :readonly="modalOption.readonly">
           <span>公司網址</span><input v-model="projectData.company_Website" placeholder="請輸入公司網址" v-validate="'url'" name="url" :readonly="modalOption.readonly">
-          <span v-show="errors.has('url')" class="validate-error-message">請輸入正確的網址</span>
           <span>案件名稱</span><input v-model="projectData.project_Name" placeholder="請輸入案件名稱" :readonly="modalOption.readonly">
           <span>描述</span><textarea v-model="projectData.description" placeholder="請輸入專案描述" :readonly="modalOption.readonly"></textarea>
           <span>案件預算</span><input v-model="projectData.offer" placeholder="請輸入工作待遇" :readonly="modalOption.readonly">
@@ -22,22 +82,23 @@
           <span>聯絡人</span><input v-model="projectData.contact_Name" placeholder="請輸入聯絡人" :readonly="modalOption.readonly">
           <span>E-mail</span><input v-model="projectData.contact_Mail" placeholder="請輸入聯絡E-mail" :readonly="modalOption.readonly">
           <span>連絡電話</span><input v-model="projectData.contact_Phone" placeholder="請輸入連絡電話" :readonly="modalOption.readonly">
-          <span>方便聯絡時間</span><input v-model="projectData.contact_Time" placeholder="請輸入聯絡時間" :readonly="modalOption.readonly">
+          <span>方便聯絡時間</span><input v-model="projectData.contact_Time" placeholder="請輸入聯絡時間" :readonly="modalOption.readonly"> -->
         </div>
         <div class="modal-footer">
         <div v-if="modalOption.status == 0">
           <button type="button" @click="modalOption.status = 2,modalOption.readonly = false">修改</button>
         </div>
         <div v-if="modalOption.status == 1">
-          <button type="button" @click="addProjectData" v-if="completeValidate()">新增</button>
+          <button type="button" @click="addProjectData" v-if="valid">新增</button>
           <button type="button" v-else class="disable">新增</button>
         </div>
         <div v-if="modalOption.status == 2">
-          <button type="button" @click="updateProjectData" v-if="completeValidate()">送出</button>
+          <button type="button" @click="updateProjectData" v-if="valid">送出</button>
           <button type="button" v-else class="disable">不能送出</button>
         </div>
           <button type="button" @click="closeModalAdd">取消</button>
         </div>
+        </ValidationObserver>
     </modal>
     <b-modal id="delete-check-modal" centered danger title="刪除專案" @ok="deleteProject">
       <p class="my-4">刪除後無法復原，確定刪除?</p>
@@ -151,7 +212,7 @@
                 this.$modal.show("modalProject");
             },
             completeValidate() {
-                if (this.errors.items.length > 0 || this.projectData.project_Name == "") {
+                if (this.projectData.project_Name == "") {
                     return false;
                 } else {
                     return true;

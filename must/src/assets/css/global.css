@@ -1,13 +1,13 @@
 .modalform{
     /*height:500px;*/
 }
-.modalform input{
+/* .modalform input{
     display:block;
     border:0;
     border-bottom:1px solid #dddedf;
     width:100%;
     margin-bottom: 5px;
-}
+} */
 .modalform textarea{
     display:block;
     border:1px solid #dddedf;
