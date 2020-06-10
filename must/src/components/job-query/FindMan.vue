@@ -3,6 +3,7 @@
     <div class="container">
     <b-table striped hover outlined :fields="memberFields" :items="gettetMemberDataList" @row-clicked="e => {e._showDetails = !e._showDetails}">
         <template v-slot:cell(id)="row">{{row.index +1 }}</template>
+        <template v-slot:cell(level)="row">{{row.item.level}}{{row.item.level?'級':''}}{{classDesc[row.item.class]}}{{row.item.class?'班':''}}</template>
         <template v-slot:cell(_showDetails)="row">
           <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
              {{ row.detailsShowing ? '縮小' : '詳情'}}
@@ -56,10 +57,17 @@
           return {
             memberFields: [
               {key: 'id', label: 'NO'},
+              {key: 'level', label: '級別班級'},
               {key: 'name', label: '姓名'},
               {key: 'expertise', label: '技能專長'},
               {key: '_showDetails', label: '詳情'},
             ],
+            classDesc:{
+              1:'甲',
+              2:'乙',
+              3:'丙',
+              4:'丁'
+            }
           }
         },
         created () {

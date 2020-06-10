@@ -137,7 +137,7 @@
                 contact_Name:"",
                 contact_Mail:"",
                 contact_Phone:"",
-                contact_Time:"",
+                contact_Time:"任何時間",
             },
             modalOption:{
                 get title(){
@@ -237,7 +237,7 @@
                     contact_Name:"",
                     contact_Mail:"",
                     contact_Phone:"",
-                    contact_Time:"",
+                    contact_Time:"任何時間",
                 }
             },
             deleteItem(item){
