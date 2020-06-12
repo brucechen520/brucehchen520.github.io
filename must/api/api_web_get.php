@@ -34,7 +34,7 @@
 	if(!$wherefirst)
 		$whereString .= ")";
 	
-	$str = "SELECT A.web_type , A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,A.suggestion,B.M_Name
+	$str = "SELECT A.Mem_Se, A.web_type, A.web_name, A.web_description, A.web_address,A.Web_Id,A.Permit_Id,A.status,A.verifyTime,A.suggestion,B.M_Name
 		FROM `Industry_Website` A
 		LEFT JOIN Member B USING(`Mem_Se`)
 		".$whereString."
@@ -55,6 +55,7 @@
 			$now_row->description  =  $row[web_description];
 			$now_row->address  =  $row[web_address];
 			$now_row->publisher  =  $row[M_Name];
+			$now_row->publisherId  =  $row[Mem_Se];
 			$now_row->permit  =  $row[Permit_Id];
 			$now_row->status = $row[status];
 			$now_row->verifyTime = $row[verifyTime];

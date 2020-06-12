@@ -119,11 +119,12 @@
                   'suggestion': this.audit.suggestion,
                   'status': this.audit.status,
                   'creater': this.focusItem.M_Name,
+                  'publisherId':this.focusItem.publisherId,
                   'vacancy_Name' : this.focusItem.vacancy_Name
                 }
                 self.action_vacancy_comfirm(param).then(function(result){
                     alert('成功');
-                    self.action_vacance_get({status:this.focusStatusType});
+                    self.action_vacance_get({status:self.focusStatusType});
                 });
                 break;
               case 2 :
@@ -132,11 +133,12 @@
                   'suggestion': this.audit.suggestion,
                   'status': this.audit.status,
                   'creater': this.focusItem.M_Name,
+                  'publisherId':this.focusItem.publisherId,
                   'project_Name' : this.focusItem.project_Name
                 }
                 self.action_project_comfirm(param).then(function(result){
                     alert('成功');
-                    self.action_project_get({status:this.focusStatusType});
+                    self.action_project_get({status:self.focusStatusType});
                 });
                 break;
               case 3 :
@@ -145,11 +147,12 @@
                   'suggestion': this.audit.suggestion,
                   'status': this.audit.status,
                   'publisher':this.focusItem.publisher,
+                  'publisherId':this.focusItem.publisherId,
                   'name':this.focusItem.name,
                   }
                 self.action_web_comfirm(param).then(function(result){
                   alert('成功');
-                  self.action_web_get({status:this.focusStatusType});
+                  self.action_web_get({status:self.focusStatusType});
                 });
                 break;
             }

@@ -56,6 +56,7 @@
                 $PJ_row = new stdClass;
                 $PJ_row->id  =  $row[PJ_Id];
                 $PJ_row->M_Name = $row[M_Name];
+                $PJ_row->publisherId = $row[Mem_Se];
                 $PJ_row->project_Name  =  $row[PJ_Name];
                 $PJ_row->description  =  $row[PJ_Description];
                 $PJ_row->offer  =  $row[PJ_Budget];
@@ -125,7 +126,6 @@
 			  $data->totalCount = count($PJ_List);
 			  $result = new stdClass();
         $result->code = 'success';
-        $result->SQL = $str;
 			  $result->data = $data;
               echo json_encode($result);
           }

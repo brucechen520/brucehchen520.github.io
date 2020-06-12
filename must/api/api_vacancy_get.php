@@ -7,36 +7,31 @@
     include_once '../phpclass.php';
     $Mail = new MailSender();
     $json = array();
-    $user = unserialize($_SESSION['mem']);
-    //$ULEVEL = $tmp['ULEVEL'];
-    //$json['ULEVEL'] = $ULEVEL;
-    if(is_object($user)) {
-      $user->GetMemberData();
-      $user->GetMemberConfirm();
-    }
+    $user = getUserData();
+
     $param = json_decode(file_get_contents('php://input'));
     $webData = array() ;
 
     $whereString = "";
     $wherefirst = true;
-    if($param->status != null && $param->status != ''){
-      $whereString = "WHERE (status = '".$param->status."'";
+    if($param->status !== null && $param->status !== ''){
+      $whereString = "WHERE (vList.status = '".$param->status."'";
       $wherefirst = false;
     }
-    if($param->Mem_Se != null){
+    if($param->Mem_Se !== null){
       if($param->Mem_Se == 'auto')
         $param->Mem_Se = $user->Mem_Se;
       if($wherefirst){
-        $whereString = "WHERE (Mem_Se = '".$param->Mem_Se."'";
+        $whereString = "WHERE (vList.Mem_Se = '".$param->Mem_Se."'";
         $wherefirst = false;
       }
       else
-        $whereString .= " && Mem_Se = '".$param->Mem_Se."'";
+        $whereString .= " && vList.Mem_Se = '".$param->Mem_Se."'";
     }
     if(!$wherefirst)
       $whereString .= ")";
-
-    $str = "SELECT * FROM alumnidata.`Industry_Vacancy_List` ".$whereString;
+      $str = "SELECT *,mTable.M_Name FROM alumnidata.`Industry_Project_List` AS pList LEFT JOIN `alumnidata`.`Member` AS mTable ON pList.Mem_Se = mTable.Mem_Se ".$whereString;
+    $str = "SELECT *,mTable.M_Name FROM alumnidata.`Industry_Vacancy_List` AS vList LEFT JOIN `alumnidata`.`Member` AS mTable ON vList.Mem_Se = mTable.Mem_Se ".$whereString;
     $list = mysql_query($str);
 		//echo $str; 
     if($list === FALSE) { // 資料庫有沒有 FALSE
@@ -46,6 +41,8 @@
       while ($row = mysql_fetch_array($list, MYSQL_ASSOC)) {
         $now_row = new stdClass;
         $now_row->id    =  $row[JB_Id];
+        $now_row->M_Name = $row[M_Name];
+        $now_row->publisherId = $row[Mem_Se];
         $now_row->company_Name    =  $row[CP_Name];
         $now_row->company_Website    =  $row[CP_Website];
         $now_row->vacancy_Name  =  $row[JB_Name];
