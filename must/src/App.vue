@@ -22,6 +22,7 @@
               <b-dropdown-item :to="{name:'personalVacancy'}">發佈職缺</b-dropdown-item>
               <b-dropdown-item :to="{name:'personalProject'}">發佈專案</b-dropdown-item>
               <b-dropdown-item :to="{name:'personalWeb'}">發佈網站</b-dropdown-item>
+              <b-dropdown-item :to="{name:'personalProduct'}">發佈商品</b-dropdown-item>
               <b-dropdown-item :to="{name:'personalNameCard'}">名片上傳</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item-dropdown text="§管理" v-if = "users.isAdmin">

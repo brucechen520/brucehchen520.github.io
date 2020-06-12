@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const api2 = {
     $http: axios,
-    API_HOST: '',
+    API_HOST: 'http://140.134.29.2',
     init: function(){
         this.$http.defaults.headers = { 'Content-Type': 'application/json'}
         if(window.$cookies.get("auth")){

@@ -16,6 +16,7 @@ import parsonal from '../components/personal/personal'
 import personalVacancy from '../components/personal/vacancy'
 import personalProject from '../components/personal/project'
 import personalWeb from '../components/personal/website'
+import personalProduct from '../components/personal/product'
 import personalNameCard from '../components/personal/nameCard'
 
 Vue.use(Router)
@@ -88,6 +89,10 @@ const router = new Router({
                 path: 'web',
                 name: 'personalWeb',
                 component: personalWeb
+            },{
+                path: 'product',
+                name: 'personalProduct',
+                component: personalProduct
             },{
                 path: 'namecard',
                 name: 'personalNameCard',
