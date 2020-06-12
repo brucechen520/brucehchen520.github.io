@@ -22,11 +22,12 @@
               <b-dropdown-item :to="{name:'personalVacancy'}">發佈職缺</b-dropdown-item>
               <b-dropdown-item :to="{name:'personalProject'}">發佈專案</b-dropdown-item>
               <b-dropdown-item :to="{name:'personalWeb'}">發佈網站</b-dropdown-item>
-              <b-dropdown-item href="https://140.134.29.2:5001/sharing/wNhbCOzDw?fbclid=IwAR3QHKYUJCFoNFvBxHGvV0R72KkAqD5-r6EOudaWayZHNW7Il5Li_wxVg_8" target="_blank">名片上傳</b-dropdown-item>
+              <b-dropdown-item :to="{name:'personalNameCard'}">名片上傳</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item-dropdown text="§管理" v-if = "users.isAdmin">
               <b-dropdown-item :to="{name:'manageReview'}">審核頁面</b-dropdown-item>
               <b-dropdown-item :to="{name:'manageLog'}">操作紀錄</b-dropdown-item>
+              <b-dropdown-item href="http://etouch.ee.fcu.edu.tw/photo/#!Albums/album_e7b3bbe58f8be5908de78987e694b6e7b48de58d802028e7b3bbe58f8be69c83e5b088e794a82de4b88de585ace9968b29" target="_blank">不公開名片區</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
