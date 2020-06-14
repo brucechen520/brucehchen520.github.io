@@ -85,6 +85,36 @@ export const api2 = {
                  }
           });
     },
+    postForm: function (url, params, handleSuccess, handleComplete, handleError, loading) {
+        var self = this;
+        self.init();
+        this.$http.defaults.headers = { "Content-Type": "multipart/form-data"}
+        this.$http.post(url, params)
+             .then(response => {
+                if(handleSuccess){
+                    //console.log(response);
+                    handleSuccess(response.data);
+                }else{
+                    self.commonSuccess(response.data);
+                }
+              })
+              .catch(error => {
+                console.error(error);  
+                if (handleError) {
+                    handleError(error);
+                } else {
+                    //self.commonError(error, url);
+                }
+             })
+             .then(function () {
+                 // always executed
+                 if(handleComplete){
+                     handleComplete();
+                 }else{
+                     self.commonComplete();
+                 }
+          });
+    },
     vacance_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_vacancy_get.php',param, handleSuccess, handleComplete, handleError);
     },
@@ -150,6 +180,24 @@ export const api2 = {
     },
     member_get: function (param,handleSuccess, handleComplete, handleError){
         this.post(this.API_HOST + '/ee/api/api_member_get.php',param, handleSuccess, handleComplete, handleError);
+    },
+    photo_update: function (param,handleSuccess, handleComplete, handleError){
+        this.postForm(this.API_HOST + '/ee/api/api_photo_update.php',param, handleSuccess, handleComplete, handleError);
+    },
+    product_get: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_product_get.php',param, handleSuccess, handleComplete, handleError);
+    },
+    product_insert: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_product_insert.php',param, handleSuccess, handleComplete, handleError);
+    },
+    product_update: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_product_update.php',param, handleSuccess, handleComplete, handleError);
+    },
+    product_delete: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_product_delete.php',param, handleSuccess, handleComplete, handleError);
+    },
+    product_comfirm: function (param,handleSuccess, handleComplete, handleError){
+        this.post(this.API_HOST + '/ee/api/api_product_comfirm.php',param, handleSuccess, handleComplete, handleError);
     },
     
 }

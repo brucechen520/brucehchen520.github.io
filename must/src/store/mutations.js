@@ -26,6 +26,7 @@ export const state = {
     works:[],
   },
   stateMemberData:{list:[]},
+  stateProductData:{list:[]},
 }
 
 // mutations
@@ -50,6 +51,9 @@ export const mutations = {
   },
   [types.SET_PROJECT_DATA] (state, data) {
     state.stateProjectData = data;
+  },
+  [types.SET_PRODUCT_DATA] (state, data) {
+    state.stateProductData = data;
   },
   [types.SET_VACANCE_DATA] (state, data) {
     state.stateVacanceData = data;

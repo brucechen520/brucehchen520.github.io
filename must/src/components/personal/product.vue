@@ -1,9 +1,8 @@
 <template>
   <div class="container">
     <h1>我的商品</h1>
-    <b-button variant="success" @click="addProject" class="mb-2">新增商品</b-button>
-    <b-button v-b-modal="'product-modal'" variant="success" class="mb-2">新增商品</b-button>
-    <project-table :items="getterProjectDataList" :editable="true" :editItem="editProject" :deleteItem="deleteItem"></project-table>
+    <b-button v-b-modal="'product-modal'" variant="success" class="mb-2" @click="modalOption.mode = 'add'">新增商品</b-button>
+    <product-table :items="getterProductDataList" :editable="true" :editItem="editProduct" :deleteItem="deleteItem"></product-table>
     <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
@@ -73,17 +72,6 @@
                 </b-form-invalid-feedback>
                 </ValidationProvider>
             </b-form-group>
-          <!-- <span>公司名稱</span><input v-model="projectData.company_Name" placeholder="請輸入公司名稱" :readonly="modalOption.readonly">
-          <span>公司網址</span><input v-model="projectData.company_Website" placeholder="請輸入公司網址" v-validate="'url'" name="url" :readonly="modalOption.readonly">
-          <span>案件名稱</span><input v-model="projectData.project_Name" placeholder="請輸入案件名稱" :readonly="modalOption.readonly">
-          <span>描述</span><textarea v-model="projectData.description" placeholder="請輸入專案描述" :readonly="modalOption.readonly"></textarea>
-          <span>案件預算</span><input v-model="projectData.offer" placeholder="請輸入工作待遇" :readonly="modalOption.readonly">
-          <span>專案截止期限</span><br>
-          <date-picker v-model="projectData.deadline" :time-picker-options="timePickerOptions" value-type="timestamp" :not-before="new Date()" >{{projectData.deadline}}</date-picker><br>
-          <span>聯絡人</span><input v-model="projectData.contact_Name" placeholder="請輸入聯絡人" :readonly="modalOption.readonly">
-          <span>E-mail</span><input v-model="projectData.contact_Mail" placeholder="請輸入聯絡E-mail" :readonly="modalOption.readonly">
-          <span>連絡電話</span><input v-model="projectData.contact_Phone" placeholder="請輸入連絡電話" :readonly="modalOption.readonly">
-          <span>方便聯絡時間</span><input v-model="projectData.contact_Time" placeholder="請輸入聯絡時間" :readonly="modalOption.readonly"> -->
         </div>
         <div class="modal-footer">
         <div v-if="modalOption.status == 0">
@@ -112,7 +100,7 @@
       </b-button>
     </template>
     </b-modal>
-    <product-modal></product-modal>
+    <product-modal :userId="users.id" :product="product" :modalOk="productModalOK" :option="modalOption"></product-modal>
   </div>
   
 </template>
@@ -120,29 +108,23 @@
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
     import DatePicker from 'vue2-datepicker'
-    import projectTable from '../tables/projectTable.vue'
+    import productTable from '../tables/productTable.vue'
     import productModal from '../modals/productModal.vue'
     export default {
         components: {
             DatePicker,
-            projectTable,
+            productTable,
             productModal,
         },
         data () {
           return {
-            widowHight08:window.innerHeight * 0.8,
-            projectData:{
-                company_Name:"",
-                company_Website:"",
-                project_Name:"",
-                description:"",
-                offer:"",
-                deadline:"",
-                contact_Name:"",
-                contact_Mail:"",
-                contact_Phone:"",
-                contact_Time:"任何時間",
+            product:{
+                name:'',
+                permit:0,
+                description:'',
+                images:[],
             },
+            widowHight08:window.innerHeight * 0.8,
             modalOption:{
                 get title(){
                     if(this.status == 0)
@@ -154,6 +136,7 @@
                 },
                 readonly:false,
                 status:0,//0:show, 1:insert , 2:update
+                mode:''
             },
             // custom range shortcuts
             timePickerOptions:{
@@ -166,7 +149,7 @@
         created () {
             let self = this;
             if(self.users.id)
-              this.action_project_get({Mem_Se:self.users.id});
+              this.action_product_get({Mem_Se:self.users.id});
         },
         computed: {
             // ...mapGetters 為 ES7 寫法
@@ -174,18 +157,53 @@
             ...mapGetters({
                 // getTodo return value 將會存在別名為 todos 的 webData 上
                 users: 'getUser',
-                getterProjectDataList:'getterProjectDataList'
+                getterProductDataList:'getterProductDataList'
             })
         },
         watch:{
           users : function(user){
-            this.action_project_get({Mem_Se:user.id});
+            this.action_product_get({Mem_Se:user.id});
           }
         },
         methods: {
             ...mapActions([
-  	            'action_project_insert','action_project_get', 'action_project_update', 'action_project_delete'
-  	        ]),
+  	            'action_product_insert','action_product_get', 'action_project_update', 'action_project_delete'
+              ]),
+            productModalOK(){
+                let self = this;
+                if(modalOption.mode == 'add'){
+                    self.action_product_insert({data:self.product}).then(function(result){
+                    if(result.code == 'success'){
+                        alert('成功');
+                    }
+                    // self.action_project_get({Mem_Se:self.users.id}).then(function(){
+                    // });
+                    });
+                    // self.$modal.hide("modalProject");
+                    self.clearProductData();
+                }
+                if(modalOption.mode == 'edit'){
+                    self.action_product_update({data:self.product}).then(function(result){
+                    if(result.code == 'success'){
+                        alert('成功');
+                    }
+                    self.clearProductData();
+                });
+                }
+            },
+            clearProductData(){
+                this.product = {
+                    name:'',
+                    permit:0,
+                    description:'',
+                    images:[],
+                }
+            },
+            editProduct(item){
+                this.product = Object.assign({},item);
+                this.modalOption.mode = 'edit';
+                this.$bvModal.show('product-modal')
+            },
             addProject(){
                 this.modalOption.readonly = false;
                 this.modalOption.status = 1;
@@ -196,25 +214,7 @@
                 if(this.modalOption.status != 1)
                     this.clearProjectData();
             },
-            addProjectData(){
-                let self = this;
-                self.action_project_insert({data:self.projectData}).then(function(result){
-                    if(result.code == 'success'){
-                        alert('成功');
-                    }
-                    self.action_project_get({Mem_Se:self.users.id}).then(function(){
-                    });
-                });
-                self.$modal.hide("modalProject");
-                self.clearProjectData();
 
-            },
-            editProject(item){
-                this.projectData = Object.assign({},item);
-                this.modalOption.readonly = false;
-                this.modalOption.status = 2;
-                this.$modal.show("modalProject");
-            },
             completeValidate() {
                 if (this.projectData.project_Name == "") {
                     return false;
@@ -229,21 +229,7 @@
                 this.modalOption.status = 0;
                 this.$modal.show("modalProject");
             },
-            clearProjectData(){
-                let self = this;
-                self.projectData = {
-                    company_Name:"",
-                    company_Website:"",
-                    project_Name:"",
-                    description:"",
-                    offer:"",
-                    deadline:"",
-                    contact_Name:"",
-                    contact_Mail:"",
-                    contact_Phone:"",
-                    contact_Time:"任何時間",
-                }
-            },
+
             deleteItem(item){
                 this.projectData = item;
                 this.$bvModal.show('delete-check-modal');
@@ -255,7 +241,7 @@
                         alert('成功');
                     }
                     self.$modal.hide("modalProject");
-                    self.action_project_get({Mem_Se:self.users.id});
+                    //self.action_project_get({Mem_Se:self.users.id});
                     self.clearProjectData();
                 });
             },
@@ -265,8 +251,8 @@
                     if(result.code == 'success'){
                         alert('成功');
                     }
-                    self.action_project_get({Mem_Se:self.users.id}).then(function(){
-                    });
+                    // self.action_project_get({Mem_Se:self.users.id}).then(function(){
+                    // });
                     self.$modal.hide("modalProject");
                 });
             },

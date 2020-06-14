@@ -59,6 +59,18 @@ export const action_web_get  = ({ commit }, param) => {
     });       
 }
 
+export const action_product_get  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.product_get(param,function(result){
+            if(result.code == 'success'){
+              commit(types.SET_PRODUCT_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });     
+}
 export const action_web_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.web_insert(param,function(result){
@@ -86,6 +98,18 @@ export const action_vacancy_comfirm  = ({ commit }, param) => {
 export const action_vacancy_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.vacancy_insert(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });     
+}
+export const action_product_insert  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.product_insert(param,function(result){
             if(result.code != 'success'){
                 alert(result);
             }
@@ -286,6 +310,20 @@ export const action_member_get  = ({ commit }, param) => {
         });       
     });            
 }
+
+export const action_photo_update  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.photo_update(param,function(result){
+            if(result.code == 'success'){
+                //commit(types.SET_MEMBER_DATA, result.data);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
+
 export const action_set_review_type  = ({ commit }, data) => {
     commit(types.SET_REVIEW_TYPE, data);
 }

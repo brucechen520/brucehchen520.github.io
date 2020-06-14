@@ -23,3 +23,6 @@ export const getterProjectDataList = state => {
 export const gettetMemberDataList = state => {
     return state.stateMemberData.list.map(e=>Object.assign({_showDetails: false},e));
 }
+export const getterProductDataList = state => {
+    return state.stateProductData.list.map(e=>Object.assign({_showDetails: false},e));
+}
