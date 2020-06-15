@@ -11,6 +11,7 @@
             <b-nav-item href="https://etouch.ee.fcu.edu.tw/ee/main.php">§ 回會員系統</b-nav-item>
             <b-nav-item-dropdown text="§網站列表" >
               <b-dropdown-item to="/WebsiteQuery">網站查詢</b-dropdown-item>
+              <b-dropdown-item :to="{name:'products'}">商品查詢</b-dropdown-item>
               <b-dropdown-item href="https://goo.gl/HHXPvG">公開名片區</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item-dropdown text="§工作媒合" >

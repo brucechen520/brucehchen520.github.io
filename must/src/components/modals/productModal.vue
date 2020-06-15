@@ -1,16 +1,20 @@
 <template>
   <div>
     <b-modal :title="title" size="lg" id="product-modal" @ok="modalOk" @hide="modalCancel">
+      <ValidationObserver ref="form">
       <ValidationProvider rules="required" v-slot="{ valid, errors }">
       <b-form-group label="商品名稱:" label-for="input-name" label-cols=2>
         <b-form-input id="input-name" :state="valid" v-model="product.name" type="text"></b-form-input>
-      </b-form-group>
-        <b-form-invalid-feedback :state="valid">
+              <b-form-invalid-feedback :state="valid">
             {{ errors[0] }}
         </b-form-invalid-feedback>
+      </b-form-group>
       </ValidationProvider>
       <b-form-group label="是否公開:" label-for="input-2" label-cols=2>
         <b-form-select v-model="product.permit" :options="permitOption"></b-form-select>
+      </b-form-group>
+      <b-form-group label="商品網址:" label-for="input-url" label-cols=2>
+        <b-form-input id="input-url" v-model="product.url" type="url"></b-form-input>
       </b-form-group>
       <b-form-group label="描述:" label-for="input-biography" label-cols=2>
           <ValidationProvider rules="required" v-slot="{ valid, errors }">
@@ -40,6 +44,15 @@
         ></b-form-file>
         </b-form-group>
       </b-overlay>
+      </ValidationObserver>
+      <template v-slot:modal-footer="{ ok, cancel }">
+        <b-button size="sm" variant="danger" @click="onSubmit()">
+        新增
+        </b-button>
+        <b-button size="sm" @click="cancel()">
+        取消
+        </b-button>
+        </template>
     </b-modal>
   </div>
 </template>
@@ -91,7 +104,16 @@ export default {
     },
     deleteImage(photo){
       this.product.images = this.product.images.filter(e=>e.name != photo.name);
-    }
+    },
+    onSubmit(){
+      this.$refs.form.validate().then(success => {
+        if (!success) {
+          return;
+        }
+        this.modalOk();
+        this.$bvModal.hide('product-modal');
+      });
+    },
   }
 }
 </script>
