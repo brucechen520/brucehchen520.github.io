@@ -8,6 +8,8 @@ import personalSkill from '../components/personal/SkillFilling'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
 
+import products from '../components/website/products'
+
 import manage from '../components/manage/manage'
 import manageReview from '../components/manage/review'
 import manageLog from '../components/manage/log'
@@ -32,6 +34,11 @@ const router = new Router({
             path: '/WebsiteQuery',
             name: 'WebsiteQuery',
             component: WebsiteQuery
+        },
+        {
+            path: '/products',
+            name: 'products',
+            component: products
         },
         {
             path: '/JobVacancies',

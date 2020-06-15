@@ -119,6 +119,18 @@ export const action_product_insert  = ({ commit }, param) => {
         });       
     });     
 }
+export const action_product_update  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.product_update(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
 export const action_vacancy_update  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
         api2.vacancy_update(param,function(result){
@@ -142,6 +154,30 @@ export const action_vacancy_delete  = ({ commit }, param) => {
             resolve("failed");                
         });       
     });            
+}
+export const action_product_delete  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.product_delete(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });            
+}
+export const action_product_comfirm  = ({ commit }, param) => {
+    return new Promise((resolve, reject) => {
+        api2.product_comfirm(param,function(result){
+            if(result.code != 'success'){
+                alert(result);
+            }
+            resolve(result);
+        }, false, function(error){                
+            resolve("failed");                
+        });       
+    });    
 }
 export const action_project_comfirm  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {

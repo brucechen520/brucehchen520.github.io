@@ -31,9 +31,9 @@
                 </b-row>
                 </b-col>
                 <b-col cols=2 align="center">
-                <b-button class="mb-2" size="sm" v-if="editable" variant="warning" @click="editItem(row.item)">修改</b-button><br>
-                <b-button class="mb-2" size="sm" v-if="editable" variant="danger" @click="deleteItem(row.item)">刪除</b-button><br>
-                <b-button class="mb-2" size="sm" v-if="auditable" variant="info" @click="auditItem(row.item)">審核</b-button><br>
+                <div v-if="editable"><b-button class="mb-2" size="sm" variant="warning" @click="editItem(row.item)">修改</b-button></div>
+                <div v-if="editable"><b-button class="mb-2" size="sm" variant="danger" @click="deleteItem(row.item)">刪除</b-button></div>
+                <div v-if="auditable"><b-button class="mb-2" size="sm" variant="info" @click="auditItem(row.item)">審核</b-button></div>
                 <b-button class="mb-2" size="sm" @click="row.toggleDetails">縮小</b-button>
                 </b-col>
                 </b-row>

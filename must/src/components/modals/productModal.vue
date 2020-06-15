@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal :title="title" size="lg" id="product-modal" @ok="modalOk">
+    <b-modal :title="title" size="lg" id="product-modal" @ok="modalOk" @hide="modalCancel">
       <ValidationProvider rules="required" v-slot="{ valid, errors }">
       <b-form-group label="商品名稱:" label-for="input-name" label-cols=2>
         <b-form-input id="input-name" :state="valid" v-model="product.name" type="text"></b-form-input>
@@ -33,9 +33,9 @@
           <b-form-file v-if="product.images.length < 3"
           id="input-photo"
           v-model="file"
-          accept="image/jpeg, image/png, image/gif"
+          accept="image/jpeg, image/png, image/gif, image/bmp"
           placeholder="選擇照片或將照片拖曳至此..."
-          drop-placeholder="Drop file here..."
+          drop-placeholder="將照片拖曳至此..."
           @input="handleInput"
         ></b-form-file>
         </b-form-group>
@@ -52,14 +52,11 @@ export default {
             userId:'',
             product:{},
             modalOk:null,
+            modalCancel:null,
             option:{default:{mode:''}},
         },
   data () {
     return {
-      msg: 'Logout',
-      //title: '123',
-      //title: '新增商品',
-
       uploading:false,
       file:null,
       permitOption: [
@@ -93,8 +90,6 @@ export default {
       });
     },
     deleteImage(photo){
-      console.log('delete');
-      console.log(photo);
       this.product.images = this.product.images.filter(e=>e.name != photo.name);
     }
   }

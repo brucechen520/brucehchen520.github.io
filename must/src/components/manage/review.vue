@@ -7,6 +7,7 @@
             <b-nav-item :active="selectType==1" @click="selectType=1,focusStatusChange(0)">職缺類({{stateVacanceData.totalCount}})</b-nav-item>
             <b-nav-item :active="selectType==2" @click="selectType=2,focusStatusChange(0)">專案類({{stateProjectData.totalCount}})</b-nav-item>
             <b-nav-item :active="selectType==3" @click="selectType=3,focusStatusChange(0)">網站類({{stateWebData.totalCount}})</b-nav-item>
+            <b-nav-item :active="selectType==4" @click="selectType=4,focusStatusChange(0)">商品類({{stateProductData.totalCount}})</b-nav-item>
           </b-nav>
         </b-card-header>
 
@@ -17,7 +18,8 @@
           <!-- tables -->
           <vacance-table v-if="selectType==1" :items="getterVacancyDataList" :auditable="true" :auditItem="auditItem"></vacance-table>
           <project-table v-if="selectType==2" :items="getterProjectDataList" :auditable="true" :auditItem="auditItem"></project-table>
-          <web-table v-if="selectType==3" :items="getterWebDataList" :auditable="true" :auditItem="auditItem"></web-table>
+          <web-table     v-if="selectType==3" :items="getterWebDataList"     :auditable="true" :auditItem="auditItem"></web-table>
+          <product-table v-if="selectType==4" :items="getterProductDataList" :auditable="true" :auditItem="auditItem"></product-table>
         </b-card-body>
         </b-card>
         <b-modal
@@ -62,22 +64,25 @@
     import vacanceTable from '../tables/vacanceTable.vue'
     import projectTable from '../tables/projectTable.vue'
     import webTable from '../tables/webTable.vue'
+    import productTable from '../tables/productTable.vue'
     export default {
         components: {
           ListType,
           ReviewList,
           vacanceTable,
           projectTable,
-          webTable
+          webTable,
+          productTable
         },
         computed:{
-          ...mapState(['stateProjectData','stateVacanceData','stateWebData']),
-          ...mapGetters(['getterVacancyDataList','getterProjectDataList','getterWebDataList'])
+          ...mapState(['stateProjectData','stateVacanceData','stateWebData','stateProductData']),
+          ...mapGetters(['getterVacancyDataList','getterProjectDataList','getterWebDataList','getterProductDataList'])
         },
         created() {
           this.action_project_get({status:0});
           this.action_vacance_get({status:0});
           this.action_web_get({status:0});
+          this.action_product_get({status:0});
         },
         data () {
           return {
@@ -95,11 +100,12 @@
             ],
             focusStatusType:0,
             focusItem:{},
-            modalTitle:{1:"審核職缺",2:"審核專案",3:"審核網站"}
+            modalTitle:{1:"審核職缺",2:"審核專案",3:"審核網站",4:"審核商品"}
           }
         },
         methods:{
-          ...mapActions(['action_project_get','action_vacance_get','action_web_get','action_vacancy_comfirm','action_project_comfirm','action_web_comfirm']),
+          ...mapActions(['action_vacance_get', 'action_project_get', 'action_web_get', 'action_product_get',
+                        'action_vacancy_comfirm', 'action_project_comfirm', 'action_web_comfirm', 'action_product_comfirm']),
           auditItem(item){
               this.audit = {
                 modalTitle:this.modalTitle[this.selectType],
@@ -155,6 +161,20 @@
                   self.action_web_get({status:self.focusStatusType});
                 });
                 break;
+              case 4 :
+                param = {
+                  'id': this.focusItem.id,
+                  'suggestion': this.audit.suggestion,
+                  'status': this.audit.status,
+                  'publisher':this.focusItem.publisher,
+                  'publisherId':this.focusItem.publisherId,
+                  'name':this.focusItem.name,
+                  }
+                self.action_product_comfirm(param).then(function(result){
+                  alert('成功');
+                  self.action_product_get({status:self.focusStatusType});
+                });
+                break;
             }
             
           },
@@ -169,6 +189,9 @@
                 break;
               case 3 :
                   this.action_web_get({status:this.focusStatusType});
+                  break;
+              case 4 :
+                  this.action_product_get({status:this.focusStatusType});
                 break;
             }
           },
