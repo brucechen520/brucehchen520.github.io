@@ -73,6 +73,7 @@ export const action_product_get  = ({ commit }, param) => {
 }
 export const action_web_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.url = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.web_insert(param,function(result){
             if(result.code != 'success'){
@@ -98,6 +99,7 @@ export const action_vacancy_comfirm  = ({ commit }, param) => {
 }
 export const action_vacancy_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.company_Website = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.vacancy_insert(param,function(result){
             if(result.code != 'success'){
@@ -111,6 +113,7 @@ export const action_vacancy_insert  = ({ commit }, param) => {
 }
 export const action_product_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.url = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.product_insert(param,function(result){
             if(result.code != 'success'){
@@ -124,6 +127,7 @@ export const action_product_insert  = ({ commit }, param) => {
 }
 export const action_product_update  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.url = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.product_update(param,function(result){
             if(result.code != 'success'){
@@ -137,6 +141,7 @@ export const action_product_update  = ({ commit }, param) => {
 }
 export const action_vacancy_update  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.company_Website = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.vacancy_update(param,function(result){
             if(result.code != 'success'){
@@ -198,6 +203,7 @@ export const action_project_comfirm  = ({ commit }, param) => {
 }
 export const action_project_insert  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.company_Website = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.project_insert(param,function(result){
             if(result.code != 'success'){
@@ -211,6 +217,7 @@ export const action_project_insert  = ({ commit }, param) => {
 }
 export const action_project_update  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
+        if(param.data.urlShort != "")
         param.data.company_Website = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.project_update(param,function(result){
             if(result.code != 'success'){
@@ -248,7 +255,8 @@ export const action_web_comfirm  = ({ commit }, param) => {
 }
 export const action_web_update  = ({ commit }, param) => {
     return new Promise((resolve, reject) => {
-        param.data.url = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
+        if(param.data.urlShort != "")
+            param.data.url = param.data.urlShort.includes("http") ? param.data.urlShort : (param.data.urlType + param.data.urlShort);
         api2.web_update(param,function(result){
             if(result.code != 'success'){
                 alert(result);
