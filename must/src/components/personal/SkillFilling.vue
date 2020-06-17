@@ -346,7 +346,7 @@
                         param.license = param.license.map(e=>e.value).toString().replace(/,/g,'、');
                         this.action_resume_insert({data:param}).then(function(result){
                             if(result.code == 'success'){
-                                alert('成功');
+                                self.alertModal("新增資料成功");
                                 this.action_resume_get({id:this.users.id});
                                 modifyCancel();
                             }
@@ -366,7 +366,7 @@
                         param.license = param.license.map(e=>e.value).toString().replace(/,/g,'、');
                         self.action_resume_update({data:param}).then(function(result){
                             if(result.code == 'success'){
-                                alert('成功');
+                                self.alertModal("已更新資料");
                                 self.action_resume_get({id:self.users.id});
                                 self.modifyCancel();
                             }
@@ -384,7 +384,7 @@
                 param.license = param.license2.toString().replace(/,/g,'、');
                 self.action_resume_update({data:param}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("已更新資料");
                         self.action_resume_get({id:self.users.id});
                         self.modifyCancel();
                     }

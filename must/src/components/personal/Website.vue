@@ -195,7 +195,7 @@
             let self = this;
             self.action_web_delete({data:{id:self.webAddData.id}}).then(function(result){
                 if(result.code == 'success'){
-                    alert('成功');
+                    self.alertModal("已刪除");
                 }
                 self.$modal.hide("checkModal");
                 self.action_web_get({Mem_Se:self.users.id});
@@ -218,7 +218,7 @@
             let self = this;
             self.action_web_insert({data:self.webAddData}).then(function(result){
               if(result.code == 'success'){
-                  alert('成功');
+                  self.alertModal("發佈成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
               }
               self.action_web_get({Mem_Se:self.users.id});
             });
@@ -235,7 +235,7 @@
             let self = this;
             self.action_web_update({data:self.webAddData}).then(function(result){
                 if(result.code == 'success'){
-                    alert('成功');
+                    self.alertModal("修改成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                 }
                 console.log(self);
                 self.action_web_get({Mem_Se:self.users.id}).then(function(){

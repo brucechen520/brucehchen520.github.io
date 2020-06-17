@@ -20,7 +20,7 @@ Vue.use(BootstrapVue)
 import './assets/css/global.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import AppPlugin from './assets/app-plugin.js'
 // Vue.use(VeeValidate, {
 //   validity: true,
 //   fieldsBagName: 'vvFields',
@@ -42,6 +42,7 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.use(VueAxios, axios)
+Vue.use(AppPlugin)
 new Vue({
   el: '#app',
   api,

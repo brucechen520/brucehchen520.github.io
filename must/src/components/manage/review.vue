@@ -129,7 +129,7 @@
                   'vacancy_Name' : this.focusItem.vacancy_Name
                 }
                 self.action_vacancy_comfirm(param).then(function(result){
-                    alert('成功');
+                    self.alertModal("審核完成");
                     self.action_vacance_get({status:self.focusStatusType});
                 });
                 break;
@@ -143,7 +143,7 @@
                   'project_Name' : this.focusItem.project_Name
                 }
                 self.action_project_comfirm(param).then(function(result){
-                    alert('成功');
+                    self.alertModal("審核完成");
                     self.action_project_get({status:self.focusStatusType});
                 });
                 break;
@@ -157,7 +157,7 @@
                   'name':this.focusItem.name,
                   }
                 self.action_web_comfirm(param).then(function(result){
-                  alert('成功');
+                  self.alertModal("審核完成");
                   self.action_web_get({status:self.focusStatusType});
                 });
                 break;
@@ -171,7 +171,7 @@
                   'name':this.focusItem.name,
                   }
                 self.action_product_comfirm(param).then(function(result){
-                  alert('成功');
+                  self.alertModal("審核完成");
                   self.action_product_get({status:self.focusStatusType});
                 });
                 break;

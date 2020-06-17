@@ -7,7 +7,7 @@
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
-                        <span aria-hidden="true">×</span>
+                <span aria-hidden="true">×</span>
           </button>
         </div>
         <ValidationObserver v-slot="{ valid }">
@@ -187,7 +187,7 @@
                 let self = this;
                 self.action_vacancy_insert({data:self.vacancyData}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("發佈成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                     }
                     self.action_vacance_get({Mem_Se:self.users.id}).then(function(){
                     });
@@ -215,7 +215,7 @@
                 let self = this;
                 self.action_vacancy_update({data:self.vacancyData}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("修改成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                     }
                     self.action_vacance_get({Mem_Se:self.users.id}).then(function(){
                     });
@@ -243,13 +243,14 @@
                 let self = this;
                 self.action_vacancy_delete({data:{id:self.vacancyData.id}}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("已刪除");
                     }
                     self.$modal.hide("modalVacancyAdd");
                     self.action_vacance_get({Mem_Se:self.users.id});
                     self.clearVacancyData();
                 });
             },
+
         }
     }
 </script>

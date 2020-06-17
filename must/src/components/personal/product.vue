@@ -68,7 +68,7 @@
                 if(this.modalOption.mode == 'add'){
                     self.action_product_insert({data:self.product}).then(function(result){
                         if(result.code == 'success'){
-                            alert('成功');
+                            self.alertModal("發佈成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                         }
                         self.action_product_get({Mem_Se:self.users.id})
                         self.clearProductData();
@@ -78,7 +78,7 @@
                 if(this.modalOption.mode == 'edit'){
                     self.action_product_update({data:self.product}).then(function(result){
                         if(result.code == 'success'){
-                            alert('成功');
+                            self.alertModal("修改成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                         }
                         self.action_product_get({Mem_Se:self.users.id})
                         self.clearProductData();
@@ -112,7 +112,7 @@
                 let self = this;
                 self.action_product_delete({data:{id:self.product.id}}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("已刪除");
                     }
                     self.$modal.hide("modalProject");
                     self.action_product_get({Mem_Se:self.users.id});

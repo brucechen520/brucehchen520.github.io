@@ -196,7 +196,7 @@
                 let self = this;
                 self.action_project_insert({data:self.projectData}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("發佈成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                     }
                     self.action_project_get({Mem_Se:self.users.id}).then(function(){
                     });
@@ -248,7 +248,7 @@
                 let self = this;
                 self.action_project_delete({data:{id:self.projectData.id}}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("已刪除");
                     }
                     self.$modal.hide("modalProject");
                     self.action_project_get({Mem_Se:self.users.id});
@@ -259,7 +259,7 @@
                 let self = this;
                 self.action_project_update({data:self.projectData}).then(function(result){
                     if(result.code == 'success'){
-                        alert('成功');
+                        self.alertModal("修改成功，需等管理員審核後，方可顯示供大家查詢！審核結果會email通知您。");
                     }
                     self.action_project_get({Mem_Se:self.users.id}).then(function(){
                     });

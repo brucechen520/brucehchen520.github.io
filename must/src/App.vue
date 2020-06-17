@@ -39,6 +39,7 @@
             <b-nav-item v-if="users.name =='訪客'" href="#" @click="login">§ 登入</b-nav-item>
           </b-navbar-nav>
         </b-navbar>
+        <common-alert></common-alert>
         <div style="margin-top:20px;">
           <router-view></router-view>
         </div>
@@ -49,6 +50,7 @@
 <script>
     import Vue from 'vue';
     import { mapGetters, mapActions } from 'vuex'
+    import commonAlert from './components/common/alert.vue'
     export default {
       created () {
           this.$store.dispatch('action_user_get');
@@ -69,7 +71,7 @@
         }
       },
       components: {
-
+        commonAlert,
       }
     }
 </script>
