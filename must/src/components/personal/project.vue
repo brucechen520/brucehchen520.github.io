@@ -16,7 +16,8 @@
                 <b-form-input id="input-company_Name" v-model="projectData.company_Name" type="text" placeholder="請輸入公司名稱"></b-form-input>
             </b-form-group>
             <b-form-group label="公司網址:" label-for="input-company_Website" label-cols=2>
-                <b-form-input id="input-company_Website" v-model="projectData.company_Website" type="text" placeholder="請輸入公司網址"></b-form-input>
+                <b-row><b-col cols=3><b-form-select v-model="projectData.urlType" :options="urlTypes"></b-form-select></b-col>
+                <b-col><b-form-input id="input-company_Website" v-model="projectData.urlShort" type="text" placeholder="請輸入公司網址"></b-form-input></b-col></b-row>
             </b-form-group>
             <b-form-group label="案件名稱:" label-for="input-project_Name" label-cols=2>
                 <ValidationProvider rules="required" v-slot="{ valid, errors }">
@@ -130,6 +131,8 @@
             projectData:{
                 company_Name:"",
                 company_Website:"",
+                urlType:'http://',
+                urlShort:'',
                 project_Name:"",
                 description:"",
                 offer:"",
@@ -157,6 +160,10 @@
                 step: '00:30',
                 end: '23:30'
             },
+            urlTypes:[
+              { value:'http://', text:'http'},
+              { value:'https://', text:'https'},
+            ],
           }
         },
         created () {
@@ -230,6 +237,8 @@
                 self.projectData = {
                     company_Name:"",
                     company_Website:"",
+                    urlType:'http://',
+                    urlShort:'',
                     project_Name:"",
                     description:"",
                     offer:"",

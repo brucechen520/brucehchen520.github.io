@@ -17,7 +17,7 @@
                 </b-row>
                 <b-row class="mb-1">
                 <b-col cols=3 class=""><b>商品網址:</b></b-col>
-                <b-col><b-link :href="row.item.url" target="_blank">{{ row.item.url }}</b-link></b-col>
+                <b-col><b-link :href="row.item.url" target="_blank">{{ row.item.urlShort }}</b-link></b-col>
                 </b-row>
                 <b-row class="mb-1">
                 <b-col cols=3 class=""><b>商品描述:</b></b-col>

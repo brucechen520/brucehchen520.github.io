@@ -14,7 +14,9 @@
         <b-form-select v-model="product.permit" :options="permitOption"></b-form-select>
       </b-form-group>
       <b-form-group label="商品網址:" label-for="input-url" label-cols=2>
-        <b-form-input id="input-url" v-model="product.url" type="url"></b-form-input>
+        <b-row><b-col cols=3>
+        <b-form-select v-model="product.urlType" :options="urlTypes"></b-form-select></b-col>
+        <b-col><b-form-input id="input-url" v-model="product.urlShort" type="url"></b-form-input></b-col></b-row>
       </b-form-group>
       <b-form-group label="描述:" label-for="input-biography" label-cols=2>
           <ValidationProvider rules="required" v-slot="{ valid, errors }">
@@ -46,7 +48,10 @@
       </b-overlay>
       </ValidationObserver>
       <template v-slot:modal-footer="{ ok, cancel }">
-        <b-button size="sm" variant="danger" @click="onSubmit()">
+        <b-button v-if="option.mode == 'edit'" size="sm" variant="warning" @click="onSubmit()">
+        修改
+        </b-button>
+        <b-button v-else size="sm" variant="success" @click="onSubmit()">
         新增
         </b-button>
         <b-button size="sm" @click="cancel()">
@@ -76,7 +81,10 @@ export default {
         { value:0, text:'完全公開'},
         { value:1, text:'僅系友公開'},        
       ],
-      
+      urlTypes:[
+        { value:'http://', text:'http'},
+        { value:'https://', text:'https'},
+      ],
     }
   },
   computed:{

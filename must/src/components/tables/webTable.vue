@@ -3,7 +3,7 @@
 <b-table striped hover outlined :fields="(editable || auditable) ? fieldsPersonal : fields" :items="items" @row-clicked="e => {e._showDetails = !e._showDetails}">
         <template v-slot:cell(id)="row">{{row.index +1 }}</template>
         <template v-slot:cell(name)="row">
-          <b-link :href="row.item.address" target="_blank">{{ row.item.name }}</b-link>
+          <b-link :href="row.item.url" target="_blank">{{ row.item.name }}</b-link>
         </template>
         <template v-slot:cell(_showDetails)="row">
           <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
@@ -24,7 +24,7 @@
             </b-row>
             <b-row class="mb-1">
               <b-col cols="2" class=""><b>詳細網址:</b></b-col>
-              <b-col><b-link :href="row.item.address" target="_blank">{{ row.item.address }}</b-link></b-col>
+              <b-col><b-link :href="row.item.url" target="_blank">{{ row.item.urlShort }}</b-link></b-col>
             </b-row>
             <b-row v-if="editable || auditable" class="mb-1">
                 <b-col sm="2" class=""><b>管理員建議:</b></b-col>

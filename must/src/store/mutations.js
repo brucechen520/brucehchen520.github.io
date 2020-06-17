@@ -50,18 +50,34 @@ export const mutations = {
     this.state.userInfo.error = error;
   },
   [types.SET_PROJECT_DATA] (state, data) {
+    data.list.forEach(e => {
+      e.urlType = e.company_Website.split("://")[0] + "://";
+      e.urlShort = e.company_Website.split("://")[1];
+    });
     state.stateProjectData = data;
   },
   [types.SET_PRODUCT_DATA] (state, data) {
+      data.list.forEach(e => {
+        e.urlType = e.url.split("://")[0] + "://";
+        e.urlShort = e.url.split("://")[1];
+      });
     state.stateProductData = data;
   },
   [types.SET_VACANCE_DATA] (state, data) {
+    data.list.forEach(e => {
+      e.urlType = e.company_Website.split("://")[0] + "://";
+      e.urlShort = e.company_Website.split("://")[1];
+    });
     state.stateVacanceData = data;
   },
   [types.SET_REVIEW_TYPE] (state, data) {
     state.stateReviewType = data;
   },
   [types.SET_WEB_DATA] (state, data) {
+    data.list.forEach(e => {
+      e.urlType = e.url.split("://")[0] + "://";
+      e.urlShort = e.url.split("://")[1];
+    });
     state.stateWebData = data;
   },
   [types.SET_RESUME_DATA] (state, data) {

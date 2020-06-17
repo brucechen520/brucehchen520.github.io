@@ -16,7 +16,8 @@
                 <b-form-input id="input-company_Name" v-model="vacancyData.company_Name" type="text" placeholder="請輸入公司名稱"></b-form-input>
             </b-form-group>
             <b-form-group label="公司網址:" label-for="input-company_Website" label-cols=2>
-                <b-form-input id="input-company_Website" v-model="vacancyData.company_Website" type="text" placeholder="請輸入公司網址"></b-form-input>
+                <b-row><b-col cols=3><b-form-select v-model="vacancyData.urlType" :options="urlTypes"></b-form-select></b-col>
+                <b-col><b-form-input id="input-company_Website" v-model="vacancyData.urlShort" type="text" placeholder="請輸入公司網址"></b-form-input></b-col></b-row>
             </b-form-group>
             <b-form-group label="職缺名稱:" label-for="input-vacancy_Name" label-cols=2>
                 <ValidationProvider rules="required" v-slot="{ valid, errors }">
@@ -128,6 +129,8 @@
             vacancyData:{
                 company_Name:"",
                 company_Website:"",
+                urlType:'http://',
+                urlShort:'',
                 vacancy_Name:"",
                 description:"",
                 offer:"",
@@ -148,7 +151,11 @@
                 },
                 readonly:false,
                 status:0,//0:show, 1:insert , 2:update
-            }
+            },
+            urlTypes:[
+              { value:'http://', text:'http'},
+              { value:'https://', text:'https'},
+            ],
           }
         },
         created () {
@@ -201,6 +208,8 @@
                 self.vacancyData = {
                     company_Name:"",
                     company_Website:"",
+                    urlType:'http://',
+                    urlShort:'',
                     vacancy_Name:"",
                     description:"",
                     offer:"",

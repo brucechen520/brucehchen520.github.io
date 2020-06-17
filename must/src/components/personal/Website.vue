@@ -24,12 +24,14 @@
             </ValidationProvider>
         </b-form-group>
         <b-form-group label="網址:" label-for="input-address" label-cols=2>
-            <ValidationProvider rules="required" v-slot="{ valid, errors }">
-            <b-form-input id="input-address" :state="valid" v-model="webAddData.address" type="text" placeholder="請輸入完整網站網址"></b-form-input>
+            <b-row><b-col cols=3><b-form-select v-model="webAddData.urlType" :options="urlTypes"></b-form-select></b-col>
+            <b-col><ValidationProvider rules="required" v-slot="{ valid, errors }">
+            <b-form-input id="input-address" :state="valid" v-model="webAddData.urlShort" type="text" placeholder="請輸入完整網站網址"></b-form-input>
             <b-form-invalid-feedback :state="valid">
                 {{ errors[0] }}
             </b-form-invalid-feedback>
             </ValidationProvider>
+            </b-col></b-row>
         </b-form-group>
         <b-form-group label="是否公開:" label-for="input-2" label-cols=2>
             <b-form-select v-model="webAddData.permit" :options="permitOption"></b-form-select>
@@ -117,12 +119,14 @@
                 type: '',
                 name: '',
                 wName: '',
-                address: '',
+                url: '',
+                urlType:'http://',
                 description: ''
               }],
             webAddData:{
               name:'',
-              address:'',
+              url:'',
+              urlType:'http://',
               permit:'0',
               type:'personal',
               description:'',
@@ -139,6 +143,10 @@
                 readonly:false,
                 status:1,//0:show, 1:insert , 2:update
             },
+            urlTypes:[
+              { value:'http://', text:'http'},
+              { value:'https://', text:'https'},
+            ],
           }
         },
         created () {
@@ -205,7 +213,8 @@
               let self = this;
               self.webAddData = {
                 name:'',
-                address:'',
+                url:'',
+                urlType:'http://',
                 permit:'0',
                 type:'personal',
                 description:'',
@@ -225,10 +234,11 @@
             self.$modal.hide("modalWebAdd");
             self.webAddData = {
               name:'',
-              address:'',
-              permit:'0',
-              type:'personal',
-              description:'',
+                url:'',
+                urlType:'http://',
+                permit:'0',
+                type:'personal',
+                description:'',
             }
           },
           updateWebData(){

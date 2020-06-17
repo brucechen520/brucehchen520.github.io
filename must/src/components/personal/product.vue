@@ -34,6 +34,7 @@
                 permit:0,
                 description:'',
                 images:[],
+                urlType:'http://',
             },
             modalOption:{
                 mode:''
@@ -96,6 +97,7 @@
                     permit:0,
                     description:'',
                     images:[],
+                    urlType:'http://',
                 }
             },
             editProduct(item){
