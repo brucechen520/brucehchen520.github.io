@@ -6,7 +6,7 @@
         <template v-slot:cell(level)="row">{{row.item.level}}{{row.item.level?'級':''}}{{classDesc[row.item.class]}}{{row.item.class?'班':''}}</template>
         <template v-slot:cell(_showDetails)="row">
           <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
-             {{ row.detailsShowing ? '縮小' : '詳情'}}
+             {{ row.detailsShowing ? '收合' : '詳情'}}
           </b-button>
         </template>
         <template v-slot:row-details="row">
@@ -39,7 +39,7 @@
           </b-row>
           </b-col>
           <b-col cols=2 align="center">
-          <b-button size="sm" @click="row.toggleDetails">縮小</b-button>
+          <b-button size="sm" @click="row.toggleDetails">收合</b-button>
           </b-col>
           </b-row>
         </b-card>

@@ -4,41 +4,41 @@
             <template v-slot:cell(id)="row">{{row.index +1 }}</template>
             <template v-slot:cell(_showDetails)="row">
             <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
-                {{ row.detailsShowing ? '縮小' : '詳情'}}
+                {{ row.detailsShowing ? '收合' : '詳情'}}
             </b-button>
             </template>
             <template v-slot:row-details="row">
                 <b-card>
                 <b-row align-v="center">
-                <b-col cols=10>
+                <b-col cols=12 md="10">
                 <b-row class="mb-1">
-                <b-col cols=3 class=""><b>序號:</b></b-col>
+                <b-col cols=12 md="3" class=""><b>序號:</b></b-col>
                 <b-col>{{ row.item.id }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=3 class=""><b>商品網址:</b></b-col>
+                <b-col cols=12 md="3" class=""><b>商品網址:</b></b-col>
                 <b-col><b-link :href="row.item.url" target="_blank">{{ row.item.urlShort }}</b-link></b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=3 class=""><b>商品描述:</b></b-col>
+                <b-col cols=12 md="3" class=""><b>商品描述:</b></b-col>
                 <b-col>{{ row.item.description }}</b-col>
                 </b-row>
                 <b-row class="mb-1">
-                <b-col cols=3 class=""><b>商品圖片:</b></b-col>
-                <b-col cols=3 v-for="(image) in row.item.images" :key="image.name" class="bg-photo pt-2 pb-2">
+                <b-col cols=12 md="3" class=""><b>商品圖片:</b></b-col>
+                <b-col cols=12 md="3" v-for="(image) in row.item.images" :key="image.name" class="bg-photo pt-2 pb-2 text-center">
                     <b-img thumbnail fluid :src="image.url" :alt="image.name"></b-img>
                 </b-col>
                 </b-row>
                 <b-row v-if="editable || auditable" class="mb-1">
-                    <b-col cols=3 class=""><b>管理員建議:</b></b-col>
+                    <b-col cols=12  class=""><b>管理員建議:</b></b-col>
                     <b-col>{{ row.item.suggestion}}</b-col>
                 </b-row>
                 </b-col>
-                <b-col cols=2 align="center">
+                <b-col cols=12 md="2" align="center">
                 <div v-if="editable"><b-button class="mb-2" size="sm" variant="warning" @click="editItem(row.item)">修改</b-button></div>
                 <div v-if="editable"><b-button class="mb-2" size="sm" variant="danger" @click="deleteItem(row.item)">刪除</b-button></div>
                 <div v-if="auditable"><b-button class="mb-2" size="sm" variant="info" @click="auditItem(row.item)">審核</b-button></div>
-                <b-button class="mb-2" size="sm" @click="row.toggleDetails">縮小</b-button>
+                <b-button class="mb-2" size="sm" @click="row.toggleDetails">收合</b-button>
                 </b-col>
                 </b-row>
                 </b-card>

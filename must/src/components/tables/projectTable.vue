@@ -7,7 +7,7 @@
             </template>
             <template v-slot:cell(_showDetails)="row">
             <b-button size="sm" @click="row.toggleDetails" class="mr-2" :class="{'btn-success':!row.detailsShowing}">
-                {{ row.detailsShowing ? '縮小' : '詳情'}}
+                {{ row.detailsShowing ? '收合' : '詳情'}}
             </b-button>
             </template>
             <template v-slot:row-details="row">
@@ -59,7 +59,7 @@
                 <b-button class="mb-2" size="sm" v-if="editable" variant="warning" @click="editItem(row.item)">修改</b-button><br>
                 <b-button class="mb-2" size="sm" v-if="editable" variant="danger" @click="deleteItem(row.item)">刪除</b-button><br>
                 <b-button class="mb-2" size="sm" v-if="auditable" variant="info" @click="auditItem(row.item)">審核</b-button><br>
-                <b-button class="mb-2" size="sm" @click="row.toggleDetails">縮小</b-button>
+                <b-button class="mb-2" size="sm" @click="row.toggleDetails">收合</b-button>
                 </b-col>
                 </b-row>
                 </b-card>
