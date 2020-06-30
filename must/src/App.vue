@@ -6,31 +6,23 @@
             <span><a href="https://goo.gl/6npks4" target="_blank">各班失聯系友協尋名單</a></span>
           </div>  
         </div>
-        <b-navbar sticky type="light" class="bg-navbar">
-          <b-navbar-nav >
-            <b-nav-item href="https://etouch.ee.fcu.edu.tw/ee/main.php">§ 回會員系統</b-nav-item>
-            <b-nav-item-dropdown text="§網站列表" >
-              <b-dropdown-item to="/WebsiteQuery">網站查詢</b-dropdown-item>
-              <b-dropdown-item :to="{name:'products'}">商品查詢</b-dropdown-item>
-              <b-dropdown-item href="https://goo.gl/HHXPvG">公開名片區</b-dropdown-item>
-            </b-nav-item-dropdown>
-            <b-nav-item-dropdown text="§工作媒合" >
-              <b-dropdown-item to="/JobQuery">工作查詢</b-dropdown-item>
-              <b-dropdown-item to="/FindMan">人才查詢</b-dropdown-item>
-            </b-nav-item-dropdown>
-            <b-nav-item-dropdown text="§個人專區" v-if="users.name !=='訪客'">
-              <b-dropdown-item :to="{name:'personalSkill'}">基本資料</b-dropdown-item>
-              <b-dropdown-item :to="{name:'personalVacancy'}">發佈職缺</b-dropdown-item>
-              <b-dropdown-item :to="{name:'personalProject'}">發佈專案</b-dropdown-item>
-              <b-dropdown-item :to="{name:'personalWeb'}">發佈網站</b-dropdown-item>
-              <b-dropdown-item :to="{name:'personalProduct'}">發佈商品</b-dropdown-item>
-              <b-dropdown-item :to="{name:'personalNameCard'}">名片上傳</b-dropdown-item>
-            </b-nav-item-dropdown>
-            <b-nav-item-dropdown text="§管理" v-if = "users.isAdmin">
-              <b-dropdown-item :to="{name:'manageReview'}">審核頁面</b-dropdown-item>
-              <b-dropdown-item :to="{name:'manageLog'}">操作紀錄</b-dropdown-item>
-              <b-dropdown-item href="http://etouch.ee.fcu.edu.tw/photo/#!Albums/album_e7b3bbe58f8be5908de78987e694b6e7b48de58d802028e7b3bbe58f8be69c83e5b088e794a82de4b88de585ace9968b29" target="_blank">不公開名片區</b-dropdown-item>
-            </b-nav-item-dropdown>
+        <nav class="navbar navbar-expand-md navbar-light bg-navbar">
+            <div class="ls-md">電機系工商服務平台</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="myNavbar">
+            <b-navbar-nav >
+            <template v-for="item in getterNavItemWithAuth" >
+              <b-nav-item v-if="item.href" :href="item.href" :key="item.text">{{item.text}}</b-nav-item>
+              <b-nav-item-dropdown v-else-if="item.children" :text="item.text" :key="item.text">
+                <template v-for="child in item.children">
+                  <b-dropdown-item v-if="child.to" :to="child.to" @click="closenav" :key="child.to">{{child.text}}</b-dropdown-item>
+                  <b-dropdown-item v-else-if="child.name" :to="{name:child.name}" @click="closenav" :key="child.name">{{child.text}}</b-dropdown-item>
+                  <b-dropdown-item v-else-if="child.href" :href="child.href" target="_blank" @click="closenav" :key="child.href">{{child.text}}</b-dropdown-item>
+                </template>
+              </b-nav-item-dropdown>
+            </template>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown :text="users.name" v-if="users.name !=='訪客'">
@@ -38,7 +30,8 @@
             </b-nav-item-dropdown>
             <b-nav-item v-if="users.name =='訪客'" href="#" @click="login">§ 登入</b-nav-item>
           </b-navbar-nav>
-        </b-navbar>
+            </div>
+        </nav>
         <common-alert></common-alert>
         <div style="margin-top:20px;">
           <router-view></router-view>
@@ -51,16 +44,27 @@
     import Vue from 'vue';
     import { mapGetters, mapActions } from 'vuex'
     import commonAlert from './components/common/alert.vue'
+    import navItem from './assets/navbar.json';
     export default {
+      data(){        
+        return{
+          sbVisable:true,
+        }},
       created () {
           this.$store.dispatch('action_user_get');
       },
       computed: {
-          // ...mapGetters 為 ES7 寫法
           ...mapGetters({
-              // getTodo return value 將會存在別名為 todos 的 webData 上
               users: 'getUser'
           }),
+          getterNavItemWithAuth(){
+            let navitem = navItem;
+            if(this.users.name =='訪客')
+              navitem = navitem.filter(e=>e.auth != 'user')
+            if(!this.users.isAdmin)
+              navitem = navitem.filter(e=>e.auth != 'admin')
+            return navitem;
+          }
       },
       methods:{
         login(){
@@ -68,7 +72,10 @@
             this.$store.dispatch('action_user_get');
           })
           
-        }
+        },
+        closenav(){
+          $('#myNavbar').collapse('hide')
+        },
       },
       components: {
         commonAlert,
@@ -76,8 +83,29 @@
     }
 </script>
 <style scoped>
+
     .bg-navbar {
         background-color: #d1ecf1 !important;
+    }
+    .md-navbar {
+        background-color: #d1ecf1 !important;
+        /* background-color: #5ed6eb !important; */
+    }
+    @media screen and (max-width: 768px) {
+      .bg-navbar {
+          /* display: none; */
+          /* background-color: #5ed6eb !important; */
+      }
+    }
+    @media screen and (min-width: 768px) {
+      .md-navbar {
+          display: none;
+          background-color: #d1ecf1 !important;
+          /* background-color: #5ed6eb !important; */
+      }
+      .ls-md{
+        display: none;
+      }
     }
     .marquee {
       height: 25px;
