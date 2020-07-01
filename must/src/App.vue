@@ -87,22 +87,8 @@
     .bg-navbar {
         background-color: #d1ecf1 !important;
     }
-    .md-navbar {
-        background-color: #d1ecf1 !important;
-        /* background-color: #5ed6eb !important; */
-    }
-    @media screen and (max-width: 768px) {
-      .bg-navbar {
-          /* display: none; */
-          /* background-color: #5ed6eb !important; */
-      }
-    }
+
     @media screen and (min-width: 768px) {
-      .md-navbar {
-          display: none;
-          background-color: #d1ecf1 !important;
-          /* background-color: #5ed6eb !important; */
-      }
       .ls-md{
         display: none;
       }
