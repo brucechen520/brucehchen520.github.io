@@ -1,6 +1,5 @@
 <template>
   <div>
-      <div class="container">
         <b-card title="Card Title" no-body>
         <b-card-header header-tag="nav">
           <b-nav card-header tabs>
@@ -51,7 +50,6 @@
             </b-form-group>
           </form>
         </b-modal>        
-      </div>
   </div>
 </template>
 
