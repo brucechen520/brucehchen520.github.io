@@ -6,7 +6,7 @@
       <web-table :items="getterWebDataList" :editable="true" :editItem="editWeb" :deleteItem="deleteItem"></web-table>
     </div>
 
-    <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
+    <modal id="modal-addweb" class="modalform" name="modalWebAdd" transition="pop-out" width="90%" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
       <div class="modal-header">
         <h2>{{modalOption.title}}</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">

@@ -3,7 +3,7 @@
     <h1>我的專案</h1>
     <b-button variant="success" @click="addProject" class="mb-2">新增專案</b-button>
     <project-table :items="getterProjectDataList" :editable="true" :editItem="editProject" :deleteItem="deleteItem"></project-table>
-    <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" :width="800" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
+    <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" width="90%" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
           <h2>{{modalOption.title}}</h2>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModalAdd">
