@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import home from '../components/others/Home.vue/'
 import WebsiteFilling from '../components/website/WebsiteFilling'
 import WebsiteQuery from '../components/website/WebsiteQuery'
 import JobVacancies from '../components/job-matching/JobVacancies'
@@ -25,6 +26,11 @@ Vue.use(Router)
 const router = new Router({
     // route table
     routes: [
+        {
+            path: '/test',
+            name: 'home',
+            component: home
+        },
         {
             path: '/WebsiteFilling',
             name: 'WebsiteFilling',
