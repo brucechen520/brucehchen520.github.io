@@ -105,7 +105,7 @@
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex';
-    import * as api from '../lib/api';
+    import * as api from '../../assets/api';
     export default {
         data () {
           return {
@@ -141,7 +141,11 @@
             }),
         },
         mounted(){
-            this.action_resume_get({id:this.users.id});
+            let self = this;
+            !self.users.id && api.api2.user_get({}, function(users) {
+                self.action_resume_get({id:users.id});
+            }, false, false);
+            self.users.id && self.action_resume_get({id:self.users.id});
         },
         methods: {
             liclick (e) { // stay dropdown open

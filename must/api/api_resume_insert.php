@@ -7,20 +7,15 @@
     include_once '../phpclass.php';
     $Mail = new MailSender();
     $json = array();
-    $user = unserialize($_SESSION['mem']);
-    //$ULEVEL = $tmp['ULEVEL'];
-    //$json['ULEVEL'] = $ULEVEL;
-    if(is_object($user)) {
-      $user->GetMemberData();
-      $user->GetMemberConfirm();
-    }
-    $param = json_decode(file_get_contents('php://input'));
+    $user = getUserData();
+    
+    $param = json_decode(str_replace("'","''",file_get_contents('php://input')));
     $data = $param->data;
     $man_List = array();
     $man_List['biography'] = $data->biography; // 自傳
     $man_List['mail'] = $data->mail; // 信箱
     $man_List['cellphone'] = $data->cellphone; // 手機
-    $man_List['permit'] = $data->permit; // 公開權限
+    $man_List['permit'] = json_encode($data->permit); // 公開權限
 
     $man_List['expertise'] = $data->expertise; // 技能專長
     $man_List['works'] = $data->works; // 作品
@@ -55,6 +50,19 @@
         echo json_encode($json);
         break;
     }
+    // 新增資料進去old Member table
+    $str1 ="INSERT into `alumnidata`.`Member` (";
+    $str1 .= "M_Email, M_Phone" ;
+    $str1 .= " ) values (" ;
+    $str1 .=     "'".$man_List['mail']."',
+                 '".$man_List['cellphone']."')";
+    $result1 = mysql_query($str1,$link);
+    if(!$result1) {
+        $json['error'] = mysql_error();
+        echo json_encode($json);
+        break;
+    }
+
     // 新增技能
     for($i = 0; $i < count($man_List['expertise']); $i++) {
       $expertise = $man_List['expertise'][$i]->value;
