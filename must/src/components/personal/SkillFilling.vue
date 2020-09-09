@@ -141,7 +141,7 @@
             }),
         },
         mounted(){
-            var self = this;
+            let self = this;
             !self.users.id && api.api2.user_get({}, function(users) {
                 self.action_resume_get({id:users.id});
             }, false, false);
