@@ -8,6 +8,7 @@ import ProjectFilling from '../components/job-matching/ProjectFilling'
 import personalSkill from '../components/personal/SkillFilling'
 import JobQuery from '../components/job-query/JobQuery'
 import FindMan from '../components/job-query/FindMan'
+import workSearching from '../components/job-query/workSearching'
 
 import products from '../components/website/products'
 
@@ -76,6 +77,11 @@ const router = new Router({
             path: '/FindMan',
             name: 'FindMan',
             component: FindMan
+        },
+        {
+            path: '/workSearching',
+            name: 'workSearching',
+            component: workSearching
         },
         {
             path: '/ReviewQuery',

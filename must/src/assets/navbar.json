@@ -19,14 +19,10 @@
  },
  {
     "text":"§工作媒合",
-    "children":[{
-        "text":"工作查詢",
-        "to":"/JobQuery"
-    },
-    {
-        "text":"人才查詢",
-        "to":"/FindMan"
-    }
+    "children":[
+        {"text":"工作查詢", "to":"/JobQuery"},
+        {"text":"人才查詢", "to":"/FindMan"},
+        {"text":"求職公報", "to":"/workSearching"}
     ]
  },
  {
