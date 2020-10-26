@@ -93,6 +93,21 @@
                     </b-form-invalid-feedback>
                     </ValidationProvider>
                 </b-form-group>
+                <b-form-group label="是否求職中:" label-for="input-license" label-cols=12 label-cols-md=2>
+                    <b-form-checkbox v-model="modifyData.isJobSearching" name="check-button" switch size="lg">
+                    <b>{{ modifyData.isJobSearching ? '是' : '否' }}</b>
+                </b-form-checkbox>
+                </b-form-group>
+                <b-form-group label="期望工作內容:" label-for="input-biography" label-cols=12 label-cols-md=2>
+                    <ValidationProvider v-if="modifyData.isJobSearching" rules="required" v-slot="{ valid, errors }">
+                    <b-form-textarea id="input-biography" :state="valid" placeholder="期望工作內容" rows="8" v-model="modifyData.jobExpect"></b-form-textarea>
+                    <b-form-invalid-feedback :state="valid">
+                        {{ errors[0] }}
+                    </b-form-invalid-feedback>
+                    </ValidationProvider>
+                    <b-form-textarea v-else id="input-biography" placeholder="期望工作內容" rows="8" v-model="modifyData.jobExpect" disabled></b-form-textarea>
+
+                </b-form-group>
                 
                 <b-button v-if="valid" variant="success" @click="modify" class="tag-block-md mb-1">送出</b-button>
                 <b-button v-else class="tag-block-md pb-1">送出</b-button>
@@ -123,6 +138,8 @@
                         phone:0,
                         },
                 worksArray:[],
+                isJobSearching:false,
+                jobExpect:"",
                 },
             permitOption: [
               { value:0, text:'完全公開'},
