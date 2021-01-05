@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "g": "^2.0.1",
