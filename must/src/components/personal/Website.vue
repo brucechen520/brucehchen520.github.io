@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <h1>我的網站</h1>
-      <b-button variant="success" @click="addWeb" class="mb-2">新增網站</b-button>
+      <b-button variant="success" @click="addWeb" class="mb-2">發佈網站</b-button>
       <web-table :items="getterWebDataList" :editable="true" :editItem="editWeb" :deleteItem="deleteItem"></web-table>
     </div>
 
@@ -67,8 +67,8 @@
           <button type="button" v-else class="disable">不能送出</button>
         </div>
         <div v-if="modalOption.status == 1">
-        <button type="button" @click="addWebData" v-if="valid">新增</button>
-        <button type="button" v-else class="disable">新增</button>
+        <button type="button" @click="addWebData" v-if="valid">發佈</button>
+        <button type="button" v-else class="disable">發佈</button>
         </div>
         <button type="button" @click="closeModalAdd">取消</button>
       </div>
@@ -137,7 +137,7 @@
                     if(this.status == 0)
                         return "專案詳情";
                     else if(this.status == 1)
-                        return "新增網站";
+                        return "發佈網站";
                     else
                         return "修改網站";
                 },

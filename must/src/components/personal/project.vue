@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>我的專案</h1>
-    <b-button variant="success" @click="addProject" class="mb-2">新增專案</b-button>
+    <b-button variant="success" @click="addProject" class="mb-2">發佈專案</b-button>
     <project-table :items="getterProjectDataList" :editable="true" :editItem="editProject" :deleteItem="deleteItem"></project-table>
     <modal id="modal-add-project" class="modalform" name="modalProject" transition="pop-out" width="90%" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
@@ -90,8 +90,8 @@
           <button type="button" @click="modalOption.status = 2,modalOption.readonly = false">修改</button>
         </div>
         <div v-if="modalOption.status == 1">
-          <button type="button" @click="addProjectData" v-if="valid">新增</button>
-          <button type="button" v-else class="disable">新增</button>
+          <button type="button" @click="addProjectData" v-if="valid">發佈</button>
+          <button type="button" v-else class="disable">發佈</button>
         </div>
         <div v-if="modalOption.status == 2">
           <button type="button" @click="updateProjectData" v-if="valid">送出</button>
@@ -147,7 +147,7 @@
                     if(this.status == 0)
                         return "專案詳情";
                     else if(this.status == 1)
-                        return "新增專案";
+                        return "發佈專案";
                     else
                         return "修改專案";
                 },

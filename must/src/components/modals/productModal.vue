@@ -48,13 +48,13 @@
       </b-overlay>
       </ValidationObserver>
       <template v-slot:modal-footer="{ ok, cancel }">
-        <b-button v-if="option.mode == 'edit'" size="sm" variant="warning" @click="onSubmit()">
+        <b-button v-if="option.mode == 'edit'" size="lg" variant="warning" @click="onSubmit()">
         修改
         </b-button>
-        <b-button v-else size="sm" variant="success" @click="onSubmit()">
-        新增
+        <b-button v-else size="lg" variant="success" @click="onSubmit()">
+        發佈
         </b-button>
-        <b-button size="sm" @click="cancel()">
+        <b-button size="lg" @click="cancel()">
         取消
         </b-button>
         </template>
@@ -92,7 +92,7 @@ export default {
         if(this.option && this.option.mode == 'edit')
             return "修改商品";
         else
-            return "新增商品";
+            return "發佈商品";
       },
   },
   methods:{

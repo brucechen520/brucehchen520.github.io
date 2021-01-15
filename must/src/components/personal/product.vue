@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>我的商品</h1>
-    <b-button v-b-modal="'product-modal'" variant="success" class="mb-2" @click="modalOption.mode = 'add'">新增商品</b-button>
+    <b-button v-b-modal="'product-modal'" variant="success" class="mb-2" @click="modalOption.mode = 'add'">發佈商品</b-button>
     <product-table :items="getterProductDataList" :editable="true" :editItem="editProduct" :deleteItem="deleteItem"></product-table>
     <b-modal id="delete-check-modal" centered danger title="刪除產品" @ok="deleteProduct">
         <p class="my-4">刪除後無法復原，確定刪除?</p>

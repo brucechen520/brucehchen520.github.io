@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>我的職缺</h1>
-    <b-button variant="success" @click="addVacancy" class="mb-2">新增職缺</b-button>
+    <b-button variant="success" @click="addVacancy" class="mb-2">發佈職缺</b-button>
     <vacance-table :items="getterVacancyDataList" :editable="true" :editItem="editVacancy" :deleteItem="deleteItem"></vacance-table>
     <modal id="modal-add-vacancy" class="modalform" name="modalVacancyAdd" transition="pop-out" width="95%" :height="widowHight08" :pivotX="0.5" :pivotY="0.5">
         <div class="modal-header">
@@ -89,8 +89,8 @@
           <button type="button" @click="modalOption.status = 2,modalOption.readonly = false">修改</button>
         </div>
         <div v-if="modalOption.status == 1">
-          <button type="button" @click="addVacancyData" v-if="valid">新增</button>
-          <button type="button" v-else class="disable">新增</button>
+          <button type="button" @click="addVacancyData" v-if="valid">發佈</button>
+          <button type="button" v-else class="disable">發佈</button>
         </div>
         <div v-if="modalOption.status == 2">
           <button type="button" @click="updateVacancyData" v-if="valid">送出</button>
@@ -145,7 +145,7 @@
                     if(this.status == 0)
                         return "職缺詳情";
                     else if(this.status == 1)
-                        return "新增職缺";
+                        return "發佈職缺";
                     else
                         return "修改職缺";
                 },
